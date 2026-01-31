@@ -19,6 +19,89 @@
       z-index: 10;
     }
 
+    .debug-panel {
+      position: fixed;
+      top: 16px;
+      right: 24px;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 6px;
+      z-index: 20;
+      pointer-events: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .debug-panel label {
+      color: rgba(255,255,255,0.9);
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .debug-panel input[type="checkbox"] {
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      transition: opacity 0.3s ease;
+    }
+    #loading-overlay.hidden {
+      pointer-events: none;
+      opacity: 0;
+      visibility: hidden;
+    }
+    #loading-overlay .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    #loading-overlay .text {
+      margin-top: 16px;
+      color: #fff;
+      font-size: 16px;
+      letter-spacing: 0.15em;
+    }
+    #loading-overlay .progress-wrap {
+      width: 280px;
+      max-width: 80vw;
+      height: 12px;
+      margin-top: 20px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    #loading-overlay .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      border-radius: 5px;
+      transition: width 0.15s ease;
+    }
+    #loading-overlay .progress-pct {
+      margin-top: 8px;
+      color: rgba(255,255,255,0.9);
+      font-size: 14px;
+      font-variant-numeric: tabular-nums;
+    }
+
     .energy-wrap {
       max-width: 280px;
     }
@@ -202,9 +285,36 @@
       border-radius: 0 0 4px 4px;
       transition: width 0.08s ease-out;
     }
+
+    .pos-meter {
+      position: fixed;
+      bottom: 56px;
+      right: 262px;
+      min-width: 100px;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: rgba(0,0,0,0.4);
+      border: 2px solid rgba(255,255,255,0.35);
+      font-size: 11px;
+      color: rgba(255,255,255,0.95);
+      font-variant-numeric: tabular-nums;
+      pointer-events: none;
+      z-index: 10;
+    }
+    .pos-meter .label { font-size: 9px; letter-spacing: 0.1em; margin-bottom: 4px; color: rgba(255,255,255,0.7); }
+    .pos-meter .row { display: flex; gap: 8px; }
+    .pos-meter .row span { flex: 1; }
   </style>
 </head>
 <body>
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div class="text">Loading... / 読み込み中</div>
+    <div class="progress-wrap">
+      <div class="progress-fill" id="loadingProgressFill"></div>
+    </div>
+    <div class="progress-pct" id="loadingProgressPct">0%</div>
+  </div>
   <div id="ui">
     <div class="energy-wrap">
       <div class="energy-label">エネルギー</div>
@@ -212,6 +322,10 @@
         <div class="energy-bar" id="energyBar"></div>
       </div>
     </div>
+  </div>
+  <div class="pos-meter" aria-hidden="true">
+    <div class="label">POS (XYZ)</div>
+    <div class="row"><span>X: <span id="posX">0</span></span><span>Y: <span id="posY">0</span></span><span>Z: <span id="posZ">0</span></span></div>
   </div>
   <div class="alt-meter" aria-hidden="true">
     <span class="label">ALT</span>
@@ -237,6 +351,10 @@
     </div>
     <div class="needle" id="directionNeedle"></div>
   </div>
+  <div class="debug-panel">
+    <input type="checkbox" id="debugCheckbox" />
+    <label for="debugCheckbox">Debug</label>
+  </div>
   <p class="hint">A/D: 旋回　W/S: 加速・減速（消費）　Q/E: 上下　食べ物で回復</p>
 
   <script type="importmap">
@@ -253,7 +371,7 @@
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x87ceeb);
-    scene.fog = new THREE.Fog(0x87ceeb, 80, 250);
+    scene.fog = new THREE.Fog(0x87ceeb, 200, 1200);
 
     const ambient = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambient);
@@ -270,8 +388,8 @@
     sun.shadow.camera.bottom = -80;
     scene.add(sun);
 
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500);
-    camera.position.set(0, 1.6, 0);
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(0, 80, 0);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -280,8 +398,21 @@
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     document.body.appendChild(renderer.domElement);
 
-    const groundGeo = new THREE.PlaneGeometry(500, 500);
-    const groundMat = new THREE.MeshStandardMaterial({ color: 0x4a5568 });
+    const groundGeo = new THREE.PlaneGeometry(2000, 2000);
+    const checkerSize = 32;
+    const checkerCanvas = document.createElement('canvas');
+    checkerCanvas.width = checkerSize * 2;
+    checkerCanvas.height = checkerSize * 2;
+    const ctx = checkerCanvas.getContext('2d');
+    ctx.fillStyle = '#4a5568';
+    ctx.fillRect(0, 0, checkerSize * 2, checkerSize * 2);
+    ctx.fillStyle = '#5a6578';
+    ctx.fillRect(0, 0, checkerSize, checkerSize);
+    ctx.fillRect(checkerSize, checkerSize, checkerSize, checkerSize);
+    const checkerTex = new THREE.CanvasTexture(checkerCanvas);
+    checkerTex.wrapS = checkerTex.wrapT = THREE.RepeatWrapping;
+    checkerTex.repeat.set(80, 80);
+    const groundMat = new THREE.MeshStandardMaterial({ color: 0xffffff, map: checkerTex });
     const ground = new THREE.Mesh(groundGeo, groundMat);
     ground.rotation.x = -Math.PI / 2;
     ground.receiveShadow = true;
@@ -332,18 +463,65 @@
       }
       const startX = (start.minX + start.maxX) / 2;
       const startZ = (start.minZ + start.maxZ) / 2;
-      camera.position.set(startX, start.maxY + 1.6, startZ);
+      camera.position.set(startX, Math.max(start.maxY + 1.6, 80), startZ);
+      updateFoodHeights();
     }
 
     // PLATEAUのglTFを使う場合: BlenderでFBX/OBJ→glTF変換後、gltf/city.glb に配置するかパスを変更
     const PLATEAU_GLTF_PATH = 'gltf/city.glb';
     let plateauLoaded = false;
+    let debugBoundingBoxMesh = null;
+    const plateauCollisionBoxes = [];
+    let debugCollisionMeshes = [];
+
+    let debugCollisionMat = null;
+
+    function addDebugCollisionBoxes() {
+      removeDebugCollisionBoxes();
+      if (!debugCollisionMat) debugCollisionMat = new THREE.LineBasicMaterial({ color: 0x00ff88, depthTest: false });
+      const addBox = (b) => {
+        const w = b.maxX - b.minX, h = b.maxY - b.minY, d = b.maxZ - b.minZ;
+        const geo = new THREE.BoxGeometry(w, h, d);
+        const edges = new THREE.EdgesGeometry(geo);
+        const wire = new THREE.LineSegments(edges, debugCollisionMat);
+        wire.position.set((b.minX + b.maxX) / 2, (b.minY + b.maxY) / 2, (b.minZ + b.maxZ) / 2);
+        wire.name = 'debug_collision';
+        scene.add(wire);
+        debugCollisionMeshes.push(wire);
+      };
+      collisionBoxes.forEach(addBox);
+      plateauCollisionBoxes.forEach(addBox);
+    }
+
+    function removeDebugCollisionBoxes() {
+      debugCollisionMeshes.forEach((m) => {
+        scene.remove(m);
+        m.geometry?.dispose();
+      });
+      debugCollisionMeshes.length = 0;
+    }
+
+    function addDebugBoundingBox(box) {
+      const size = new THREE.Vector3();
+      box.getSize(size);
+      const center = box.getCenter(new THREE.Vector3());
+      const geo = new THREE.BoxGeometry(size.x, size.y, size.z);
+      const edges = new THREE.EdgesGeometry(geo);
+      const mat = new THREE.LineBasicMaterial({ color: 0xff0000, depthTest: false });
+      const wire = new THREE.LineSegments(edges, mat);
+      wire.position.copy(center);
+      wire.name = 'debug_bbox';
+      scene.add(wire);
+      debugBoundingBoxMesh = wire;
+      wire.visible = document.getElementById('debugCheckbox')?.checked ?? false;
+    }
 
     function tryLoadPLATEAU() {
       const loader = new GLTFLoader();
       loader.load(
         PLATEAU_GLTF_PATH,
         (gltf) => {
+          updateLoadProgress(50);
           const model = gltf.scene;
           model.traverse((c) => {
             if (c.isMesh) {
@@ -353,28 +531,172 @@
           });
           model.scale.setScalar(1);
           model.position.set(0, 0, 0);
+          const GLB_NEEDS_X_ROTATION = false;
+          if (GLB_NEEDS_X_ROTATION) model.rotation.x = -Math.PI / 2;
           cityRoot.add(model);
-          plateauLoaded = true;
+          scene.updateMatrixWorld(true);
+          plateauCollisionBoxes.length = 0;
+          const MAX_BOX_DIM = 4;
+          const raycaster = new THREE.Raycaster();
+          const rayDir = new THREE.Vector3(0, 1, 0);
+          const rayOrigin = new THREE.Vector3();
+          const workList = [];
+          model.traverse((c) => {
+            if (!c.isMesh) return;
+            const box = new THREE.Box3().setFromObject(c);
+            if (box.max.y - box.min.y < 1) return;
+            workList.push({ mesh: c, box });
+          });
+          const total = workList.length;
+          let processed = 0;
+          function processOne() {
+            if (processed >= total) {
+              const box = new THREE.Box3().setFromObject(model);
+              addDebugBoundingBox(box);
+              plateauLoaded = true;
+              updateFoodHeights();
+              hideLoading();
+              return;
+            }
+            const { mesh: c, box } = workList[processed];
+            processed++;
+            const minY = box.min.y, maxY = box.max.y;
+            const sx = box.max.x - box.min.x, sy = box.max.y - box.min.y, sz = box.max.z - box.min.z;
+            const maxDim = Math.max(sx, sy, sz);
+            if (maxDim <= MAX_BOX_DIM) {
+              plateauCollisionBoxes.push({
+                minX: box.min.x, maxX: box.max.x,
+                minY: box.min.y, maxY: box.max.y,
+                minZ: box.min.z, maxZ: box.max.z
+              });
+            } else {
+            const nx = Math.max(1, Math.min(28, Math.ceil(sx / MAX_BOX_DIM)));
+            const ny = Math.max(1, Math.min(28, Math.ceil(sy / MAX_BOX_DIM)));
+            const nz = Math.max(1, Math.min(28, Math.ceil(sz / MAX_BOX_DIM)));
+              const dx = sx / nx, dy = sy / ny, dz = sz / nz;
+              for (let i = 0; i < nx; i++) {
+                for (let j = 0; j < ny; j++) {
+                  for (let k = 0; k < nz; k++) {
+                    rayOrigin.set(
+                      box.min.x + (i + 0.5) * dx,
+                      box.min.y + (j + 0.5) * dy,
+                      box.min.z + (k + 0.5) * dz
+                    );
+                    raycaster.set(rayOrigin, rayDir);
+                    const hits = raycaster.intersectObject(c, true);
+                    if (hits.length > 0) {
+                      plateauCollisionBoxes.push({
+                        minX: box.min.x + i * dx, maxX: box.min.x + (i + 1) * dx,
+                        minY: box.min.y + j * dy, maxY: box.min.y + (j + 1) * dy,
+                        minZ: box.min.z + k * dz, maxZ: box.min.z + (k + 1) * dz
+                      });
+                    }
+                  }
+                }
+              }
+            }
+            if (total > 0) updateLoadProgress(50 + (processed / total) * 50);
+            requestAnimationFrame(processOne);
+          }
+          if (total === 0) {
+            const box = new THREE.Box3().setFromObject(model);
+            addDebugBoundingBox(box);
+            plateauLoaded = true;
+            updateFoodHeights();
+            hideLoading();
+          } else {
+            requestAnimationFrame(processOne);
+          }
         },
-        undefined,
-        () => { createProceduralCity(); }
+        (xhr) => {
+          const loaded = xhr.loaded != null ? xhr.loaded : 0;
+          const total = xhr.total != null ? xhr.total : 0;
+          if (total > 0) updateLoadProgress((loaded / total) * 50);
+        },
+        () => {
+          createProceduralCity();
+          hideLoading();
+        }
       );
     }
 
+    function updateLoadProgress(percent) {
+      const pct = Math.min(100, Math.max(0, percent));
+      const fill = document.getElementById('loadingProgressFill');
+      const text = document.getElementById('loadingProgressPct');
+      if (fill) fill.style.width = pct + '%';
+      if (text) text.textContent = Math.round(pct) + '%';
+    }
+
+    function hideLoading() {
+      updateLoadProgress(100);
+      const el = document.getElementById('loading-overlay');
+      if (el) el.classList.add('hidden');
+    }
+
     tryLoadPLATEAU();
+
+    document.getElementById('debugCheckbox').addEventListener('change', (e) => {
+      const on = e.target.checked;
+      if (debugBoundingBoxMesh) debugBoundingBoxMesh.visible = on;
+      if (on) addDebugCollisionBoxes();
+      else removeDebugCollisionBoxes();
+    });
 
     const foods = [];
     const foodGeo = new THREE.SphereGeometry(0.4, 12, 12);
     const foodMat = new THREE.MeshStandardMaterial({ color: 0xfbbf24 });
     const collectRadius = 2.5;
     const energyPerFood = 25;
+    const beamHeight = 18;
+
+    function getHeightAt(x, z) {
+      let h = 0;
+      for (let i = 0; i < collisionBoxes.length; i++) {
+        const b = collisionBoxes[i];
+        if (x >= b.minX && x <= b.maxX && z >= b.minZ && z <= b.maxZ) h = Math.max(h, b.maxY);
+      }
+      for (let i = 0; i < plateauCollisionBoxes.length; i++) {
+        const b = plateauCollisionBoxes[i];
+        if (x >= b.minX && x <= b.maxX && z >= b.minZ && z <= b.maxZ) h = Math.max(h, b.maxY);
+      }
+      return h;
+    }
+
+    function updateFoodHeights() {
+      foods.forEach((f) => {
+        if (f.collected) return;
+        const h = getHeightAt(f.x, f.z);
+        const y = h + 0.5;
+        f.mesh.position.y = y;
+        if (f.beam) {
+          f.beam.position.set(f.x, h, f.z);
+          f.beam.visible = true;
+        }
+      });
+    }
 
     function addFood(x, z) {
       const mesh = new THREE.Mesh(foodGeo, foodMat.clone());
       mesh.position.set(x, 0.6, z);
       mesh.castShadow = true;
       scene.add(mesh);
-      foods.push({ mesh, x, z, collected: false });
+      const beamGeo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, 1, 0)
+      ]);
+      const beamMat = new THREE.LineBasicMaterial({
+        color: 0xffdd44,
+        transparent: true,
+        opacity: 0.85,
+        depthTest: false
+      });
+      const beam = new THREE.Line(beamGeo, beamMat);
+      beam.scale.y = beamHeight;
+      beam.position.set(x, 0, z);
+      beam.visible = false;
+      scene.add(beam);
+      foods.push({ mesh, beam, x, z, collected: false });
     }
 
     for (let i = 0; i < 60; i++) {
@@ -394,8 +716,8 @@
     const keys = { w: false, a: false, s: false, d: false, q: false, e: false };
     const verticalSpeed = 12;
     const minHeight = 1.6;
-    const maxHeight = 80;
-    const playerRadius = 0.5;
+    const maxHeight = 160;
+    const playerRadius = 0.7;
 
     document.addEventListener('keydown', (e) => {
       const k = e.key.toLowerCase();
@@ -436,9 +758,14 @@
       const p = camera.position;
       if (p.y < minHeight) p.y = minHeight;
       if (p.y > maxHeight) p.y = maxHeight;
-      for (let iter = 0; iter < 3; iter++) {
+      for (let iter = 0; iter < 5; iter++) {
         for (let i = 0; i < collisionBoxes.length; i++) {
           clampToAABB(p, collisionBoxes[i], playerRadius);
+        }
+        if (plateauLoaded) {
+          for (let i = 0; i < plateauCollisionBoxes.length; i++) {
+            clampToAABB(p, plateauCollisionBoxes[i], playerRadius);
+          }
         }
         if (p.y < minHeight) p.y = minHeight;
       }
@@ -477,6 +804,15 @@
         const pct = Math.min(100, ((alt - minHeight) / (maxHeight - minHeight)) * 100);
         gauge.style.width = Math.max(0, pct) + '%';
       }
+    }
+
+    function updatePosMeter() {
+      const elX = document.getElementById('posX');
+      const elY = document.getElementById('posY');
+      const elZ = document.getElementById('posZ');
+      if (elX) elX.textContent = Math.round(camera.position.x);
+      if (elY) elY.textContent = Math.round(camera.position.y);
+      if (elZ) elZ.textContent = Math.round(camera.position.z);
     }
 
     function animate() {
@@ -520,11 +856,13 @@
         if (dx * dx + dz * dz < collectRadius * collectRadius) {
           f.collected = true;
           f.mesh.visible = false;
+          if (f.beam) f.beam.visible = false;
           energy = Math.min(100, energy + energyPerFood);
         }
       });
 
       updateEnergyBar();
+      updatePosMeter();
       updateAltitudeMeter();
       updateSpeedMeter();
       updateDirectionMeter();

@@ -70,6 +70,12 @@ const PLATEAU_GLTF_PATH = 'gltf/あなたのファイル.glb';
 
 `gltf/city.glb` が存在しない、または読み込みに失敗した場合は、自動的に手続き生成された街が表示されます。
 
+**建物が縦長に見える／平面に見える場合**  
+Blenderでオブジェクトに回転（例: X 90°）がついたままエクスポートすると、Three.js で向きがずれます。
+
+- **縦長（壁のように見える）** … `index.html` 内の `GLB_NEEDS_X_ROTATION` を `false` のままにし、Blenderで **オブジェクトモード → オブジェクト → 適用 → 回転** で回転をメッシュに適用してから glTF でエクスポートし直してください。
+- **平面のように見える** … `GLB_NEEDS_X_ROTATION` を `true` にすると、読み込み時に X 軸 -90° 回転をかけて表示します。
+
 ## 参考
 
 - [PLATEAU - Three.jsで活用する（3D都市モデルの読み込みと表示）](https://www.mlit.go.jp/plateau/learning/tpc12-1/)
