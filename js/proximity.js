@@ -18,17 +18,62 @@ const worldCheckerVertexShader = `
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 `;
+/** 色相の変化量（1mあたり、0〜1の色相一周） */
+const WORLD_CHECKER_HUE_STEP = 0.06;
+
+/** HSV→RGB（H,S,V は 0〜1） */
+const hsv2rgbGLSL = `
+  vec3 hsv2rgb(vec3 hsv) {
+    vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+    vec3 p = abs(fract(hsv.xxx + K.xyz) * 6.0 - K.www);
+    return hsv.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), hsv.y);
+  }
+`;
+
+/** レインボー市松（X/Y/Z すべてで色相が1mごとに変化・別用途用にストック） */
+const worldCheckerFragmentShaderRainbow = `
+  uniform float u_cellSize;
+  uniform float u_opacity;
+  uniform float u_baseHue;
+  uniform float u_saturation;
+  uniform float u_value;
+  uniform float u_hueStep;
+  varying vec3 vWorldPosition;
+  ${hsv2rgbGLSL}
+  void main() {
+    float cx = floor(vWorldPosition.x / u_cellSize);
+    float cy = floor(vWorldPosition.y / u_cellSize);
+    float cz = floor(vWorldPosition.z / u_cellSize);
+    float c = mod(cx + cy + cz, 2.0);
+    float hue = fract(u_baseHue + (cx + cy + cz) * u_hueStep);
+    float hue2 = fract(hue + 0.5);
+    vec3 color1 = hsv2rgb(vec3(hue, u_saturation, u_value));
+    vec3 color2 = hsv2rgb(vec3(hue2, u_saturation, u_value));
+    vec3 color = mix(color1, color2, c);
+    gl_FragColor = vec4(color, u_opacity);
+  }
+`;
+
+/** 市松：XZは市松、Y方向だけ色相が1mごとに変化 */
 const worldCheckerFragmentShader = `
   uniform float u_cellSize;
   uniform float u_opacity;
-  uniform vec3 u_color1;
-  uniform vec3 u_color2;
+  uniform float u_baseHue;
+  uniform float u_saturation;
+  uniform float u_value;
+  uniform float u_hueStep;
   varying vec3 vWorldPosition;
+  ${hsv2rgbGLSL}
   void main() {
     float cx = floor(vWorldPosition.x / u_cellSize);
+    float cy = floor(vWorldPosition.y / u_cellSize);
     float cz = floor(vWorldPosition.z / u_cellSize);
-    float c = mod(cx + cz, 2.0);
-    vec3 color = mix(u_color1, u_color2, c);
+    float c = mod(cx + cy + cz, 2.0);
+    float hue = fract(u_baseHue + cy * u_hueStep);
+    float hue2 = fract(hue + 0.5);
+    vec3 color1 = hsv2rgb(vec3(hue, u_saturation, u_value));
+    vec3 color2 = hsv2rgb(vec3(hue2, u_saturation, u_value));
+    vec3 color = mix(color1, color2, c);
     gl_FragColor = vec4(color, u_opacity);
   }
 `;
@@ -48,7 +93,7 @@ export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
     depthWrite: false,
     side: THREE.DoubleSide
   });
-  /** 座標ベース市松（近接・1mマス） */
+  /** 座標ベース市松（1mマス・XZは市松、Y方向だけ色相が1mごとに変化） */
   const proximityMatWorld = new THREE.ShaderMaterial({
     vertexShader: worldCheckerVertexShader,
     fragmentShader: worldCheckerFragmentShader,
@@ -58,8 +103,10 @@ export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
     uniforms: {
       u_cellSize: { value: WORLD_CHECKER_CELL_SIZE },
       u_opacity: { value: 0.35 },
-      u_color1: { value: new THREE.Color(0x9ca4b4) },
-      u_color2: { value: new THREE.Color(0xb4bcc8) }
+      u_baseHue: { value: 0.55 },
+      u_saturation: { value: 0.12 },
+      u_value: { value: 0.56 },
+      u_hueStep: { value: WORLD_CHECKER_HUE_STEP }
     }
   });
   const wireframeLineMat = new THREE.LineBasicMaterial({ color: 0x333333, depthTest: true });
@@ -88,8 +135,10 @@ export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
     uniforms: {
       u_cellSize: { value: WORLD_CHECKER_CELL_SIZE },
       u_opacity: { value: 0.6 },
-      u_color1: { value: new THREE.Color(0x9ca4b4) },
-      u_color2: { value: new THREE.Color(0xb4bcc8) }
+      u_baseHue: { value: 0.55 },
+      u_saturation: { value: 0.12 },
+      u_value: { value: 0.56 },
+      u_hueStep: { value: WORLD_CHECKER_HUE_STEP }
     }
   });
   const midMatSolid = new THREE.MeshBasicMaterial({
