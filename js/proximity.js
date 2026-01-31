@@ -89,7 +89,7 @@ export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
   const proximityMat = new THREE.MeshBasicMaterial({
     map: checkerTex,
     transparent: true,
-    opacity: 0.35,
+    opacity: 0.52,
     depthWrite: false,
     side: THREE.DoubleSide
   });
@@ -102,7 +102,7 @@ export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
     side: THREE.DoubleSide,
     uniforms: {
       u_cellSize: { value: WORLD_CHECKER_CELL_SIZE },
-      u_opacity: { value: 0.35 },
+      u_opacity: { value: 0.52 },
       u_baseHue: { value: 0.55 },
       u_saturation: { value: 0.12 },
       u_value: { value: 0.56 },
@@ -114,7 +114,7 @@ export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
   const proximityMatSolid = new THREE.MeshBasicMaterial({
     color: 0x6688cc,
     transparent: true,
-    opacity: 0.35,
+    opacity: 0.52,
     depthWrite: false,
     side: THREE.DoubleSide
   });
@@ -122,7 +122,7 @@ export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
   const midMat = new THREE.MeshBasicMaterial({
     map: checkerTex,
     transparent: true,
-    opacity: 0.6,
+    opacity: 0.78,
     depthWrite: false,
     side: THREE.DoubleSide
   });
@@ -134,7 +134,7 @@ export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
     side: THREE.DoubleSide,
     uniforms: {
       u_cellSize: { value: WORLD_CHECKER_CELL_SIZE },
-      u_opacity: { value: 0.6 },
+      u_opacity: { value: 0.78 },
       u_baseHue: { value: 0.55 },
       u_saturation: { value: 0.12 },
       u_value: { value: 0.56 },

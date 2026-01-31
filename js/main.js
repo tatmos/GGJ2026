@@ -23,6 +23,7 @@ import {
   baseSpeed,
   turnSpeed,
   energyCostPerSec,
+  energyRecoveryPerSec,
   verticalSpeed,
   minHeight,
   maxHeight
@@ -62,6 +63,8 @@ for (let i = 0; i < 60; i++) {
 let yaw = 0;
 let speedMultiplier = 1;
 let energy = 100;
+/** 加速・減速直後の回復待ち（秒）。この間は回復しない */
+let recoveryCooldown = 0;
 const clock = new THREE.Clock();
 const foods = getFoods();
 
@@ -160,10 +163,16 @@ function animate() {
   if (keys.w && energy > 0) {
     speedMultiplier = 1.6;
     energy = Math.max(0, energy - energyCostPerSec * dt);
+    recoveryCooldown = 1.0;
   }
   if (keys.s && energy > 0) {
     speedMultiplier = 0.5;
     energy = Math.max(0, energy - energyCostPerSec * dt);
+    recoveryCooldown = 1.0;
+  }
+  recoveryCooldown = Math.max(0, recoveryCooldown - dt);
+  if (!keys.w && !keys.s && recoveryCooldown <= 0) {
+    energy = Math.min(100, energy + energyRecoveryPerSec * dt);
   }
 
   const move = forward.multiplyScalar(baseSpeed * speedMultiplier * dt);
