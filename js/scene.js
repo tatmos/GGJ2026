@@ -43,6 +43,20 @@ export function createScene() {
   checkerTex.wrapS = checkerTex.wrapT = THREE.RepeatWrapping;
   checkerTex.repeat.set(80, 80);
 
+  /** 近接時用：市松を粗く・明るめの色で（地面用とは別キャンバス） */
+  const proximityCheckerCanvas = document.createElement('canvas');
+  proximityCheckerCanvas.width = checkerSize * 2;
+  proximityCheckerCanvas.height = checkerSize * 2;
+  const ctxProx = proximityCheckerCanvas.getContext('2d');
+  ctxProx.fillStyle = '#9ca4b4';
+  ctxProx.fillRect(0, 0, checkerSize * 2, checkerSize * 2);
+  ctxProx.fillStyle = '#b4bcc8';
+  ctxProx.fillRect(0, 0, checkerSize, checkerSize);
+  ctxProx.fillRect(checkerSize, checkerSize, checkerSize, checkerSize);
+  const checkerTexProximity = new THREE.CanvasTexture(proximityCheckerCanvas);
+  checkerTexProximity.wrapS = checkerTexProximity.wrapT = THREE.RepeatWrapping;
+  checkerTexProximity.repeat.set(4, 4);
+
   const groundGeo = new THREE.PlaneGeometry(2000, 2000);
   const groundMat = new THREE.MeshStandardMaterial({ color: 0xffffff, map: checkerTex });
   const ground = new THREE.Mesh(groundGeo, groundMat);
@@ -53,5 +67,5 @@ export function createScene() {
   const cityRoot = new THREE.Group();
   scene.add(cityRoot);
 
-  return { scene, camera, renderer, ground, checkerTex, cityRoot };
+  return { scene, camera, renderer, ground, checkerTex, checkerTexProximity, cityRoot };
 }

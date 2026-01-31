@@ -58,7 +58,10 @@
       <span id="debugFps" class="debug-fps" aria-hidden="true"></span>
     </div>
     <div id="debugMenu" class="debug-menu" aria-hidden="true">
-      <label><input type="checkbox" id="debugGradualCheckbox" /> 段階的表示（負荷高め・比較用）</label>
+      <label><input type="checkbox" id="debugProximityCheckbox" checked /> 近接半透明</label>
+      <label><input type="checkbox" id="debugCheckerCheckbox" checked /> 近接時の市松模様（オフで負荷軽減）</label>
+      <span id="debugCheckerState" class="debug-state" aria-hidden="true"></span>
+      <label><input type="checkbox" id="debugWorldCheckerCheckbox" checked /> 市松をワールド座標で表示（UVが無いモデル用）</label>
     </div>
   </div>
   <p class="hint">A/D: 旋回　W/S: 加速・減速（消費）　Q/E: 上下　食べ物で回復</p>

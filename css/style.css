@@ -78,6 +78,11 @@ canvas { display: block; }
   width: 14px;
   height: 14px;
 }
+.debug-panel .debug-state {
+  font-size: 11px;
+  color: rgba(255,255,255,0.9);
+  font-variant-numeric: tabular-nums;
+}
 
 #loading-overlay {
   position: fixed;

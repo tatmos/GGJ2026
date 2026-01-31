@@ -37,10 +37,10 @@ import {
   updatePosMeter
 } from './ui.js';
 
-const { scene, camera, renderer, ground, checkerTex, cityRoot } = createScene();
+const { scene, camera, renderer, ground, checkerTexProximity, cityRoot } = createScene();
 document.body.appendChild(renderer.domElement);
 
-const proximity = createProximityUpdater(camera, cityRoot, ground, checkerTex);
+const proximity = createProximityUpdater(camera, cityRoot, ground, checkerTexProximity);
 
 function onUpdateFoodHeights() {
   updateFoodHeights(getHeightAt);
@@ -67,7 +67,19 @@ const foods = getFoods();
 
 const debugFpsEl = document.getElementById('debugFps');
 const debugMenuEl = document.getElementById('debugMenu');
-const debugGradualCheckbox = document.getElementById('debugGradualCheckbox');
+const debugProximityCheckbox = document.getElementById('debugProximityCheckbox');
+const debugCheckerCheckbox = document.getElementById('debugCheckerCheckbox');
+const debugCheckerStateEl = document.getElementById('debugCheckerState');
+const debugWorldCheckerCheckbox = document.getElementById('debugWorldCheckerCheckbox');
+
+function updateDebugCheckerStateLabel() {
+  if (!debugCheckerStateEl) return;
+  const on = proximity.getUseCheckerTexture();
+  const world = proximity.getUseWorldSpaceChecker();
+  const mode = on ? (world ? '座標' : 'UV') : 'OFF';
+  debugCheckerStateEl.textContent = '市松: ' + mode;
+  debugCheckerStateEl.style.display = debugMenuEl?.classList.contains('visible') ? 'inline' : 'none';
+}
 
 document.getElementById('debugCheckbox').addEventListener('change', (e) => {
   const on = e.target.checked;
@@ -78,11 +90,28 @@ document.getElementById('debugCheckbox').addEventListener('change', (e) => {
   if (debugFpsEl) debugFpsEl.style.display = on ? 'inline' : 'none';
   if (debugMenuEl) debugMenuEl.classList.toggle('visible', on);
   if (!on && debugFpsEl) debugFpsEl.textContent = '';
+  if (on) updateDebugCheckerStateLabel();
 });
 
-if (debugGradualCheckbox) {
-  debugGradualCheckbox.addEventListener('change', (e) => {
-    proximity.setUseGradual(e.target.checked);
+if (debugProximityCheckbox) {
+  debugProximityCheckbox.addEventListener('change', (e) => {
+    proximity.setProximityEnabled(e.target.checked);
+  });
+}
+if (debugCheckerCheckbox) {
+  debugCheckerCheckbox.addEventListener('change', (e) => {
+    const checked = e.target.checked;
+    proximity.setUseCheckerTexture(checked);
+    updateDebugCheckerStateLabel();
+    console.log('[Debug] 近接時の市松模様:', checked ? 'ON' : 'OFF');
+  });
+}
+if (debugWorldCheckerCheckbox) {
+  debugWorldCheckerCheckbox.addEventListener('change', (e) => {
+    const checked = e.target.checked;
+    proximity.setUseWorldSpaceChecker(checked);
+    updateDebugCheckerStateLabel();
+    console.log('[Debug] 市松の基準:', checked ? 'ワールド座標' : 'UV');
   });
 }
 
