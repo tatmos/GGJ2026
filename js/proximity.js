@@ -1,19 +1,28 @@
 import * as THREE from 'three';
 
-const PROXIMITY_THRESHOLD = 5;
-const LARGE_MESH_SIZE = 20;
+/** この距離未満で完全に半透明＋ワイヤーフレーム */
+const PROXIMITY_THRESHOLD_NEAR = 5;
+/** 段階的表示時、この距離以上は通常表示（この距離未満から段階的に変化） */
+const PROXIMITY_THRESHOLD_FAR = 12;
 
 const _box3 = new THREE.Box3();
 const _closestPoint = new THREE.Vector3();
-const _center = new THREE.Vector3();
 
 export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
-  let displayMode = 'closest';
+  let useGradual = false;
 
   const proximityMat = new THREE.MeshBasicMaterial({
     map: checkerTex,
     transparent: true,
     opacity: 0.35,
+    depthWrite: false,
+    side: THREE.DoubleSide
+  });
+  /** 段階的表示の中間：やや半透明・市松・ワイヤーフレームなし */
+  const midMat = new THREE.MeshBasicMaterial({
+    map: checkerTex,
+    transparent: true,
+    opacity: 0.6,
     depthWrite: false,
     side: THREE.DoubleSide
   });
@@ -23,69 +32,63 @@ export function createProximityUpdater(camera, cityRoot, ground, checkerTex) {
     opacity: 0.85
   });
 
-  function distanceFromCameraToMesh(cam, mesh, useCenter) {
+  function distanceFromCameraToMesh(cam, mesh) {
     mesh.updateMatrixWorld(true);
     _box3.setFromObject(mesh);
-    if (useCenter) {
-      _box3.getCenter(_center);
-      return cam.position.distanceTo(_center);
-    }
     _box3.clampPoint(cam.position, _closestPoint);
     return cam.position.distanceTo(_closestPoint);
   }
 
-  function getMeshSize(mesh) {
-    mesh.updateMatrixWorld(true);
-    _box3.setFromObject(mesh);
-    const size = new THREE.Vector3();
-    _box3.getSize(size);
-    return Math.max(size.x, size.y, size.z);
-  }
-
   function updateProximityMaterials() {
-    if (displayMode === 'off') {
-      const restore = (mesh) => {
-        if (!mesh.isMesh || !mesh.geometry) return;
-        if (mesh.userData.originalMaterial) mesh.material = mesh.userData.originalMaterial;
-        if (mesh.userData.wireframeLine) mesh.userData.wireframeLine.visible = false;
-      };
-      cityRoot.traverse((c) => { if (c.isMesh) restore(c); });
-      restore(ground);
-      return;
-    }
-
     const processMesh = (mesh) => {
       if (!mesh.isMesh || !mesh.geometry) return;
-      if (!mesh.userData.originalMaterial && mesh.material !== proximityMat)
+      if (!mesh.userData.originalMaterial && mesh.material !== proximityMat && mesh.material !== midMat)
         mesh.userData.originalMaterial = mesh.material;
 
-      const useCenter = displayMode === 'center' && getMeshSize(mesh) > LARGE_MESH_SIZE;
-      const dist = distanceFromCameraToMesh(camera, mesh, useCenter);
+      const dist = distanceFromCameraToMesh(camera, mesh);
 
-      if (dist < PROXIMITY_THRESHOLD) {
-        mesh.material = proximityMat;
-        if (!mesh.userData.wireframeLine) {
-          const edges = new THREE.EdgesGeometry(mesh.geometry);
-          mesh.userData.wireframeLine = new THREE.LineSegments(edges, wireframeLineMat);
-          mesh.add(mesh.userData.wireframeLine);
+      if (useGradual) {
+        if (dist >= PROXIMITY_THRESHOLD_FAR) {
+          if (mesh.userData.originalMaterial) mesh.material = mesh.userData.originalMaterial;
+          if (mesh.userData.wireframeLine) mesh.userData.wireframeLine.visible = false;
+        } else if (dist >= PROXIMITY_THRESHOLD_NEAR) {
+          mesh.material = midMat;
+          if (mesh.userData.wireframeLine) mesh.userData.wireframeLine.visible = false;
+        } else {
+          mesh.material = proximityMat;
+          if (!mesh.userData.wireframeLine) {
+            const edges = new THREE.EdgesGeometry(mesh.geometry);
+            mesh.userData.wireframeLine = new THREE.LineSegments(edges, wireframeLineMat);
+            mesh.add(mesh.userData.wireframeLine);
+          }
+          mesh.userData.wireframeLine.visible = true;
         }
-        mesh.userData.wireframeLine.visible = true;
       } else {
-        if (mesh.userData.originalMaterial) mesh.material = mesh.userData.originalMaterial;
-        if (mesh.userData.wireframeLine) mesh.userData.wireframeLine.visible = false;
+        if (dist < PROXIMITY_THRESHOLD_NEAR) {
+          mesh.material = proximityMat;
+          if (!mesh.userData.wireframeLine) {
+            const edges = new THREE.EdgesGeometry(mesh.geometry);
+            mesh.userData.wireframeLine = new THREE.LineSegments(edges, wireframeLineMat);
+            mesh.add(mesh.userData.wireframeLine);
+          }
+          mesh.userData.wireframeLine.visible = true;
+        } else {
+          if (mesh.userData.originalMaterial) mesh.material = mesh.userData.originalMaterial;
+          if (mesh.userData.wireframeLine) mesh.userData.wireframeLine.visible = false;
+        }
       }
     };
     cityRoot.traverse((c) => { if (c.isMesh) processMesh(c); });
     processMesh(ground);
   }
 
-  function setDisplayMode(mode) {
-    displayMode = mode;
+  function setUseGradual(value) {
+    useGradual = !!value;
   }
 
-  function getDisplayMode() {
-    return displayMode;
+  function getUseGradual() {
+    return useGradual;
   }
 
-  return { updateProximityMaterials, setDisplayMode, getDisplayMode };
+  return { updateProximityMaterials, setUseGradual, getUseGradual };
 }

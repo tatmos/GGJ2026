@@ -58,10 +58,7 @@
       <span id="debugFps" class="debug-fps" aria-hidden="true"></span>
     </div>
     <div id="debugMenu" class="debug-menu" aria-hidden="true">
-      <span class="debug-menu-legend">表示モード</span>
-      <label><input type="radio" name="debugDisplayMode" value="off" /> 通常</label>
-      <label><input type="radio" name="debugDisplayMode" value="closest" checked /> AABB最近点</label>
-      <label><input type="radio" name="debugDisplayMode" value="center" /> 中心距離（巨大対策）</label>
+      <label><input type="checkbox" id="debugGradualCheckbox" /> 段階的表示（負荷高め・比較用）</label>
     </div>
   </div>
   <p class="hint">A/D: 旋回　W/S: 加速・減速（消費）　Q/E: 上下　食べ物で回復</p>

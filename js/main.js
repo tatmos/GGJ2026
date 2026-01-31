@@ -67,7 +67,7 @@ const foods = getFoods();
 
 const debugFpsEl = document.getElementById('debugFps');
 const debugMenuEl = document.getElementById('debugMenu');
-const debugDisplayModeRadios = document.querySelectorAll('input[name="debugDisplayMode"]');
+const debugGradualCheckbox = document.getElementById('debugGradualCheckbox');
 
 document.getElementById('debugCheckbox').addEventListener('change', (e) => {
   const on = e.target.checked;
@@ -80,11 +80,11 @@ document.getElementById('debugCheckbox').addEventListener('change', (e) => {
   if (!on && debugFpsEl) debugFpsEl.textContent = '';
 });
 
-debugDisplayModeRadios.forEach((radio) => {
-  radio.addEventListener('change', (e) => {
-    proximity.setDisplayMode(e.target.value);
+if (debugGradualCheckbox) {
+  debugGradualCheckbox.addEventListener('change', (e) => {
+    proximity.setUseGradual(e.target.checked);
   });
-});
+}
 
 document.addEventListener('keydown', (e) => {
   const k = e.key.toLowerCase();
