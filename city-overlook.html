@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>街を見下ろす</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      overflow: hidden;
+      font-family: "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      height: 100vh;
+      background: linear-gradient(
+        180deg,
+        #0a0e27 0%,
+        #1a1f3a 25%,
+        #2d1b4e 50%,
+        #1a1f3a 75%,
+        #0d1321 100%
+      );
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      perspective: 800px;
+    }
+
+    /* WASDでパンするレイヤー（視野より大きくして余白を持たせる） */
+    .pan-layer {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      left: -50%;
+      top: -50%;
+      will-change: transform;
+      transition: none;
+    }
+
+    /* 夕暮れの空 */
+    .sky {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 60%;
+      background: linear-gradient(
+        180deg,
+        #0f0c29 0%,
+        #302b63 20%,
+        #24243e 40%,
+        #2d2d44 60%,
+        #1a1a2e 100%
+      );
+    }
+
+    /* 太陽・オレンジの光 */
+    .sun-glow {
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(
+        circle,
+        rgba(255, 180, 100, 0.9) 0%,
+        rgba(255, 120, 80, 0.5) 30%,
+        rgba(200, 80, 60, 0.2) 60%,
+        transparent 70%
+      );
+      border-radius: 50%;
+      animation: pulse 4s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.9; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    }
+
+    /* 星 */
+    .stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 60%;
+      background-image:
+        radial-gradient(2px 2px at 20% 30%, #fff, transparent),
+        radial-gradient(2px 2px at 40% 70%, #fff, transparent),
+        radial-gradient(1px 1px at 50% 50%, #fff, transparent),
+        radial-gradient(2px 2px at 80% 10%, #fff, transparent),
+        radial-gradient(1px 1px at 90% 60%, #fff, transparent);
+      background-size: 200% 200%;
+      opacity: 0.6;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.8; }
+    }
+
+    /* 街のシルエットエリア */
+    .city-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 0;
+    }
+
+    /* 建物群 */
+    .buildings {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 2px;
+      height: 100%;
+      padding: 0 10%;
+      min-width: 100%;
+    }
+
+    .building {
+      background: linear-gradient(
+        180deg,
+        rgba(20, 15, 35, 0.95) 0%,
+        rgba(10, 8, 25, 0.98) 100%
+      );
+      border: 1px solid rgba(80, 60, 120, 0.3);
+      min-width: 20px;
+      border-radius: 2px 2px 0 0;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+      position: relative;
+    }
+
+    .building::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.03) 50%,
+        transparent 100%
+      );
+      pointer-events: none;
+    }
+
+    /* 窓の灯り */
+    .window {
+      position: absolute;
+      width: 3px;
+      height: 4px;
+      background: #ffdd88;
+      border-radius: 1px;
+      box-shadow: 0 0 6px #ffaa44;
+      animation: flicker 2s ease-in-out infinite;
+    }
+
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* 手前の柵・展望台の雰囲気 */
+    .railing {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(30, 25, 50, 0.4) 30%,
+        rgba(20, 18, 40, 0.8) 100%
+      );
+      border-top: 2px solid rgba(100, 80, 150, 0.4);
+    }
+
+    .railing::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 30px,
+        rgba(80, 60, 120, 0.6) 30px,
+        rgba(80, 60, 120, 0.6) 32px
+      );
+    }
+
+    /* タイトル・キャプション */
+    .caption {
+      position: absolute;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 240, 220, 0.9);
+      font-size: 1.2rem;
+      letter-spacing: 0.3em;
+      text-shadow: 0 0 20px rgba(255, 200, 150, 0.3);
+      font-weight: 300;
+    }
+
+    .hint {
+      position: absolute;
+      bottom: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255, 240, 220, 0.5);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+    }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="pan-layer" id="panLayer">
+      <div class="sky"></div>
+      <div class="sun-glow"></div>
+      <div class="stars"></div>
+
+      <div class="city-container">
+        <div class="buildings" id="buildings"></div>
+      </div>
+
+      <div class="railing"></div>
+      <p class="caption">街を見下ろす</p>
+    </div>
+    <p class="hint">WASD で視点を移動</p>
+  </div>
+
+  <script>
+    // 建物の高さをランダムに生成して街並みを作る
+    const container = document.getElementById('buildings');
+    const buildingCount = 80;
+
+    for (let i = 0; i < buildingCount; i++) {
+      const building = document.createElement('div');
+      const height = 30 + Math.random() * 65;
+      building.className = 'building';
+      building.style.height = height + '%';
+      building.style.minWidth = (12 + Math.random() * 16) + 'px';
+
+      // いくつかの建物に窓の灯りを追加
+      const windowCount = Math.floor(Math.random() * 8) + 2;
+      for (let w = 0; w < windowCount; w++) {
+        const windowEl = document.createElement('div');
+        windowEl.className = 'window';
+        windowEl.style.left = (10 + Math.random() * 80) + '%';
+        windowEl.style.top = (5 + Math.random() * 85) + '%';
+        windowEl.style.animationDelay = Math.random() * 2 + 's';
+        building.appendChild(windowEl);
+      }
+
+      container.appendChild(building);
+    }
+
+    // WASD で視点をパン
+    const panLayer = document.getElementById('panLayer');
+    const keys = { w: false, a: false, s: false, d: false };
+    const speed = 4;
+    const maxPan = 400;
+    let viewX = 0;
+    let viewY = 0;
+
+    function updatePan() {
+      if (keys.w) viewY = Math.min(viewY + speed, maxPan);
+      if (keys.s) viewY = Math.max(viewY - speed, -maxPan);
+      if (keys.a) viewX = Math.min(viewX + speed, maxPan);
+      if (keys.d) viewX = Math.max(viewX - speed, -maxPan);
+
+      panLayer.style.transform = `translate(calc(-50% + ${viewX}px), calc(-50% + ${viewY}px))`;
+      requestAnimationFrame(updatePan); // 毎フレーム更新
+    }
+
+    document.addEventListener('keydown', (e) => {
+      const k = e.key.toLowerCase();
+      if (k === 'w') keys.w = true;
+      if (k === 'a') keys.a = true;
+      if (k === 's') keys.s = true;
+      if (k === 'd') keys.d = true;
+      if (['w','a','s','d'].includes(k)) e.preventDefault();
+    });
+
+    document.addEventListener('keyup', (e) => {
+      const k = e.key.toLowerCase();
+      if (k === 'w') keys.w = false;
+      if (k === 'a') keys.a = false;
+      if (k === 's') keys.s = false;
+      if (k === 'd') keys.d = false;
+    });
+
+    requestAnimationFrame(updatePan);
+  </script>
+</body>
+</html>
