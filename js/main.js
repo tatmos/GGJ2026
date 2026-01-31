@@ -35,7 +35,13 @@ import {
   updateDirectionMeter,
   updateSpeedMeter,
   updateAltitudeMeter,
-  updatePosMeter
+  updatePosMeter,
+  updateStatusPanel,
+  updateInventory,
+  updateMaskList,
+  updateBuffQueue,
+  updateEnemyGuide,
+  updateBossPanel
 } from './ui.js';
 
 const { scene, camera, renderer, ground, checkerTexProximity, cityRoot } = createScene();
@@ -67,6 +73,29 @@ let energy = 100;
 let recoveryCooldown = 0;
 const clock = new THREE.Clock();
 const foods = getFoods();
+
+/** UI用仮状態（生存時間・転生・ステータス・所持・マスク・バフ・敵は後で実データに差し替え） */
+const gameState = {
+  survivalSec: 0,
+  reincarnation: 0,
+  attack: 10,
+  defense: 5,
+  evasion: 5,
+  pickupRange: 5,
+  grip: 1,
+  absorb: 1,
+  search: 5,
+  inventory: [],
+  inventoryMaxSlots: 5,
+  masks: [],
+  activeBuffs: [],
+  buffQueue: [],
+  enemies: [],
+  searchRange: 50,
+  bossHp: null,
+  bossHpMax: 100,
+  bossMaskCount: 0
+};
 
 const debugFpsEl = document.getElementById('debugFps');
 const debugMenuEl = document.getElementById('debugMenu');
@@ -194,11 +223,33 @@ function animate() {
     }
   });
 
+  gameState.survivalSec = clock.getElapsedTime();
+
   updateEnergyBar(energy);
   updatePosMeter(camera);
   updateAltitudeMeter(camera, minHeight, maxHeight);
   updateSpeedMeter(speedMultiplier);
   updateDirectionMeter(yaw);
+  updateStatusPanel({
+    survivalSec: gameState.survivalSec,
+    reincarnation: gameState.reincarnation,
+    attack: gameState.attack,
+    defense: gameState.defense,
+    evasion: gameState.evasion,
+    pickupRange: gameState.pickupRange,
+    grip: gameState.grip,
+    absorb: gameState.absorb,
+    search: gameState.search
+  });
+  updateInventory(gameState.inventory, gameState.inventoryMaxSlots);
+  updateMaskList(gameState.masks);
+  updateBuffQueue(gameState.activeBuffs, gameState.buffQueue);
+  updateEnemyGuide(gameState.enemies, camera.position, yaw, gameState.searchRange);
+  if (gameState.bossHp != null) {
+    updateBossPanel(gameState.bossHp, gameState.bossHpMax, gameState.bossMaskCount);
+  } else {
+    updateBossPanel(0, gameState.bossHpMax, 0);
+  }
   proximity.updateProximityMaterials();
   renderer.render(scene, camera);
 }

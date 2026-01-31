@@ -22,6 +22,39 @@
         <div class="energy-bar" id="energyBar"></div>
       </div>
     </div>
+    <div class="status-panel" aria-hidden="true">
+      <div class="status-row"><span>生存</span><span id="statusSurvival">0:00</span></div>
+      <div class="status-row"><span>転生</span><span id="statusReincarnation">0</span></div>
+      <div class="status-row"><span>攻撃</span><span id="statusAttack">10</span></div>
+      <div class="status-row"><span>防御</span><span id="statusDefense">5</span></div>
+      <div class="status-row"><span>回避</span><span id="statusEvasion">5</span></div>
+      <div class="status-row"><span>取得範囲</span><span id="statusPickupRange">5</span></div>
+      <div class="status-row"><span>グリップ</span><span id="statusGrip">1</span></div>
+      <div class="status-row"><span>吸収力</span><span id="statusAbsorb">1</span></div>
+      <div class="status-row"><span>索敵</span><span id="statusSearch">5</span></div>
+    </div>
+    <div class="inventory-panel" aria-hidden="true">
+      <div class="inventory-header">バッグ <span id="inventoryCount">0</span>/<span id="inventoryMax">5</span></div>
+      <div class="inventory-slots" id="inventorySlots"></div>
+    </div>
+    <div class="mask-panel" aria-hidden="true">
+      <div class="mask-header">マスク: <span id="maskCount">0</span> 個</div>
+      <div class="mask-slots" id="maskSlots"></div>
+    </div>
+    <div class="buff-panel" aria-hidden="true">
+      <div class="buff-header">バフ・キュー</div>
+      <div class="buff-active" id="buffActive"></div>
+      <div class="buff-queue" id="buffQueue"></div>
+    </div>
+  </div>
+  <div class="enemy-guide" id="enemyGuide" aria-hidden="true">
+    <div class="enemy-guide-label">索敵</div>
+    <div class="enemy-guide-list" id="enemyGuideList"></div>
+  </div>
+  <div class="boss-panel" id="bossPanel" aria-hidden="true">
+    <div class="boss-label">ライバル</div>
+    <div class="boss-hp"><span id="bossHp">0</span>/<span id="bossHpMax">100</span></div>
+    <div class="boss-masks">マスク <span id="bossMaskCount">0</span></div>
   </div>
   <div class="pos-meter" aria-hidden="true">
     <div class="label">POS (XYZ)</div>
