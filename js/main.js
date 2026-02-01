@@ -336,7 +336,7 @@ const gameState = {
   survivalSec: 0,
   reincarnation: 0,
   /** 時間倍速（デバッグ用） */
-  timeScale: 1,
+  timeScale: 60,
   attack: 10,
   defense: 5,
   evasion: 5,

@@ -433,6 +433,38 @@ export function playSoundBoundaryWarning() {
 }
 
 /**
+ * タイプライター音（1文字ごと）
+ */
+export function playSoundTypewriter() {
+  if (!soundEnabled) return;
+  
+  try {
+    const ctx = getAudioContext();
+    const now = ctx.currentTime;
+    
+    // ランダムな周波数でカチカチ音
+    const freq = 800 + Math.random() * 400;
+    
+    const osc = ctx.createOscillator();
+    osc.type = 'square';
+    osc.frequency.value = freq;
+    
+    const gain = ctx.createGain();
+    const vol = masterVolume * 0.08;
+    gain.gain.setValueAtTime(vol, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.03);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start(now);
+    osc.stop(now + 0.03);
+  } catch (e) {
+    // ignore
+  }
+}
+
+/**
  * マスクドロップ（プレイヤーが落とす）
  */
 export function playSoundMaskDrop() {

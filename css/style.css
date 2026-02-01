@@ -805,8 +805,14 @@ canvas { display: block; }
   border-radius: 6px;
   font-size: 13px;
   font-weight: bold;
-  animation: combatLogFade 3s ease-out forwards;
   white-space: nowrap;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.combat-log-entry.fading {
+  opacity: 0;
+  transform: translateY(-20px);
 }
 .combat-log-entry.attack {
   background: rgba(0, 100, 0, 0.85);
@@ -828,11 +834,10 @@ canvas { display: block; }
   color: #ff88ff;
   border: 1px solid #ff44ff;
 }
-@keyframes combatLogFade {
-  0% { opacity: 1; transform: translateY(0); }
-  70% { opacity: 1; }
-  100% { opacity: 0; transform: translateY(-20px); }
-}
+.combat-log-entry.heal {
+  background: rgba(0, 80, 100, 0.85);
+  color: #88ffff;
+  border: 1px solid #44ffff;
 }
 .enemy-guide .enemy-guide-item {
   font-size: 10px;

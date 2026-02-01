@@ -1,3 +1,5 @@
+import { playSoundTypewriter } from './sound.js';
+
 // ============================================================
 // 成長選択ダイアログ
 // ============================================================
@@ -124,18 +126,43 @@ export function showRivalWarning() {
 /** ログの最大表示数 */
 const MAX_COMBAT_LOGS = 5;
 
+/** ログのキュー */
+const logQueue = [];
+/** 現在タイプライター中かどうか */
+let isTyping = false;
+/** タイプライターの基本速度（ms/文字） */
+const BASE_TYPE_SPEED = 30;
+/** 高速モードの速度（ms/文字） */
+const FAST_TYPE_SPEED = 5;
+
 /**
- * 戦闘ログを追加
+ * 戦闘ログを追加（タイプライター風）
  * @param {string} message メッセージ
- * @param {'attack'|'damage'|'defeat'|'mask'} type ログタイプ
+ * @param {'attack'|'damage'|'defeat'|'mask'|'heal'} type ログタイプ
  */
 export function addCombatLog(message, type = 'attack') {
+  logQueue.push({ message, type });
+  processLogQueue();
+}
+
+/**
+ * ログキューを処理
+ */
+function processLogQueue() {
+  if (isTyping || logQueue.length === 0) return;
+  
   const logEl = document.getElementById('combatLog');
   if (!logEl) return;
   
+  // キューが多い場合は高速モード
+  const queuedCount = logQueue.length;
+  const typeSpeed = queuedCount > 3 ? FAST_TYPE_SPEED : BASE_TYPE_SPEED;
+  
+  const { message, type } = logQueue.shift();
+  
   const entry = document.createElement('div');
   entry.className = `combat-log-entry ${type}`;
-  entry.textContent = message;
+  entry.textContent = '';
   logEl.appendChild(entry);
   
   // 古いログを削除
@@ -143,12 +170,68 @@ export function addCombatLog(message, type = 'attack') {
     logEl.removeChild(logEl.firstChild);
   }
   
-  // 3秒後に自動削除
-  setTimeout(() => {
-    if (entry.parentNode === logEl) {
-      logEl.removeChild(entry);
+  // タイプライター効果
+  isTyping = true;
+  let charIndex = 0;
+  
+  function typeNextChar() {
+    if (charIndex < message.length) {
+      // 残りキューが多い場合は一気に表示
+      if (logQueue.length > 5) {
+        entry.textContent = message;
+        charIndex = message.length;
+        finishTyping();
+        return;
+      }
+      
+      entry.textContent += message[charIndex];
+      charIndex++;
+      
+      // タイプ音を再生（セリフ的なログのみ）
+      // heal: 管制塔風、または「管制塔」「通達」などを含むメッセージ
+      const isVoiceLog = type === 'heal' || 
+                         message.includes('管制塔') || 
+                         message.includes('通達') ||
+                         message.includes('警告');
+      if (isVoiceLog && (typeSpeed >= BASE_TYPE_SPEED || charIndex % 3 === 0)) {
+        playSoundTypewriter();
+      }
+      
+      // 句読点では少し長めに待つ
+      const char = message[charIndex - 1];
+      let delay = typeSpeed;
+      if (char === '。' || char === '！' || char === '？') {
+        delay = typeSpeed * 3;
+      } else if (char === '、' || char === '・') {
+        delay = typeSpeed * 2;
+      }
+      
+      setTimeout(typeNextChar, delay);
+    } else {
+      finishTyping();
     }
-  }, 3000);
+  }
+  
+  function finishTyping() {
+    isTyping = false;
+    
+    // 3秒後に自動削除（フェードアウト）
+    setTimeout(() => {
+      if (entry.parentNode === logEl) {
+        entry.classList.add('fading');
+        setTimeout(() => {
+          if (entry.parentNode === logEl) {
+            logEl.removeChild(entry);
+          }
+        }, 500);
+      }
+    }, 3000);
+    
+    // 次のログを処理
+    processLogQueue();
+  }
+  
+  typeNextChar();
 }
 
 // ============================================================
