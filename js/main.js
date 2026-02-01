@@ -73,6 +73,7 @@ import {
   updateBoundaryWarning,
   updateMaskList,
   updateBuffQueue,
+  updateMaskSensor,
   updateEnemyGuide,
   updateBossPanel,
   showItemPopup,
@@ -103,6 +104,7 @@ import {
   updateDroppedMasks,
   collectMask,
   cleanupCollectedMasks,
+  dropMask,
   dropMasksFromEnemy,
   createMaskInventory,
   addMaskToInventory,
@@ -207,6 +209,12 @@ tryLoadPLATEAU(scene, cityRoot, {
 })();
 
 let yaw = 0;
+/** 実際の移動方向（ドリフト用）。グリップが低いとyawに追従しにくい */
+let velocityYaw = 0;
+/** カメラのロール（傾き）。旋回時に傾く */
+let cameraRoll = 0;
+/** カメラのピッチ（上下傾き）。上昇/下降時に傾く */
+let cameraPitch = 0;
 let speedMultiplier = 1;
 let energy = 100;
 /** 加速・減速直後の回復待ち（秒）。この間は回復しない */
@@ -344,6 +352,9 @@ function reincarnate(maskCountToKeep) {
   // カメラを初期位置に戻す
   camera.position.set(0, 80, 0);
   yaw = 0;
+  velocityYaw = 0;
+  cameraRoll = 0;
+  cameraPitch = 0;
   
   // 状態をリセット
   gameState.isDefeated = false;
@@ -587,15 +598,50 @@ function animate() {
   if (keys.a) yaw += turnSpeed * dt;
   if (keys.d) yaw -= turnSpeed * dt;
 
+  // カメラロール（傾き）の計算
+  const maxRoll = Math.PI / 8; // 最大22.5度傾く
+  const rollSpeed = 4.0; // 傾く速さ
+  let targetRoll = 0;
+  if (keys.a) targetRoll = maxRoll;  // 左旋回で右に傾く
+  if (keys.d) targetRoll = -maxRoll; // 右旋回で左に傾く
+  
+  // ドリフト時（視点と移動方向の差）でも少し傾く
+  let yawDiffForRoll = yaw - velocityYaw;
+  while (yawDiffForRoll > Math.PI) yawDiffForRoll -= 2 * Math.PI;
+  while (yawDiffForRoll < -Math.PI) yawDiffForRoll += 2 * Math.PI;
+  targetRoll += yawDiffForRoll * 0.3; // ドリフト量に応じて追加で傾く
+  targetRoll = Math.max(-maxRoll * 1.5, Math.min(maxRoll * 1.5, targetRoll));
+  
+  // スムーズに傾く・戻る
+  cameraRoll += (targetRoll - cameraRoll) * rollSpeed * dt;
+
   camera.rotation.order = 'YXZ';
   camera.rotation.y = yaw;
-  camera.rotation.x = 0;
-  camera.rotation.z = 0;
+  camera.rotation.x = cameraPitch;
+  camera.rotation.z = cameraRoll;
 
-  const forward = new THREE.Vector3();
-  camera.getWorldDirection(forward);
-  forward.y = 0;
-  if (forward.lengthSq() > 0.0001) forward.normalize();
+  // 装備効果を取得（移動処理で使用）
+  const equipEffects = getEffectMultipliers(gameState.equipmentInventory);
+  
+  // グリップによる移動方向の補間（ドリフト感）
+  // グリップが高いほど早くyawに追従、低いほどドリフトする
+  const effectiveGrip = gameState.grip * equipEffects.speed; // 装備効果も考慮
+  const gripLerpFactor = Math.min(1, effectiveGrip * 3 * dt); // グリップ1で約0.3/frame
+  
+  // 角度差を -π 〜 π の範囲で計算
+  let yawDiff = yaw - velocityYaw;
+  while (yawDiff > Math.PI) yawDiff -= 2 * Math.PI;
+  while (yawDiff < -Math.PI) yawDiff += 2 * Math.PI;
+  
+  // 移動方向をyawに向かって補間
+  velocityYaw += yawDiff * gripLerpFactor;
+  
+  // 移動方向ベクトルを計算（カメラの向きではなくvelocityYawを使用）
+  const forward = new THREE.Vector3(
+    -Math.sin(velocityYaw),
+    0,
+    -Math.cos(velocityYaw)
+  );
 
   speedMultiplier = 1;
   if (keys.w && energy > 0) {
@@ -610,13 +656,21 @@ function animate() {
     recoveryCooldown = effectiveRecoveryCooldownSec;
     hoverGraceElapsed = 0;
   }
-  recoveryCooldown = Math.max(0, recoveryCooldown - dt);
+  // 回復クールダウン（装備効果で短縮）
+  const effectiveRecoveryCooldownReduction = 1 / equipEffects.recoveryCooldown; // 値が低いほど早く回復
+  recoveryCooldown = Math.max(0, recoveryCooldown - dt * effectiveRecoveryCooldownReduction);
+  
+  // エネルギー回復（装備効果で増加）
   if (!keys.w && !keys.s && recoveryCooldown <= 0) {
-    energy = Math.min(100, energy + energyRecoveryPerSec * dt);
+    const effectiveEnergyRegen = energyRecoveryPerSec * equipEffects.energyRegen;
+    energy = Math.min(100, energy + effectiveEnergyRegen * dt);
   }
   speedMultiplier *= buffSpeedMultiplier;
+  
+  // 装備効果を移動速度に適用（地上速度 + 全体速度）
+  const equipSpeedMult = equipEffects.speed * equipEffects.groundSpeed;
 
-  const move = forward.multiplyScalar(baseSpeed * speedMultiplier * dt);
+  const move = forward.multiplyScalar(baseSpeed * speedMultiplier * equipSpeedMult * dt);
   camera.position.add(move);
 
   // 境界チェック: 街モデルのバウンディングボックス外に出たら自動で街の中心を向く
@@ -631,10 +685,19 @@ function animate() {
   yaw = boundaryResult.yaw;
   updateBoundaryWarning(boundaryResult.outsideBoundary);
 
-  if (keys.w && energy > 0) camera.position.y += verticalSpeed * dt;
-  if (keys.s) camera.position.y -= verticalSpeed * dt;
-  if (keys.q) camera.position.y += verticalSpeed * dt;
-  if (keys.e) camera.position.y -= verticalSpeed * dt;
+  // 上昇/下降（装備効果を適用）
+  const effectiveVerticalSpeed = verticalSpeed * equipEffects.verticalSpeed * equipEffects.speed;
+  let verticalInput = 0;
+  if (keys.w && energy > 0) { camera.position.y += effectiveVerticalSpeed * dt; verticalInput = 1; }
+  if (keys.s) { camera.position.y -= effectiveVerticalSpeed * dt; verticalInput = -1; }
+  if (keys.q) { camera.position.y += effectiveVerticalSpeed * dt; verticalInput = 1; }
+  if (keys.e) { camera.position.y -= effectiveVerticalSpeed * dt; verticalInput = -1; }
+  
+  // カメラピッチ（上下傾き）の計算
+  const maxPitch = Math.PI / 12; // 最大15度傾く
+  const pitchSpeed = 3.0;
+  const targetPitch = -verticalInput * maxPitch; // 上昇で下向き、下降で上向き
+  cameraPitch += (targetPitch - cameraPitch) * pitchSpeed * dt;
   const hoverGrace = gameState.hoverGraceTimeSec ?? hoverGraceTimeSec;
   if (!keys.w && !keys.s && !keys.q && !keys.e) {
     hoverGraceElapsed += dt;
@@ -648,9 +711,6 @@ function animate() {
 
   resolveCollisions(camera);
 
-  // 装備効果を取得
-  const equipEffects = getEffectMultipliers(gameState.equipmentInventory);
-  
   // 実効取得範囲 = 基本範囲 × 装備効果 × (1 + gameState.pickupRange * 0.1)
   const effectiveCollectRadius = collectRadius * equipEffects.pickupRange * (1 + gameState.pickupRange * 0.1);
   
@@ -687,6 +747,9 @@ function animate() {
         shopName: f.name,
         shopNameJa: f.nameJa,
         cuisine: f.cuisine
+      }, {
+        buffDuration: equipEffects.buffDuration,
+        foodBuffBoost: equipEffects.foodBuffBoost
       });
       if (instant && instant.effect === 'energy') {
         energy = Math.min(100, energy + (instant.value ?? energyPerFood));
@@ -860,11 +923,12 @@ function animate() {
   // 敵の更新
   updateEnemies(dt, camera.position, getHeightAt);
   
-  // プレイヤーの自動攻撃
+  // プレイヤーの自動攻撃（装備効果 + マスク効果）
+  const maskEffects = getMaskEffects(gameState.maskInventory);
   const playerStats = {
     baseAttack: gameState.attack,
-    attackMult: getMaskEffects(gameState.maskInventory).attack ?? 0,
-    defenseMult: getMaskEffects(gameState.maskInventory).defense ?? 0,
+    attackMult: (maskEffects.attack ?? 0) + (equipEffects.attack - 1), // 装備効果を加算
+    defenseMult: (maskEffects.defense ?? 0) + (equipEffects.defense - 1), // 装備効果を加算
   };
   const attackResult = playerAttack(dt, camera.position, playerStats, getAliveEnemies(), scene);
   if (attackResult.attacked && attackResult.target) {
@@ -877,8 +941,32 @@ function animate() {
   // 敵の攻撃
   const enemyDamage = enemyAttacks(dt, camera.position, getAliveEnemies(), playerStats);
   if (enemyDamage > 0) {
+    const previousEnergy = energy;
     energy = Math.max(0, energy - enemyDamage);
     addCombatLog(`敵から攻撃を受けた！ ${enemyDamage} ダメージ`, 'damage');
+    
+    // 大ダメージ判定（一撃で25%以上のダメージ）→ マスクを1つ落とす
+    const damagePercent = enemyDamage / 100;
+    if (damagePercent >= 0.25 && gameState.maskInventory.masks.length > 0) {
+      // ランダムにマスクを1つ選んでドロップ
+      const maskIndex = Math.floor(Math.random() * gameState.maskInventory.masks.length);
+      const droppedMaskData = gameState.maskInventory.masks[maskIndex];
+      
+      // インベントリから削除
+      gameState.maskInventory.masks.splice(maskIndex, 1);
+      gameState.masks = getMasksForDisplay(gameState.maskInventory);
+      
+      // フィールドにドロップ
+      dropMask(scene, camera.position.x, camera.position.y, camera.position.z, {
+        type: droppedMaskData.type,
+        color: droppedMaskData.color,
+        effect: droppedMaskData.effect,
+        value: droppedMaskData.value,
+        nameJa: droppedMaskData.nameJa
+      });
+      
+      addCombatLog(`大ダメージ！${droppedMaskData.nameJa} を落とした！`, 'damage');
+    }
     
     // 敗北判定
     if (energy <= 0) {
@@ -980,6 +1068,10 @@ function animate() {
   );
   updateMaskList(gameState.masks);
   updateBuffQueue(getActiveBuffsForDisplay(gameState), getBuffQueueForDisplay(gameState));
+  
+  // マスクセンサー（ドロップされたマスクへの誘導）
+  const droppedMasksForSensor = getDroppedMasks().filter(m => !m.collected);
+  updateMaskSensor(droppedMasksForSensor, camera.position, yaw);
   
   // 実効索敵範囲 = 基本範囲(30) + search × 5 × 装備効果(detection)
   const baseSearchRange = 30;

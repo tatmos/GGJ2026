@@ -538,6 +538,78 @@ export function updateBuffQueue(activeBuffs, queue) {
   });
 }
 
+/**
+ * マスクセンサー: ドロップされたマスクへの誘導表示
+ * @param {Array} droppedMasks マスクの配列 [{ x, z, color, nameJa, ... }]
+ * @param {Object} playerPos プレイヤー位置 { x, z }
+ * @param {number} yaw プレイヤーの向き
+ */
+export function updateMaskSensor(droppedMasks, playerPos, yaw) {
+  const containerEl = document.getElementById('maskSensor');
+  const listEl = document.getElementById('maskSensorList');
+  if (!containerEl || !listEl) return;
+  
+  const masks = droppedMasks ?? [];
+  const px = playerPos?.x ?? 0;
+  const pz = playerPos?.z ?? 0;
+  
+  // マスクがない場合は非表示
+  if (masks.length === 0) {
+    containerEl.classList.add('hidden');
+    return;
+  }
+  
+  containerEl.classList.remove('hidden');
+  listEl.innerHTML = '';
+  
+  // 距離でソート（近い順）
+  const sorted = masks.map(m => {
+    const dx = (m.x ?? 0) - px;
+    const dz = (m.z ?? 0) - pz;
+    const dist = Math.sqrt(dx * dx + dz * dz);
+    return { ...m, dx, dz, dist };
+  }).sort((a, b) => a.dist - b.dist);
+  
+  // 最大5件表示
+  const toShow = sorted.slice(0, 5);
+  
+  toShow.forEach(m => {
+    const angle = Math.atan2(-m.dx, -m.dz);
+    const relAngle = angle - yaw;
+    const deg = (relAngle * 180 / Math.PI + 360) % 360;
+    
+    const item = document.createElement('div');
+    item.className = 'mask-sensor-item';
+    
+    // 矢印
+    const arrow = document.createElement('span');
+    arrow.className = 'mask-sensor-arrow';
+    arrow.style.transform = `rotate(${deg}deg)`;
+    item.appendChild(arrow);
+    
+    // マスクの色
+    const colorDot = document.createElement('span');
+    colorDot.className = 'mask-sensor-color';
+    colorDot.style.backgroundColor = m.color || '#ff88ff';
+    item.appendChild(colorDot);
+    
+    // 距離
+    const distSpan = document.createElement('span');
+    distSpan.textContent = `${Math.round(m.dist)}m`;
+    item.appendChild(distSpan);
+    
+    listEl.appendChild(item);
+  });
+  
+  // 追加のマスクがある場合
+  if (sorted.length > 5) {
+    const more = document.createElement('div');
+    more.className = 'mask-sensor-empty';
+    more.textContent = `+${sorted.length - 5} more`;
+    listEl.appendChild(more);
+  }
+}
+
 /** 敵位置ガイド: enemies = [{ id, x, y, z, ... }], playerPos, yaw, searchRange. 索敵範囲内の敵を方向・距離表示 */
 export function updateEnemyGuide(enemies, playerPos, yaw, searchRange) {
   const listEl = document.getElementById('enemyGuideList');

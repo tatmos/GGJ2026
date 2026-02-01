@@ -77,18 +77,27 @@ export function tickBuffQueue(state, dt) {
  * @param {object} state ゲーム状態
  * @param {string} typeId バフタイプID
  * @param {object} [itemInfo] アイテム情報 { shopName, shopNameJa, cuisine }
+ * @param {object} [multipliers] 装備効果 { buffDuration, foodBuffBoost }
  * @returns { 'energy', value } | null 即時効果なら { effect, value }、それ以外は null
  */
-export function addBuffToQueue(state, typeId, itemInfo) {
+export function addBuffToQueue(state, typeId, itemInfo, multipliers) {
   const def = BUFF_TYPES[typeId];
   if (!def) return null;
+  
+  // 装備効果を適用
+  const durationMult = multipliers?.buffDuration ?? 1;
+  const valueMult = multipliers?.foodBuffBoost ?? 1;
+  
   if (def.duration <= 0) {
-    return { effect: def.effect, value: def.value };
+    // 即時効果（エネルギー回復など）にも食事バフ強化を適用
+    return { effect: def.effect, value: def.value * valueMult };
   }
+  
   if (!state.buffQueue) state.buffQueue = [];
+  const effectiveDuration = def.duration * durationMult;
   const item = {
     typeId,
-    durationMax: def.duration,
+    durationMax: effectiveDuration,
     shopName: itemInfo?.shopName || '',
     shopNameJa: itemInfo?.shopNameJa || '',
     cuisine: itemInfo?.cuisine || ''
@@ -96,8 +105,8 @@ export function addBuffToQueue(state, typeId, itemInfo) {
   if (!state.activeBuff) {
     state.activeBuff = {
       typeId,
-      durationRemaining: def.duration,
-      durationMax: def.duration,
+      durationRemaining: effectiveDuration,
+      durationMax: effectiveDuration,
       shopName: item.shopName,
       shopNameJa: item.shopNameJa,
       cuisine: item.cuisine
