@@ -1,5 +1,5 @@
-export const baseSpeed = 18;
-export const turnSpeed = 1.8;
+export const baseSpeed = 8;
+export const turnSpeed = 0.8;
 export const energyCostPerSec = 15;
 /** 加速・減速していない時のエネルギー回復（/秒） */
 export const energyRecoveryPerSec = 2.5;

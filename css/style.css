@@ -73,9 +73,16 @@ canvas { display: block; }
 .credits-dialog::backdrop {
   background: rgba(0, 0, 0, 0.7);
 }
+.credits-title {
+  margin: 0 0 8px 0;
+  font-size: 32px;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.6), 0 0 30px rgba(136, 204, 255, 0.4);
+}
 .credits-dialog h2 {
   margin: 0 0 16px 0;
-  font-size: 24px;
+  font-size: 18px;
   text-align: center;
   color: #88ccff;
   text-shadow: 0 0 10px rgba(136, 204, 255, 0.5);
@@ -155,6 +162,24 @@ canvas { display: block; }
   cursor: pointer;
   width: 16px;
   height: 16px;
+}
+.debug-btn {
+  padding: 4px 12px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.debug-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+.debug-btn.active {
+  background: rgba(100, 150, 255, 0.3);
+  border-color: rgba(100, 150, 255, 0.7);
 }
 .debug-panel .debug-fps {
   display: none;

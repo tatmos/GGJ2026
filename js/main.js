@@ -344,7 +344,7 @@ const gameState = {
   /** ゲームポーズ状態（ダイアログ表示中、ローディング中など） */
   paused: true, // 初期状態はポーズ（ローディング完了まで）
   /** 時間倍速（デバッグ用） */
-  timeScale: 30,
+  timeScale: 2,
   attack: 10,
   defense: 5,
   evasion: 5,
@@ -600,17 +600,24 @@ function updateDebugCheckerStateLabel() {
   debugCheckerStateEl.style.display = debugMenuEl?.classList.contains('visible') ? 'inline' : 'none';
 }
 
-document.getElementById('debugCheckbox').addEventListener('change', (e) => {
-  const on = e.target.checked;
-  const bboxMesh = getDebugBoundingBoxMesh();
-  if (bboxMesh) bboxMesh.visible = on;
-  if (on) addDebugCollisionBoxes(scene);
-  else removeDebugCollisionBoxes(scene);
-  if (debugFpsEl) debugFpsEl.style.display = on ? 'inline' : 'none';
-  if (debugMenuEl) debugMenuEl.classList.toggle('visible', on);
-  if (!on && debugFpsEl) debugFpsEl.textContent = '';
-  if (on) updateDebugCheckerStateLabel();
-});
+// デバッグメニューの表示状態
+let debugMenuVisible = false;
+const debugBtn = document.getElementById('debugBtn');
+
+if (debugBtn) {
+  debugBtn.addEventListener('click', () => {
+    debugMenuVisible = !debugMenuVisible;
+    const bboxMesh = getDebugBoundingBoxMesh();
+    if (bboxMesh) bboxMesh.visible = debugMenuVisible;
+    if (debugMenuVisible) addDebugCollisionBoxes(scene);
+    else removeDebugCollisionBoxes(scene);
+    if (debugFpsEl) debugFpsEl.style.display = debugMenuVisible ? 'inline' : 'none';
+    if (debugMenuEl) debugMenuEl.classList.toggle('visible', debugMenuVisible);
+    if (!debugMenuVisible && debugFpsEl) debugFpsEl.textContent = '';
+    if (debugMenuVisible) updateDebugCheckerStateLabel();
+    debugBtn.classList.toggle('active', debugMenuVisible);
+  });
+}
 
 // クレジットダイアログ制御
 const creditsBtn = document.getElementById('creditsBtn');
@@ -737,6 +744,16 @@ if (timeScaleSelect) {
   timeScaleSelect.addEventListener('change', (e) => {
     gameState.timeScale = parseFloat(e.target.value) || 1;
     console.log(`[Debug] 時間倍速: ${gameState.timeScale}x`);
+  });
+}
+
+// Pause/Resumeボタン
+const pauseResumeBtn = document.getElementById('pauseResumeBtn');
+if (pauseResumeBtn) {
+  pauseResumeBtn.addEventListener('click', () => {
+    gameState.paused = !gameState.paused;
+    pauseResumeBtn.textContent = gameState.paused ? 'Resume' : 'Pause';
+    console.log(`[Debug] ゲーム${gameState.paused ? 'ポーズ' : '再開'}`);
   });
 }
 
@@ -1002,7 +1019,7 @@ function animate() {
   const effectiveRecoveryCooldownSec = recoveryCooldownSec * getRecoveryCooldownScaleFromBuff(gameState.activeBuff);
   const buffSpeedMultiplier = getSpeedMultiplierFromBuff(gameState.activeBuff);
 
-  if (document.getElementById('debugCheckbox')?.checked && debugFpsEl) {
+  if (debugMenuVisible && debugFpsEl) {
     debugFpsEl.textContent = Math.round(1 / dt) + ' FPS';
     
     // 時間倍速の情報表示
