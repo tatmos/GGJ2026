@@ -451,16 +451,23 @@ canvas { display: block; }
   color: rgba(255,255,255,0.9);
   margin-bottom: 6px;
 }
-.buff-panel .buff-active,
+.buff-panel .buff-active {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 24px;
+  margin-bottom: 8px;
+}
 .buff-panel .buff-queue {
   display: flex;
   gap: 4px;
   flex-wrap: wrap;
   min-height: 24px;
+  max-width: 300px;
 }
 .buff-panel .buff-item {
-  width: 24px;
-  height: 24px;
+  min-width: 60px;
+  padding: 4px 8px;
   background: rgba(80,80,255,0.3);
   border: 1px solid rgba(255,255,255,0.3);
   border-radius: 4px;
@@ -469,6 +476,7 @@ canvas { display: block; }
   align-items: center;
   justify-content: center;
   color: #fff;
+  box-sizing: border-box;
 }
 
 /* enemy guide */

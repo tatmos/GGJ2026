@@ -468,7 +468,11 @@ function animate() {
       f.collected = true;
       f.mesh.visible = false;
       if (f.beam) f.beam.visible = false;
-      const instant = addBuffToQueue(gameState, f.typeId);
+      const instant = addBuffToQueue(gameState, f.typeId, {
+        shopName: f.name,
+        shopNameJa: f.nameJa,
+        cuisine: f.cuisine
+      });
       if (instant && instant.effect === 'energy') {
         energy = Math.min(100, energy + (instant.value ?? energyPerFood));
       }

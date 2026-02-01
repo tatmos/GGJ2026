@@ -46,7 +46,7 @@ export function getRecoveryCooldownScaleFromBuff(activeBuff) {
 
 /**
  * バフキューを 1 フレーム進める。activeBuff の残り時間を減らし、0 になったらキューから次を取り出す。
- * state: { activeBuff: { typeId, durationRemaining, durationMax } | null, buffQueue: [ { typeId, durationMax } ] }
+ * state: { activeBuff: { typeId, durationRemaining, durationMax, shopName?, shopNameJa?, cuisine? } | null, buffQueue: [...] }
  */
 export function tickBuffQueue(state, dt) {
   if (!state.activeBuff) {
@@ -56,7 +56,10 @@ export function tickBuffQueue(state, dt) {
       state.activeBuff = {
         typeId: next.typeId,
         durationRemaining: (def && def.duration) ?? 0,
-        durationMax: (def && def.duration) ?? 0
+        durationMax: (def && def.duration) ?? 0,
+        shopName: next.shopName || '',
+        shopNameJa: next.shopNameJa || '',
+        cuisine: next.cuisine || ''
       };
     } else return;
   }
@@ -71,21 +74,33 @@ export function tickBuffQueue(state, dt) {
  * 取得したアイテムをキューに追加（または即時効果なら何もしない）。
  * 即時効果の場合は呼び出し側でエネルギー等を加算すること。
  * state: { activeBuff, buffQueue }
+ * @param {object} state ゲーム状態
+ * @param {string} typeId バフタイプID
+ * @param {object} [itemInfo] アイテム情報 { shopName, shopNameJa, cuisine }
  * @returns { 'energy', value } | null 即時効果なら { effect, value }、それ以外は null
  */
-export function addBuffToQueue(state, typeId) {
+export function addBuffToQueue(state, typeId, itemInfo) {
   const def = BUFF_TYPES[typeId];
   if (!def) return null;
   if (def.duration <= 0) {
     return { effect: def.effect, value: def.value };
   }
   if (!state.buffQueue) state.buffQueue = [];
-  const item = { typeId, durationMax: def.duration };
+  const item = {
+    typeId,
+    durationMax: def.duration,
+    shopName: itemInfo?.shopName || '',
+    shopNameJa: itemInfo?.shopNameJa || '',
+    cuisine: itemInfo?.cuisine || ''
+  };
   if (!state.activeBuff) {
     state.activeBuff = {
       typeId,
       durationRemaining: def.duration,
-      durationMax: def.duration
+      durationMax: def.duration,
+      shopName: item.shopName,
+      shopNameJa: item.shopNameJa,
+      cuisine: item.cuisine
     };
   } else {
     state.buffQueue.push(item);
@@ -93,22 +108,32 @@ export function addBuffToQueue(state, typeId) {
   return null;
 }
 
-/** UI用: アクティブバフを [ { id, name, remainingSec } ] 形式に */
+/** UI用: アクティブバフを [ { id, name, remainingSec, durationMax, shopName, shopNameJa, cuisine } ] 形式に */
 export function getActiveBuffsForDisplay(state) {
   if (!state.activeBuff) return [];
   const def = BUFF_TYPES[state.activeBuff.typeId];
   return [{
     id: state.activeBuff.typeId,
     name: def ? def.name : state.activeBuff.typeId,
-    remainingSec: state.activeBuff.durationRemaining
+    remainingSec: state.activeBuff.durationRemaining,
+    durationMax: state.activeBuff.durationMax || (def ? def.duration : 30),
+    shopName: state.activeBuff.shopName || '',
+    shopNameJa: state.activeBuff.shopNameJa || '',
+    cuisine: state.activeBuff.cuisine || ''
   }];
 }
 
-/** UI用: キューを [ { id, name } ] 形式に */
+/** UI用: キューを [ { id, name, shopName, shopNameJa, cuisine } ] 形式に */
 export function getBuffQueueForDisplay(state) {
   if (!state.buffQueue || state.buffQueue.length === 0) return [];
   return state.buffQueue.map((b) => {
     const def = BUFF_TYPES[b.typeId];
-    return { id: b.typeId, name: def ? def.name : b.typeId };
+    return {
+      id: b.typeId,
+      name: def ? def.name : b.typeId,
+      shopName: b.shopName || '',
+      shopNameJa: b.shopNameJa || '',
+      cuisine: b.cuisine || ''
+    };
   });
 }

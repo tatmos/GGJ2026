@@ -115,7 +115,125 @@ export function updateMaskList(masks) {
   });
 }
 
-/** 一時効果: activeBuffs = [{ id, name?, remainingSec }], queue = [{ id, name? }] */
+/** バフタイプに対応する色（food.jsのFOOD_COLORSと対応） */
+const BUFF_TYPE_COLORS = {
+  energy: '#fbbf24',        // 黄
+  speedUp: '#22c55e',       // 緑
+  recoveryCooldownShort: '#3b82f6'  // 青
+};
+
+/** バフタイプに対応するアイコン */
+const BUFF_TYPE_ICONS = {
+  energy: '⚡',              // エネルギー
+  speedUp: '🚀',             // 速度アップ
+  recoveryCooldownShort: '⏱️'  // 回復短縮
+};
+
+/** バフタイプに対応する説明 */
+const BUFF_TYPE_LABELS = {
+  energy: 'エネルギー',
+  speedUp: '速度UP',
+  recoveryCooldownShort: '回復短縮'
+};
+
+/** 料理ジャンルに対応する絵文字 */
+const CUISINE_EMOJIS = {
+  // 日本料理
+  japanese: '🍱',
+  ramen: '🍜',
+  sushi: '🍣',
+  udon: '🍜',
+  soba: '🍜',
+  noodle: '🍜',
+  curry: '🍛',
+  tempura: '🍤',
+  tonkatsu: '🍖',
+  yakitori: '🍢',
+  izakaya: '🍶',
+  kaiseki: '🍱',
+  donburi: '🍚',
+  onigiri: '🍙',
+  bento: '🍱',
+  yakiniku: '🥩',
+  teppanyaki: '🥩',
+  okonomiyaki: '🥞',
+  takoyaki: '🐙',
+  gyudon: '🍚',
+  
+  // アジア料理
+  chinese: '🥟',
+  korean: '🥢',
+  thai: '🍜',
+  vietnamese: '🍜',
+  indian: '🍛',
+  indonesian: '🍛',
+  malaysian: '🍜',
+  taiwanese: '🥟',
+  asian: '🥢',
+  
+  // 西洋料理
+  italian: '🍝',
+  french: '🥐',
+  alsatian: '🥨',
+  german: '🥨',
+  spanish: '🥘',
+  american: '🍔',
+  burger: '🍔',
+  pizza: '🍕',
+  pasta: '🍝',
+  steak: '🥩',
+  steak_house: '🥩',
+  
+  // 軽食・カフェ
+  cafe: '☕',
+  coffee: '☕',
+  coffee_shop: '☕',
+  bakery: '🥖',
+  breakfast: '🍳',
+  sandwich: '🥪',
+  
+  // ファストフード・その他
+  fast_food: '🍟',
+  fried_food: '🍟',
+  fried_chicken: '🍗',
+  chicken: '🍗',
+  seafood: '🦐',
+  fish: '🐟',
+  vegetarian: '🥗',
+  vegan: '🥗',
+  salad: '🥗',
+  
+  // デフォルト
+  restaurant: '🍽️',
+  bar: '🍺',
+  pub: '🍺',
+  
+  // コンビニ・その他
+  convenience: '🏪',
+  supermarket: '🛒'
+};
+
+/** cuisineからベストマッチの絵文字を取得 */
+function getCuisineEmoji(cuisine) {
+  if (!cuisine) return '🍽️';
+  // セミコロンやカンマで区切られている場合は最初のものを使用
+  const cuisines = cuisine.toLowerCase().split(/[;,]/);
+  for (const c of cuisines) {
+    const trimmed = c.trim();
+    if (CUISINE_EMOJIS[trimmed]) {
+      return CUISINE_EMOJIS[trimmed];
+    }
+    // 部分一致も試す
+    for (const [key, emoji] of Object.entries(CUISINE_EMOJIS)) {
+      if (trimmed.includes(key) || key.includes(trimmed)) {
+        return emoji;
+      }
+    }
+  }
+  return '🍽️';
+}
+
+/** 一時効果: activeBuffs = [{ id, name?, remainingSec, shopName?, shopNameJa?, cuisine? }], queue = [...] */
 export function updateBuffQueue(activeBuffs, queue) {
   const activeEl = document.getElementById('buffActive');
   const queueEl = document.getElementById('buffQueue');
@@ -125,17 +243,68 @@ export function updateBuffQueue(activeBuffs, queue) {
   activeEl.innerHTML = '';
   active.forEach((b) => {
     const item = document.createElement('div');
-    item.className = 'buff-item';
-    item.title = `${b.name ?? ''} ${(b.remainingSec ?? 0).toFixed(1)}s`;
-    item.textContent = Math.ceil(b.remainingSec ?? 0);
+    item.className = 'buff-item buff-item-active';
+    // 表示名（日本語名優先）
+    const displayName = b.shopNameJa || b.shopName || b.name || '???';
+    const cuisineText = b.cuisine ? `【${b.cuisine}】` : '';
+    const buffIcon = BUFF_TYPE_ICONS[b.id] || '✨';
+    const foodIcon = getCuisineEmoji(b.cuisine);
+    const label = BUFF_TYPE_LABELS[b.id] || '';
+    const remainingSec = b.remainingSec ?? 0;
+    const durationMax = b.durationMax ?? 30;
+    const progress = Math.max(0, Math.min(100, (remainingSec / durationMax) * 100));
+    item.title = `${displayName} ${cuisineText} ${remainingSec.toFixed(1)}s`;
+    // タイプに応じた色を設定
+    const color = BUFF_TYPE_COLORS[b.id] || '#888';
+    item.style.position = 'relative';
+    item.style.backgroundColor = 'rgba(0,0,0,0.6)';
+    item.style.color = '#fff';
+    item.style.fontWeight = 'bold';
+    item.style.padding = '8px 12px';
+    item.style.textAlign = 'left';
+    item.style.borderRadius = '6px';
+    item.style.marginBottom = '4px';
+    item.style.overflow = 'hidden';
+    item.style.minWidth = '220px';
+    item.innerHTML = `
+      <div style="position:absolute;top:0;left:0;height:100%;width:${progress}%;background:${color};opacity:0.4;z-index:0;transition:width 0.1s;"></div>
+      <div style="position:relative;z-index:1;">
+        <div style="font-size:14px;white-space:normal;word-break:break-word;">
+          <span style="font-size:20px;margin-right:4px;">${foodIcon}</span>${displayName}
+        </div>
+        <div style="font-size:11px;opacity:0.9;margin-top:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span style="background:${color};color:#000;padding:1px 6px;border-radius:3px;font-size:10px;">${buffIcon} ${label}</span>
+          <span>${Math.ceil(remainingSec)}s</span>
+          ${cuisineText ? `<span style="opacity:0.7;">${cuisineText}</span>` : ''}
+        </div>
+      </div>
+    `;
     activeEl.appendChild(item);
   });
   queueEl.innerHTML = '';
-  q.slice(0, 3).forEach((b) => {
+  q.forEach((b, index) => {
     const item = document.createElement('div');
     item.className = 'buff-item';
-    item.title = b.name ?? '';
-    item.textContent = b.name?.slice(0, 1) ?? '?';
+    const displayName = b.shopNameJa || b.shopName || b.name || '???';
+    const cuisineText = b.cuisine ? `【${b.cuisine}】` : '';
+    const buffIcon = BUFF_TYPE_ICONS[b.id] || '✨';
+    const foodIcon = getCuisineEmoji(b.cuisine);
+    item.title = `${index + 1}. ${displayName} ${cuisineText} (${BUFF_TYPE_LABELS[b.id] || ''})`;
+    // タイプに応じた色を設定
+    const color = BUFF_TYPE_COLORS[b.id] || '#888';
+    item.style.backgroundColor = color;
+    item.style.color = '#000';
+    item.style.fontWeight = 'bold';
+    item.style.opacity = '0.85';
+    item.style.minWidth = '80px';
+    item.style.maxWidth = '160px';
+    item.style.padding = '4px 8px';
+    item.style.fontSize = '11px';
+    item.style.whiteSpace = 'nowrap';
+    item.style.overflow = 'hidden';
+    item.style.textOverflow = 'ellipsis';
+    item.style.borderRadius = '4px';
+    item.innerHTML = `<span style="font-size:14px;">${foodIcon}</span><span style="margin-left:2px;font-size:9px;">${buffIcon}</span> ${displayName.slice(0, 6)}`;
     queueEl.appendChild(item);
   });
 }
@@ -246,18 +415,18 @@ export function showItemPopup(name, nameJa, cuisine, typeId) {
   // 表示名を決定（日本語名優先）
   const displayName = nameJa || name || '???';
   const cuisineText = cuisine ? `【${cuisine}】` : '';
+  const foodIcon = getCuisineEmoji(cuisine);
+  const buffIcon = BUFF_TYPE_ICONS[typeId] || '✨';
+  const buffLabel = BUFF_TYPE_LABELS[typeId] || '';
   
   // 食べ物タイプに応じた色
-  const typeColors = {
-    energy: '#fbbf24',
-    speedUp: '#22c55e',
-    recoveryCooldownShort: '#3b82f6'
-  };
-  const typeColor = typeColors[typeId] || '#fff';
+  const typeColor = BUFF_TYPE_COLORS[typeId] || '#fff';
 
   itemPopupEl.innerHTML = `
+    <div style="font-size:32px;margin-bottom:4px;">${foodIcon}</div>
     <div style="font-size:20px;font-weight:bold;color:${typeColor};margin-bottom:4px;">${displayName}</div>
-    ${cuisineText ? `<div style="font-size:14px;color:#aaa;">${cuisineText}</div>` : ''}
+    ${cuisineText ? `<div style="font-size:14px;color:#aaa;margin-bottom:4px;">${cuisineText}</div>` : ''}
+    <div style="font-size:12px;color:${typeColor};"><span style="font-size:14px;">${buffIcon}</span> ${buffLabel}</div>
   `;
   itemPopupEl.style.opacity = '1';
   itemPopupEl.style.display = 'block';
