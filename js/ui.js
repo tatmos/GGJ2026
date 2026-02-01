@@ -55,6 +55,69 @@ export function hideGrowthDialog() {
 }
 
 // ============================================================
+// 敗北・輪廻転生ダイアログ
+// ============================================================
+
+/**
+ * 敗北ダイアログを表示
+ * @param {number} survivalSec 生存時間（秒）
+ * @param {number} reincarnation 転生回数
+ * @param {number} maskCount 引き継ぐマスク数
+ * @param {Function} onReincarnate 転生ボタンクリック時のコールバック
+ */
+export function showDefeatDialog(survivalSec, reincarnation, maskCount, onReincarnate) {
+  const dialog = document.getElementById('defeatDialog');
+  if (!dialog) return;
+  
+  // 統計を表示
+  const m = Math.floor(survivalSec / 60);
+  const s = Math.floor(survivalSec % 60);
+  const timeEl = document.getElementById('defeatSurvivalTime');
+  const reincEl = document.getElementById('defeatReincarnation');
+  const maskEl = document.getElementById('defeatMaskCount');
+  
+  if (timeEl) timeEl.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+  if (reincEl) reincEl.textContent = String(reincarnation);
+  if (maskEl) maskEl.textContent = String(maskCount);
+  
+  // ボタンにイベント設定
+  const button = document.getElementById('reincarnateButton');
+  if (button) {
+    const handler = () => {
+      button.removeEventListener('click', handler);
+      hideDefeatDialog();
+      onReincarnate();
+    };
+    button.addEventListener('click', handler);
+  }
+  
+  dialog.classList.remove('hidden');
+}
+
+/**
+ * 敗北ダイアログを非表示
+ */
+export function hideDefeatDialog() {
+  const dialog = document.getElementById('defeatDialog');
+  if (dialog) dialog.classList.add('hidden');
+}
+
+/**
+ * ライバル出現警告を表示（数秒後に自動で消える）
+ */
+export function showRivalWarning() {
+  const el = document.getElementById('rivalWarning');
+  if (!el) return;
+  
+  el.classList.remove('hidden');
+  
+  // 2秒後に消える
+  setTimeout(() => {
+    el.classList.add('hidden');
+  }, 2000);
+}
+
+// ============================================================
 // 戦闘ログ
 // ============================================================
 
@@ -479,28 +542,37 @@ export function updateBuffQueue(activeBuffs, queue) {
 export function updateEnemyGuide(enemies, playerPos, yaw, searchRange) {
   const listEl = document.getElementById('enemyGuideList');
   const containerEl = document.getElementById('enemyGuide');
+  const labelEl = containerEl?.querySelector('.enemy-guide-label');
   if (!listEl || !containerEl) return;
   const list = enemies ?? [];
   const range = searchRange ?? 50;
   const px = playerPos?.x ?? 0;
   const pz = playerPos?.z ?? 0;
-  const inRange = list.filter((e) => {
-    const dx = (e.x ?? 0) - px;
-    const dz = (e.z ?? 0) - pz;
-    return Math.sqrt(dx * dx + dz * dz) <= range;
-  });
-  listEl.innerHTML = '';
-  if (inRange.length === 0) {
-    const empty = document.createElement('div');
-    empty.className = 'enemy-guide-empty';
-    empty.textContent = '索敵中';
-    listEl.appendChild(empty);
+  
+  // 索敵範囲をラベルに表示
+  if (labelEl) {
+    labelEl.textContent = `索敵 (${Math.round(range)}m)`;
   }
-  inRange.forEach((e) => {
+  
+  // 範囲内・範囲外に分類
+  const inRange = [];
+  const outOfRange = [];
+  list.forEach((e) => {
     const dx = (e.x ?? 0) - px;
     const dz = (e.z ?? 0) - pz;
     const dist = Math.sqrt(dx * dx + dz * dz);
-    const angle = Math.atan2(-dx, -dz);
+    if (dist <= range) {
+      inRange.push({ ...e, dist, dx, dz });
+    } else {
+      outOfRange.push({ ...e, dist, dx, dz });
+    }
+  });
+  
+  listEl.innerHTML = '';
+  
+  // 範囲内の敵を表示
+  inRange.forEach((e) => {
+    const angle = Math.atan2(-e.dx, -e.dz);
     const relAngle = angle - yaw;
     const deg = (relAngle * 180 / Math.PI + 360) % 360;
     const item = document.createElement('div');
@@ -510,10 +582,27 @@ export function updateEnemyGuide(enemies, playerPos, yaw, searchRange) {
     arrow.style.transform = `rotate(${deg}deg)`;
     item.appendChild(arrow);
     const distSpan = document.createElement('span');
-    distSpan.textContent = Math.round(dist) + 'm';
+    distSpan.textContent = Math.round(e.dist) + 'm';
     item.appendChild(distSpan);
     listEl.appendChild(item);
   });
+  
+  // 範囲外の敵は「???」で表示（存在だけ伝える）
+  if (outOfRange.length > 0) {
+    const unknown = document.createElement('div');
+    unknown.className = 'enemy-guide-item enemy-guide-unknown';
+    unknown.innerHTML = `<span class="enemy-guide-question">?</span><span>+${outOfRange.length}</span>`;
+    listEl.appendChild(unknown);
+  }
+  
+  // 敵がいない場合
+  if (list.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'enemy-guide-empty';
+    empty.textContent = '敵なし';
+    listEl.appendChild(empty);
+  }
+  
   if (list.length === 0) {
     containerEl.classList.add('empty');
   } else {

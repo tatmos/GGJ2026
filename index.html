@@ -15,6 +15,23 @@
       <div class="growth-dialog-options" id="growthOptions"></div>
     </div>
   </div>
+  <!-- 敗北・輪廻転生ダイアログ -->
+  <div id="defeatDialog" class="defeat-dialog hidden">
+    <div class="defeat-dialog-content">
+      <div class="defeat-dialog-title">敗北...</div>
+      <div class="defeat-dialog-stats">
+        <div>生存時間: <span id="defeatSurvivalTime">0:00</span></div>
+        <div>転生回数: <span id="defeatReincarnation">0</span></div>
+        <div>引き継ぐマスク: <span id="defeatMaskCount">0</span> 個</div>
+      </div>
+      <div class="defeat-dialog-subtitle">輪廻転生して再び挑戦しよう</div>
+      <button class="defeat-dialog-button" id="reincarnateButton">転生する</button>
+    </div>
+  </div>
+  <!-- ライバル出現警告 -->
+  <div id="rivalWarning" class="rival-warning hidden">
+    <div class="rival-warning-text">⚠ ライバル出現 ⚠</div>
+  </div>
   <div id="loading-overlay">
     <div class="spinner"></div>
     <div class="text">Loading... / 読み込み中</div>

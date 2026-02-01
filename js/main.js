@@ -80,7 +80,9 @@ import {
   updateEquipmentUI,
   addCombatLog,
   showGrowthDialog,
-  hideGrowthDialog
+  hideGrowthDialog,
+  showDefeatDialog,
+  showRivalWarning
 } from './ui.js';
 import {
   ENEMY_CONFIG,
@@ -254,8 +256,101 @@ const gameState = {
   /** 最後に成長選択が発生した5分単位の回数 */
   lastGrowthMilestone: 0,
   /** ゲームがポーズ中か */
-  paused: false
+  paused: false,
+  /** 敗北中か */
+  isDefeated: false,
+  /** ライバル出現用タイマー */
+  rivalSpawnTimer: 0,
+  /** 現在のライバル（いない場合はnull） */
+  rival: null
 };
+
+/** ライバル出現間隔（秒） */
+const RIVAL_SPAWN_INTERVAL_SEC = 15 * 60; // 15分
+
+/** 初期パラメータ値（輪廻転生時のリセット用） */
+const INITIAL_PARAMS = {
+  attack: 10,
+  defense: 5,
+  evasion: 5,
+  pickupRange: 5,
+  grip: 1,
+  absorb: 1,
+  search: 5
+};
+
+/**
+ * 敗北処理（輪廻転生ダイアログを表示）
+ */
+function handleDefeat() {
+  if (gameState.isDefeated) return;
+  gameState.isDefeated = true;
+  gameState.paused = true;
+  
+  // 引き継ぐマスク数 = 転生回数（次の転生で+1されるので現在値+1）
+  const maskCountToKeep = Math.min(
+    gameState.reincarnation + 1,
+    gameState.maskInventory.masks.length
+  );
+  
+  showDefeatDialog(
+    gameState.survivalSec,
+    gameState.reincarnation,
+    maskCountToKeep,
+    () => reincarnate(maskCountToKeep)
+  );
+}
+
+/**
+ * 輪廻転生処理
+ * @param {number} maskCountToKeep 引き継ぐマスク数
+ */
+function reincarnate(maskCountToKeep) {
+  // 転生回数を増やす
+  gameState.reincarnation++;
+  
+  // マスクを一部引き継ぎ（レベルが高い順に保持）
+  const sortedMasks = [...gameState.maskInventory.masks].sort((a, b) => b.level - a.level);
+  gameState.maskInventory.masks = sortedMasks.slice(0, maskCountToKeep);
+  gameState.masks = getMasksForDisplay(gameState.maskInventory);
+  
+  // パラメータをリセット
+  Object.assign(gameState, INITIAL_PARAMS);
+  
+  // 装備・バッグをリセット
+  gameState.equipmentInventory = createInventory();
+  
+  // バフをリセット
+  gameState.activeBuff = null;
+  gameState.buffQueue = [];
+  
+  // 生存時間・成長マイルストーンをリセット
+  gameState.survivalSec = 0;
+  gameState.lastGrowthMilestone = 0;
+  gameState.growthPending = false;
+  
+  // ライバルタイマーをリセット
+  gameState.rivalSpawnTimer = 0;
+  gameState.rival = null;
+  gameState.bossHp = null;
+  
+  // 敵スポーンタイマーをリセット
+  gameState.enemySpawnTimer = 0;
+  gameState.nextEnemySpawnSec = 30;
+  
+  // エネルギーを回復
+  energy = 100;
+  
+  // カメラを初期位置に戻す
+  camera.position.set(0, 80, 0);
+  yaw = 0;
+  
+  // 状態をリセット
+  gameState.isDefeated = false;
+  gameState.paused = false;
+  
+  addCombatLog(`転生回数 ${gameState.reincarnation} で再開！`, 'mask');
+}
 
 const debugFpsEl = document.getElementById('debugFps');
 const debugMenuEl = document.getElementById('debugMenu');
@@ -703,6 +798,46 @@ function animate() {
     addCombatLog('成長の時が来た！アイテムを取得しよう', 'mask');
   }
 
+  // === ライバル出現（15分ごと） ===
+  gameState.rivalSpawnTimer += dt;
+  if (gameState.rivalSpawnTimer >= RIVAL_SPAWN_INTERVAL_SEC && gameState.rival === null) {
+    gameState.rivalSpawnTimer = 0;
+    
+    // ライバルをスポーン（プレイヤーから離れた位置に）
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 50 + Math.random() * 30;
+    const spawnX = camera.position.x + Math.cos(angle) * distance;
+    const spawnZ = camera.position.z + Math.sin(angle) * distance;
+    
+    // ライバルの強さはプレイヤーのベース能力を基準に
+    const rivalStrength = 3; // 通常の敵より強い
+    const rival = spawnEnemy(scene, spawnX, spawnZ, rivalStrength);
+    rival.isRival = true;
+    rival.hp = 100; // ライバルはHPが高い
+    rival.maxHp = 100;
+    gameState.rival = rival;
+    
+    // ボスUIに反映
+    gameState.bossHp = rival.hp;
+    gameState.bossHpMax = rival.maxHp;
+    gameState.bossMaskCount = rival.masks.length;
+    
+    showRivalWarning();
+    addCombatLog('⚠ ライバルが出現した！', 'damage');
+  }
+  
+  // ライバルのHP更新
+  if (gameState.rival) {
+    if (!gameState.rival.isAlive) {
+      addCombatLog('ライバルを撃破！', 'defeat');
+      gameState.rival = null;
+      gameState.bossHp = null;
+    } else {
+      gameState.bossHp = gameState.rival.hp;
+      gameState.bossMaskCount = gameState.rival.masks.length;
+    }
+  }
+
   // === 敵システム ===
   
   // 敵スポーン
@@ -744,6 +879,12 @@ function animate() {
   if (enemyDamage > 0) {
     energy = Math.max(0, energy - enemyDamage);
     addCombatLog(`敵から攻撃を受けた！ ${enemyDamage} ダメージ`, 'damage');
+    
+    // 敗北判定
+    if (energy <= 0) {
+      handleDefeat();
+      return; // このフレームの処理を中断
+    }
   }
   
   // ダメージ表示更新
@@ -839,7 +980,11 @@ function animate() {
   );
   updateMaskList(gameState.masks);
   updateBuffQueue(getActiveBuffsForDisplay(gameState), getBuffQueueForDisplay(gameState));
-  updateEnemyGuide(gameState.enemies, camera.position, yaw, gameState.searchRange);
+  
+  // 実効索敵範囲 = 基本範囲(30) + search × 5 × 装備効果(detection)
+  const baseSearchRange = 30;
+  const effectiveSearchRange = (baseSearchRange + gameState.search * 5) * equipEffects.detection;
+  updateEnemyGuide(gameState.enemies, camera.position, yaw, effectiveSearchRange);
   if (gameState.bossHp != null) {
     updateBossPanel(gameState.bossHp, gameState.bossHpMax, gameState.bossMaskCount);
   } else {
