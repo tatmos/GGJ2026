@@ -649,6 +649,139 @@ renderer.domElement.addEventListener('click', (e) => {
   updateBirdEyeCoordDisplay();
 });
 
+// ============================================================
+// モバイル用タッチコントロール
+// ============================================================
+
+/** タッチ入力の状態 */
+const touchInput = {
+  turn: 0,    // -1（左）〜 1（右）
+  speed: 0,   // -1（減速）〜 1（加速）
+};
+
+/** 左ジョイスティック（旋回） */
+const joystickLeft = document.getElementById('joystickLeft');
+const joystickLeftStick = document.getElementById('joystickLeftStick');
+let leftTouchId = null;
+let leftCenterX = 0;
+let leftCenterY = 0;
+
+/** 右ジョイスティック（速度） */
+const joystickRight = document.getElementById('joystickRight');
+const joystickRightStick = document.getElementById('joystickRightStick');
+let rightTouchId = null;
+let rightCenterX = 0;
+let rightCenterY = 0;
+
+const JOYSTICK_RADIUS = 35; // スティックの移動範囲
+
+function handleJoystickStart(e, isLeft) {
+  e.preventDefault();
+  initSound();
+  
+  for (const touch of e.changedTouches) {
+    if (isLeft && leftTouchId === null) {
+      leftTouchId = touch.identifier;
+      const rect = joystickLeft.querySelector('.joystick-base').getBoundingClientRect();
+      leftCenterX = rect.left + rect.width / 2;
+      leftCenterY = rect.top + rect.height / 2;
+      updateJoystick(touch, isLeft);
+    } else if (!isLeft && rightTouchId === null) {
+      rightTouchId = touch.identifier;
+      const rect = joystickRight.querySelector('.joystick-base').getBoundingClientRect();
+      rightCenterX = rect.left + rect.width / 2;
+      rightCenterY = rect.top + rect.height / 2;
+      updateJoystick(touch, isLeft);
+    }
+  }
+}
+
+function handleJoystickMove(e, isLeft) {
+  e.preventDefault();
+  
+  for (const touch of e.changedTouches) {
+    if (isLeft && touch.identifier === leftTouchId) {
+      updateJoystick(touch, true);
+    } else if (!isLeft && touch.identifier === rightTouchId) {
+      updateJoystick(touch, false);
+    }
+  }
+}
+
+function handleJoystickEnd(e, isLeft) {
+  for (const touch of e.changedTouches) {
+    if (isLeft && touch.identifier === leftTouchId) {
+      leftTouchId = null;
+      touchInput.turn = 0;
+      if (joystickLeftStick) joystickLeftStick.style.transform = 'translate(0, 0)';
+    } else if (!isLeft && touch.identifier === rightTouchId) {
+      rightTouchId = null;
+      touchInput.speed = 0;
+      if (joystickRightStick) joystickRightStick.style.transform = 'translate(0, 0)';
+      stopAfterburner();
+      stopRetroThrust();
+    }
+  }
+}
+
+function updateJoystick(touch, isLeft) {
+  const centerX = isLeft ? leftCenterX : rightCenterX;
+  const centerY = isLeft ? leftCenterY : rightCenterY;
+  
+  let dx = touch.clientX - centerX;
+  let dy = touch.clientY - centerY;
+  
+  const dist = Math.sqrt(dx * dx + dy * dy);
+  if (dist > JOYSTICK_RADIUS) {
+    dx = (dx / dist) * JOYSTICK_RADIUS;
+    dy = (dy / dist) * JOYSTICK_RADIUS;
+  }
+  
+  const stick = isLeft ? joystickLeftStick : joystickRightStick;
+  if (stick) {
+    stick.style.transform = `translate(${dx}px, ${dy}px)`;
+  }
+  
+  if (isLeft) {
+    // 左ジョイスティック: 左右で旋回
+    touchInput.turn = dx / JOYSTICK_RADIUS;
+  } else {
+    // 右ジョイスティック: 上下で速度
+    touchInput.speed = -dy / JOYSTICK_RADIUS; // 上がプラス
+    
+    // 速度に応じてエンジン音を制御
+    if (touchInput.speed > 0.3) {
+      startAfterburner();
+      stopRetroThrust();
+    } else if (touchInput.speed < -0.3) {
+      stopAfterburner();
+      startRetroThrust();
+    } else {
+      stopAfterburner();
+      stopRetroThrust();
+    }
+  }
+}
+
+// ジョイスティックイベントを登録
+if (joystickLeft) {
+  joystickLeft.addEventListener('touchstart', (e) => handleJoystickStart(e, true), { passive: false });
+  joystickLeft.addEventListener('touchmove', (e) => handleJoystickMove(e, true), { passive: false });
+  joystickLeft.addEventListener('touchend', (e) => handleJoystickEnd(e, true));
+  joystickLeft.addEventListener('touchcancel', (e) => handleJoystickEnd(e, true));
+}
+
+if (joystickRight) {
+  joystickRight.addEventListener('touchstart', (e) => handleJoystickStart(e, false), { passive: false });
+  joystickRight.addEventListener('touchmove', (e) => handleJoystickMove(e, false), { passive: false });
+  joystickRight.addEventListener('touchend', (e) => handleJoystickEnd(e, false));
+  joystickRight.addEventListener('touchcancel', (e) => handleJoystickEnd(e, false));
+}
+
+// ============================================================
+// キーボード入力
+// ============================================================
+
 document.addEventListener('keydown', (e) => {
   // 最初のキー入力でサウンド初期化
   initSound();
@@ -738,8 +871,14 @@ function animate() {
     }
   }
 
+  // キーボード入力での旋回
   if (keys.a) yaw += turnSpeed * dt;
   if (keys.d) yaw -= turnSpeed * dt;
+  
+  // タッチ入力での旋回
+  if (touchInput.turn !== 0) {
+    yaw -= touchInput.turn * turnSpeed * dt;
+  }
 
   // 敵へのソフトロックオンは無効化（酔いの原因になるため）
   // カメラは完全にプレイヤー操作のみで動く
@@ -790,26 +929,35 @@ function animate() {
   );
 
   speedMultiplier = 1;
-  if (keys.w && energy > 0) {
-    speedMultiplier = 1.6;
-    energy = Math.max(0, energy - energyCostPerSec * dt);
+  
+  // キーボード入力での加速/減速
+  const isAccelerating = keys.w || touchInput.speed > 0.3;
+  const isDecelerating = keys.s || touchInput.speed < -0.3;
+  
+  if (isAccelerating && energy > 0) {
+    // タッチの場合は入力量に応じて加速度を調整
+    const accelAmount = keys.w ? 1 : Math.abs(touchInput.speed);
+    speedMultiplier = 1 + 0.6 * accelAmount;
+    energy = Math.max(0, energy - energyCostPerSec * dt * accelAmount);
     recoveryCooldown = effectiveRecoveryCooldownSec;
     hoverGraceElapsed = 0;
     // エネルギーが尽きたらサウンド停止
     if (energy <= 0) stopAfterburner();
-  } else if (keys.w && energy <= 0) {
-    // エネルギー切れでW押下中はサウンド停止
+  } else if (isAccelerating && energy <= 0) {
+    // エネルギー切れでサウンド停止
     stopAfterburner();
   }
-  if (keys.s && energy > 0) {
-    speedMultiplier = 0.5;
-    energy = Math.max(0, energy - energyCostPerSec * dt);
+  if (isDecelerating && energy > 0) {
+    // タッチの場合は入力量に応じて減速度を調整
+    const decelAmount = keys.s ? 1 : Math.abs(touchInput.speed);
+    speedMultiplier = 1 - 0.5 * decelAmount;
+    energy = Math.max(0, energy - energyCostPerSec * dt * decelAmount);
     recoveryCooldown = effectiveRecoveryCooldownSec;
     hoverGraceElapsed = 0;
     // エネルギーが尽きたらサウンド停止
     if (energy <= 0) stopRetroThrust();
-  } else if (keys.s && energy <= 0) {
-    // エネルギー切れでS押下中はサウンド停止
+  } else if (isDecelerating && energy <= 0) {
+    // エネルギー切れでサウンド停止
     stopRetroThrust();
   }
   // 回復クールダウン（装備効果で短縮）
@@ -817,7 +965,8 @@ function animate() {
   recoveryCooldown = Math.max(0, recoveryCooldown - dt * effectiveRecoveryCooldownReduction);
   
   // エネルギー回復（装備効果で増加）
-  if (!keys.w && !keys.s && recoveryCooldown <= 0) {
+  const isUsingEnergy = isAccelerating || isDecelerating;
+  if (!isUsingEnergy && recoveryCooldown <= 0) {
     const effectiveEnergyRegen = energyRecoveryPerSec * equipEffects.energyRegen;
     energy = Math.min(100, energy + effectiveEnergyRegen * dt);
   }
@@ -844,10 +993,20 @@ function animate() {
   // 上昇/下降（装備効果を適用）
   const effectiveVerticalSpeed = verticalSpeed * equipEffects.verticalSpeed * equipEffects.speed;
   let verticalInput = 0;
+  // キーボード入力
   if (keys.w && energy > 0) { camera.position.y += effectiveVerticalSpeed * dt; verticalInput = 1; }
   if (keys.s) { camera.position.y -= effectiveVerticalSpeed * dt; verticalInput = -1; }
   if (keys.q) { camera.position.y += effectiveVerticalSpeed * dt; verticalInput = 1; }
   if (keys.e) { camera.position.y -= effectiveVerticalSpeed * dt; verticalInput = -1; }
+  // タッチ入力での上昇/下降
+  if (touchInput.speed > 0.3 && energy > 0) {
+    camera.position.y += effectiveVerticalSpeed * dt * touchInput.speed;
+    verticalInput = touchInput.speed;
+  }
+  if (touchInput.speed < -0.3) {
+    camera.position.y -= effectiveVerticalSpeed * dt * Math.abs(touchInput.speed);
+    verticalInput = touchInput.speed;
+  }
   
   // カメラピッチ（上下傾き）の計算
   const maxPitch = Math.PI / 12; // 最大15度傾く
@@ -855,7 +1014,8 @@ function animate() {
   const targetPitch = -verticalInput * maxPitch; // 上昇で下向き、下降で上向き
   cameraPitch += (targetPitch - cameraPitch) * pitchSpeed * dt;
   const hoverGrace = gameState.hoverGraceTimeSec ?? hoverGraceTimeSec;
-  if (!keys.w && !keys.s && !keys.q && !keys.e) {
+  const isTouchIdle = Math.abs(touchInput.speed) < 0.3;
+  if (!keys.w && !keys.s && !keys.q && !keys.e && isTouchIdle) {
     hoverGraceElapsed += dt;
     if (hoverGraceElapsed >= hoverGrace && camera.position.y > minHeight) {
       camera.position.y -= autoDescendSpeed * dt;

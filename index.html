@@ -194,6 +194,26 @@
   </script>
   <!-- 敵ラベルコンテナ -->
   <div id="enemyLabels" class="enemy-labels-container"></div>
+  
+  <!-- モバイル用タッチコントロール -->
+  <div id="touchControls" class="touch-controls">
+    <!-- 左側: 旋回用ジョイスティック -->
+    <div class="touch-joystick touch-joystick-left" id="joystickLeft">
+      <div class="joystick-base">
+        <div class="joystick-stick" id="joystickLeftStick"></div>
+      </div>
+      <div class="joystick-label">旋回</div>
+    </div>
+    
+    <!-- 右側: 速度用ジョイスティック -->
+    <div class="touch-joystick touch-joystick-right" id="joystickRight">
+      <div class="joystick-base">
+        <div class="joystick-stick" id="joystickRightStick"></div>
+      </div>
+      <div class="joystick-label">速度</div>
+    </div>
+  </div>
+  
   <script type="module" src="js/main.js"></script>
 </body>
 </html>
