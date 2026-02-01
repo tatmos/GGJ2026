@@ -171,17 +171,75 @@ function createHumanoidMesh(enemy) {
   head.position.y = 2.2;
   group.add(head);
   
-  // マスク（顔の前面）
-  const maskGeo = new THREE.PlaneGeometry(0.5, 0.4);
+  // マスク（顔の前面）- 目と装飾付き
+  const maskGroup = new THREE.Group();
+  maskGroup.position.set(0, 2.2, 0.35);
+  
+  // マスク本体（少し丸みを帯びた形状）
+  const maskGeo = new THREE.PlaneGeometry(0.55, 0.45, 4, 4);
+  // 頂点を少し曲げてお面らしく
+  const positions = maskGeo.attributes.position;
+  for (let i = 0; i < positions.count; i++) {
+    const x = positions.getX(i);
+    const y = positions.getY(i);
+    const z = Math.sqrt(Math.max(0, 0.1 - x * x * 0.3 - y * y * 0.4)) * 0.3;
+    positions.setZ(i, z);
+  }
+  maskGeo.computeVertexNormals();
+  
   const maskMat = new THREE.MeshStandardMaterial({
     color: primaryMask?.color ?? 0xffffff,
     side: THREE.DoubleSide,
     emissive: primaryMask?.color ?? 0xffffff,
     emissiveIntensity: 0.3,
   });
-  const mask = new THREE.Mesh(maskGeo, maskMat);
-  mask.position.set(0, 2.2, 0.35);
-  group.add(mask);
+  const maskBase = new THREE.Mesh(maskGeo, maskMat);
+  maskGroup.add(maskBase);
+  
+  // 目の穴（左目）
+  const eyeGeo = new THREE.CircleGeometry(0.08, 8);
+  const eyeMat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+  const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+  leftEye.position.set(-0.12, 0.05, 0.05);
+  maskGroup.add(leftEye);
+  
+  // 目の穴（右目）
+  const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+  rightEye.position.set(0.12, 0.05, 0.05);
+  maskGroup.add(rightEye);
+  
+  // 眉（左）- 斜めの線
+  const browGeo = new THREE.PlaneGeometry(0.12, 0.025);
+  const browMat = new THREE.MeshBasicMaterial({ color: 0x222222, side: THREE.DoubleSide });
+  const leftBrow = new THREE.Mesh(browGeo, browMat);
+  leftBrow.position.set(-0.12, 0.14, 0.06);
+  leftBrow.rotation.z = 0.2;
+  maskGroup.add(leftBrow);
+  
+  // 眉（右）
+  const rightBrow = new THREE.Mesh(browGeo, browMat);
+  rightBrow.position.set(0.12, 0.14, 0.06);
+  rightBrow.rotation.z = -0.2;
+  maskGroup.add(rightBrow);
+  
+  // 口（表情はマスクの種類で変える）
+  const mouthGeo = new THREE.PlaneGeometry(0.15, 0.04);
+  const mouthMat = new THREE.MeshBasicMaterial({ color: 0x111111, side: THREE.DoubleSide });
+  const mouth = new THREE.Mesh(mouthGeo, mouthMat);
+  mouth.position.set(0, -0.1, 0.05);
+  maskGroup.add(mouth);
+  
+  // マスクの縁取り
+  const rimGeo = new THREE.RingGeometry(0.26, 0.28, 16);
+  const rimMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(primaryMask?.color ?? 0xffffff).multiplyScalar(0.6),
+    side: THREE.DoubleSide,
+  });
+  const rim = new THREE.Mesh(rimGeo, rimMat);
+  rim.position.z = -0.01;
+  maskGroup.add(rim);
+  
+  group.add(maskGroup);
   
   // 追加マスク（複数持っている場合は頭上に表示）
   for (let i = 1; i < enemy.masks.length; i++) {

@@ -15,20 +15,86 @@ const droppedMasks = [];
 export const MASK_COLLECT_RADIUS = 4;
 
 /**
+ * マスクの3Dメッシュを生成（目と装飾付き）
+ */
+function createMaskMesh(color) {
+  const group = new THREE.Group();
+  
+  // マスク本体（少し丸みを帯びた形状）
+  const maskGeo = new THREE.PlaneGeometry(0.8, 0.65, 4, 4);
+  // 頂点を少し曲げてお面らしく
+  const positions = maskGeo.attributes.position;
+  for (let i = 0; i < positions.count; i++) {
+    const px = positions.getX(i);
+    const py = positions.getY(i);
+    const pz = Math.sqrt(Math.max(0, 0.15 - px * px * 0.2 - py * py * 0.3)) * 0.4;
+    positions.setZ(i, pz);
+  }
+  maskGeo.computeVertexNormals();
+  
+  const maskMat = new THREE.MeshStandardMaterial({
+    color: color,
+    side: THREE.DoubleSide,
+    emissive: color,
+    emissiveIntensity: 0.4,
+  });
+  const maskBase = new THREE.Mesh(maskGeo, maskMat);
+  group.add(maskBase);
+  
+  // 目の穴（左目）
+  const eyeGeo = new THREE.CircleGeometry(0.12, 8);
+  const eyeMat = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.DoubleSide });
+  const leftEye = new THREE.Mesh(eyeGeo, eyeMat);
+  leftEye.position.set(-0.18, 0.08, 0.08);
+  group.add(leftEye);
+  
+  // 目の穴（右目）
+  const rightEye = new THREE.Mesh(eyeGeo, eyeMat);
+  rightEye.position.set(0.18, 0.08, 0.08);
+  group.add(rightEye);
+  
+  // 眉（左）
+  const browGeo = new THREE.PlaneGeometry(0.16, 0.035);
+  const browMat = new THREE.MeshBasicMaterial({ color: 0x222222, side: THREE.DoubleSide });
+  const leftBrow = new THREE.Mesh(browGeo, browMat);
+  leftBrow.position.set(-0.18, 0.22, 0.09);
+  leftBrow.rotation.z = 0.25;
+  group.add(leftBrow);
+  
+  // 眉（右）
+  const rightBrow = new THREE.Mesh(browGeo, browMat);
+  rightBrow.position.set(0.18, 0.22, 0.09);
+  rightBrow.rotation.z = -0.25;
+  group.add(rightBrow);
+  
+  // 口
+  const mouthGeo = new THREE.PlaneGeometry(0.22, 0.06);
+  const mouthMat = new THREE.MeshBasicMaterial({ color: 0x111111, side: THREE.DoubleSide });
+  const mouth = new THREE.Mesh(mouthGeo, mouthMat);
+  mouth.position.set(0, -0.15, 0.08);
+  group.add(mouth);
+  
+  // マスクの縁取り
+  const rimGeo = new THREE.RingGeometry(0.38, 0.42, 16);
+  const rimMat = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(color).multiplyScalar(0.5),
+    side: THREE.DoubleSide,
+  });
+  const rim = new THREE.Mesh(rimGeo, rimMat);
+  rim.position.z = -0.01;
+  group.add(rim);
+  
+  return group;
+}
+
+/**
  * マスクをドロップ
  */
 export function dropMask(scene, x, y, z, maskData) {
   const id = `mask_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   
-  // マスクの3Dオブジェクト
-  const geometry = new THREE.CircleGeometry(0.4, 8);
-  const material = new THREE.MeshStandardMaterial({
-    color: maskData.color,
-    side: THREE.DoubleSide,
-    emissive: maskData.color,
-    emissiveIntensity: 0.5,
-  });
-  const mesh = new THREE.Mesh(geometry, material);
+  // マスクの3Dオブジェクト（目と装飾付き）
+  const mesh = createMaskMesh(maskData.color);
   mesh.position.set(x, y + 1, z);
   mesh.rotation.x = -Math.PI / 4;
   scene.add(mesh);
