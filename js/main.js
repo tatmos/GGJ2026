@@ -113,6 +113,23 @@ import {
   getMasksForDisplay,
   MASK_COLLECT_RADIUS
 } from './mask.js';
+import {
+  initSound,
+  playSoundItemPickup,
+  playSoundEquipmentPickup,
+  playSoundMaskPickup,
+  playSoundMaskSynth,
+  playSoundAttack,
+  playSoundDamage,
+  playSoundEnemyDefeat,
+  playSoundGrowth,
+  playSoundGrowthComplete,
+  playSoundRivalAppear,
+  playSoundDefeat,
+  playSoundReincarnate,
+  playSoundMaskDrop,
+  playSoundEnemyPickupMask
+} from './sound.js';
 
 const { scene, camera, renderer, ground, checkerTexProximity, cityRoot } = createScene();
 document.body.appendChild(renderer.domElement);
@@ -295,6 +312,7 @@ function handleDefeat() {
   if (gameState.isDefeated) return;
   gameState.isDefeated = true;
   gameState.paused = true;
+  playSoundDefeat();
   
   // 引き継ぐマスク数 = 転生回数（次の転生で+1されるので現在値+1）
   const maskCountToKeep = Math.min(
@@ -315,6 +333,8 @@ function handleDefeat() {
  * @param {number} maskCountToKeep 引き継ぐマスク数
  */
 function reincarnate(maskCountToKeep) {
+  playSoundReincarnate();
+  
   // 転生回数を増やす
   gameState.reincarnation++;
   
@@ -532,6 +552,9 @@ renderer.domElement.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
+  // 最初のキー入力でサウンド初期化
+  initSound();
+  
   // 俯瞰モード時は矢印キーで移動、+/-でズーム
   if (birdEyeMode) {
     const moveAmount = birdEyeMoveSpeed * 0.1;
@@ -797,6 +820,7 @@ function animate() {
       }
       // お店の名前と料理ジャンルを表示
       showItemPopup(f.name, f.nameJa, f.cuisine, f.typeId);
+      playSoundItemPickup();
       
       // 成長選択フラグが立っていたらダイアログを表示
       if (gameState.growthPending && !gameState.paused) {
@@ -820,12 +844,14 @@ function animate() {
           search: '索敵'
         };
         
+        playSoundGrowth();
         showGrowthDialog(optionCount, (paramId, value) => {
           // パラメータを成長させる
           if (gameState[paramId] !== undefined) {
             gameState[paramId] += value;
             const nameJa = PARAM_NAMES_JA[paramId] || paramId;
             addCombatLog(`${nameJa} が +${value} 上昇！`, 'attack');
+            playSoundGrowthComplete();
           }
           gameState.paused = false;
         });
@@ -883,6 +909,7 @@ function animate() {
         });
         // 取得ポップアップ表示
         showEquipmentPopup(e);
+        playSoundEquipmentPickup();
         console.log(`[Equipment] 取得: ${e.icon} ${e.nameJa} (${e.effect}: ${e.value > 0 ? '+' : ''}${(e.value * 100).toFixed(0)}%)`);
       } else {
         // スロットが満杯の場合（後で交換UIを追加予定）
@@ -927,6 +954,7 @@ function animate() {
     gameState.bossMaskCount = rival.masks.length;
     
     showRivalWarning();
+    playSoundRivalAppear();
     addCombatLog('⚠ ライバルが出現した！', 'damage');
   }
   
@@ -969,6 +997,7 @@ function animate() {
   for (const { enemy, mask } of enemyPickedMasks) {
     const enemyName = enemy.masks[0]?.nameJa || '敵';
     addCombatLog(`${enemyName} が ${mask.nameJa} を奪った！`, 'mask');
+    playSoundEnemyPickupMask();
   }
   
   // プレイヤーの自動攻撃（装備効果 + マスク効果）
@@ -980,6 +1009,7 @@ function animate() {
   };
   const attackResult = playerAttack(dt, camera.position, playerStats, getAliveEnemies(), scene);
   if (attackResult.attacked && attackResult.target) {
+    playSoundAttack();
     const targetName = attackResult.target.masks[0]?.nameJa || '敵';
     if (attackResult.target.isAlive) {
       addCombatLog(`${targetName} に ${attackResult.damage} ダメージ！`, 'attack');
@@ -992,6 +1022,7 @@ function animate() {
     const previousEnergy = energy;
     energy = Math.max(0, energy - enemyDamage);
     addCombatLog(`敵から攻撃を受けた！ ${enemyDamage} ダメージ`, 'damage');
+    playSoundDamage();
     
     // 大ダメージ判定（一撃で25%以上のダメージ）→ マスクを1つ落とす
     const damagePercent = enemyDamage / 100;
@@ -1014,6 +1045,7 @@ function animate() {
       });
       
       addCombatLog(`大ダメージ！${droppedMaskData.nameJa} を落とした！`, 'damage');
+      playSoundMaskDrop();
     }
     
     // 敗北判定
@@ -1031,6 +1063,7 @@ function animate() {
   for (const enemy of deadEnemies) {
     const enemyName = enemy.masks[0]?.nameJa || '敵';
     addCombatLog(`${enemyName} を倒した！`, 'defeat');
+    playSoundEnemyDefeat();
     dropMasksFromEnemy(scene, enemy);
   }
   
@@ -1069,11 +1102,13 @@ function animate() {
     if (distSq < effectiveMaskRadius * effectiveMaskRadius) {
       collectMask(scene, mask);
       const result = addMaskToInventory(gameState.maskInventory, mask, gameState.absorb);
-      // ログ表示
+      // ログ表示 & 効果音
       if (result.isNew) {
         addCombatLog(`${mask.nameJa} を入手！`, 'mask');
+        playSoundMaskPickup();
       } else {
         addCombatLog(`${mask.nameJa} Lv${result.mask.level} に合成！`, 'mask');
+        playSoundMaskSynth();
       }
       // UI用のmasksを更新
       gameState.masks = getMasksForDisplay(gameState.maskInventory);
