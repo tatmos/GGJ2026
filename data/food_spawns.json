@@ -31,7 +31,7 @@
   "count": 257,
   "spawns": [
     {
-      "id": "shop_10269667475",
+      "id": "food_10269667475",
       "name": "Axis",
       "nameJa": "",
       "category": "bar",
@@ -43,7 +43,7 @@
       "realLng": 139.7863164
     },
     {
-      "id": "shop_651691697",
+      "id": "food_651691697",
       "name": "BROS TOKYO",
       "nameJa": "",
       "category": "restaurant",
@@ -55,7 +55,7 @@
       "realLng": 139.7783366
     },
     {
-      "id": "shop_5173139162",
+      "id": "food_5173139162",
       "name": "Bistro Ichigo",
       "nameJa": "ビストロいちご",
       "category": "restaurant",
@@ -67,7 +67,7 @@
       "realLng": 139.7855014
     },
     {
-      "id": "shop_5581526538",
+      "id": "food_5581526538",
       "name": "Bois de Boulogne",
       "nameJa": "ボワ・ド・ブローニュ",
       "category": "bakery",
@@ -79,7 +79,7 @@
       "realLng": 139.7806149
     },
     {
-      "id": "shop_12861834701",
+      "id": "food_12861834701",
       "name": "Bouquet",
       "nameJa": "",
       "category": "cafe",
@@ -91,7 +91,7 @@
       "realLng": 139.7840571
     },
     {
-      "id": "shop_11232811948",
+      "id": "food_11232811948",
       "name": "Bridge",
       "nameJa": "",
       "category": "cafe",
@@ -103,7 +103,7 @@
       "realLng": 139.7839469
     },
     {
-      "id": "shop_5185288586",
+      "id": "food_5185288586",
       "name": "CAFE BY PREGO",
       "nameJa": "",
       "category": "cafe",
@@ -115,7 +115,7 @@
       "realLng": 139.7839719
     },
     {
-      "id": "shop_5637244256",
+      "id": "food_5637244256",
       "name": "COFFEE HIRO",
       "nameJa": "",
       "category": "cafe",
@@ -127,7 +127,7 @@
       "realLng": 139.785144
     },
     {
-      "id": "shop_5185152691",
+      "id": "food_5185152691",
       "name": "Cafe de Leo",
       "nameJa": "",
       "category": "cafe",
@@ -139,7 +139,7 @@
       "realLng": 139.7837915
     },
     {
-      "id": "shop_5185152679",
+      "id": "food_5185152679",
       "name": "Cafe 梅の木",
       "nameJa": "",
       "category": "cafe",
@@ -151,7 +151,7 @@
       "realLng": 139.7839565
     },
     {
-      "id": "shop_7944867263",
+      "id": "food_7944867263",
       "name": "Cameleon",
       "nameJa": "",
       "category": "restaurant",
@@ -163,7 +163,7 @@
       "realLng": 139.7836339
     },
     {
-      "id": "shop_4000345858",
+      "id": "food_4000345858",
       "name": "CoCo壱番屋",
       "nameJa": "CoCo壱番屋",
       "category": "restaurant",
@@ -175,7 +175,7 @@
       "realLng": 139.7832419
     },
     {
-      "id": "shop_11809112542",
+      "id": "food_11809112542",
       "name": "Dotcom Coffee",
       "nameJa": "",
       "category": "cafe",
@@ -187,7 +187,7 @@
       "realLng": 139.7819691
     },
     {
-      "id": "shop_10587971360",
+      "id": "food_10587971360",
       "name": "Egoland Tokyo",
       "nameJa": "",
       "category": "bar",
@@ -199,7 +199,7 @@
       "realLng": 139.7793631
     },
     {
-      "id": "shop_9810194169",
+      "id": "food_9810194169",
       "name": "Gagna",
       "nameJa": "",
       "category": "restaurant",
@@ -211,7 +211,7 @@
       "realLng": 139.7847027
     },
     {
-      "id": "shop_11002514630",
+      "id": "food_11002514630",
       "name": "Gentil",
       "nameJa": "ジョンティ",
       "category": "restaurant",
@@ -223,7 +223,7 @@
       "realLng": 139.7849388
     },
     {
-      "id": "shop_5737856599",
+      "id": "food_5737856599",
       "name": "Good Vibes",
       "nameJa": "",
       "category": "restaurant",
@@ -235,7 +235,7 @@
       "realLng": 139.7805616
     },
     {
-      "id": "shop_5755440571",
+      "id": "food_5755440571",
       "name": "Gracia",
       "nameJa": "",
       "category": "restaurant",
@@ -247,7 +247,7 @@
       "realLng": 139.7860932
     },
     {
-      "id": "shop_9768872811",
+      "id": "food_9768872811",
       "name": "H & B",
       "nameJa": "",
       "category": "bakery",
@@ -259,7 +259,7 @@
       "realLng": 139.7853678
     },
     {
-      "id": "shop_5174571976",
+      "id": "food_5174571976",
       "name": "HONEST",
       "nameJa": "",
       "category": "bar",
@@ -271,7 +271,7 @@
       "realLng": 139.7860667
     },
     {
-      "id": "shop_1590215989",
+      "id": "food_1590215989",
       "name": "IL Mercato",
       "nameJa": "",
       "category": "restaurant",
@@ -283,7 +283,7 @@
       "realLng": 139.7840014
     },
     {
-      "id": "shop_9810202535",
+      "id": "food_9810202535",
       "name": "Kyu Coffee House",
       "nameJa": "",
       "category": "cafe",
@@ -295,7 +295,7 @@
       "realLng": 139.7865598
     },
     {
-      "id": "shop_9785762521",
+      "id": "food_9785762521",
       "name": "L'ivresse",
       "nameJa": "",
       "category": "bar",
@@ -307,7 +307,7 @@
       "realLng": 139.7856718
     },
     {
-      "id": "shop_7944813069",
+      "id": "food_7944813069",
       "name": "MEIMEI",
       "nameJa": "",
       "category": "restaurant",
@@ -319,7 +319,7 @@
       "realLng": 139.7844634
     },
     {
-      "id": "shop_6235126571",
+      "id": "food_6235126571",
       "name": "Moon Bar",
       "nameJa": "",
       "category": "bar",
@@ -331,7 +331,7 @@
       "realLng": 139.7852716
     },
     {
-      "id": "shop_5581509357",
+      "id": "food_5581509357",
       "name": "PATATI-PATATA",
       "nameJa": "",
       "category": "restaurant",
@@ -343,7 +343,7 @@
       "realLng": 139.7806922
     },
     {
-      "id": "shop_5939628099",
+      "id": "food_5939628099",
       "name": "PRONTO",
       "nameJa": "プロント",
       "category": "cafe",
@@ -355,7 +355,7 @@
       "realLng": 139.7847126
     },
     {
-      "id": "shop_7057652336",
+      "id": "food_7057652336",
       "name": "Peppino",
       "nameJa": "",
       "category": "cafe",
@@ -367,7 +367,7 @@
       "realLng": 139.7849833
     },
     {
-      "id": "shop_2292272190",
+      "id": "food_2292272190",
       "name": "Phayao",
       "nameJa": "",
       "category": "restaurant",
@@ -379,7 +379,7 @@
       "realLng": 139.785149
     },
     {
-      "id": "shop_7718907904",
+      "id": "food_7718907904",
       "name": "Pho Viet Quan",
       "nameJa": "",
       "category": "restaurant",
@@ -391,7 +391,7 @@
       "realLng": 139.7848124
     },
     {
-      "id": "shop_5173102466",
+      "id": "food_5173102466",
       "name": "Pizzeria Buono Buono",
       "nameJa": "",
       "category": "restaurant",
@@ -403,7 +403,7 @@
       "realLng": 139.7848208
     },
     {
-      "id": "shop_4992239589",
+      "id": "food_4992239589",
       "name": "SQUARE Cafe",
       "nameJa": "",
       "category": "cafe",
@@ -415,7 +415,7 @@
       "realLng": 139.7854907
     },
     {
-      "id": "shop_6418740635",
+      "id": "food_6418740635",
       "name": "Smile Thailand",
       "nameJa": "",
       "category": "restaurant",
@@ -427,7 +427,7 @@
       "realLng": 139.7842233
     },
     {
-      "id": "shop_4992239569",
+      "id": "food_4992239569",
       "name": "Soaltee Dining",
       "nameJa": "",
       "category": "restaurant",
@@ -439,7 +439,7 @@
       "realLng": 139.7857306
     },
     {
-      "id": "shop_5584464474",
+      "id": "food_5584464474",
       "name": "Streamer Coffee Company",
       "nameJa": "",
       "category": "cafe",
@@ -451,7 +451,7 @@
       "realLng": 139.7803248
     },
     {
-      "id": "shop_5649302896",
+      "id": "food_5649302896",
       "name": "THE HERBS & SPICES",
       "nameJa": "",
       "category": "restaurant",
@@ -463,7 +463,7 @@
       "realLng": 139.7801431
     },
     {
-      "id": "shop_5185152683",
+      "id": "food_5185152683",
       "name": "TOKYO MELONPAN",
       "nameJa": "",
       "category": "bakery",
@@ -475,7 +475,7 @@
       "realLng": 139.7836044
     },
     {
-      "id": "shop_5641940331",
+      "id": "food_5641940331",
       "name": "Tea Room SMELL",
       "nameJa": "",
       "category": "cafe",
@@ -487,7 +487,7 @@
       "realLng": 139.7831961
     },
     {
-      "id": "shop_7836231317",
+      "id": "food_7836231317",
       "name": "Verde Regalo",
       "nameJa": "",
       "category": "restaurant",
@@ -499,7 +499,7 @@
       "realLng": 139.7812735
     },
     {
-      "id": "shop_2292335088",
+      "id": "food_2292335088",
       "name": "YOIYA",
       "nameJa": "",
       "category": "pub",
@@ -511,7 +511,7 @@
       "realLng": 139.785252
     },
     {
-      "id": "shop_5158268464",
+      "id": "food_5158268464",
       "name": "foredor",
       "nameJa": "",
       "category": "cafe",
@@ -523,7 +523,7 @@
       "realLng": 139.7844835
     },
     {
-      "id": "shop_7037526336",
+      "id": "food_7037526336",
       "name": "humo",
       "nameJa": "",
       "category": "bar",
@@ -535,7 +535,7 @@
       "realLng": 139.7852891
     },
     {
-      "id": "shop_4987382571",
+      "id": "food_4987382571",
       "name": "miniピアゴ",
       "nameJa": "miniピアゴ",
       "category": "convenience",
@@ -547,7 +547,7 @@
       "realLng": 139.7867637
     },
     {
-      "id": "shop_5433556946",
+      "id": "food_5433556946",
       "name": "obi",
       "nameJa": "",
       "category": "cafe",
@@ -559,7 +559,7 @@
       "realLng": 139.7820733
     },
     {
-      "id": "shop_9785762522",
+      "id": "food_9785762522",
       "name": "uchinomi-dining so",
       "nameJa": "",
       "category": "pub",
@@ -571,7 +571,7 @@
       "realLng": 139.785655
     },
     {
-      "id": "shop_9812382515",
+      "id": "food_9812382515",
       "name": "あらいばる",
       "nameJa": "",
       "category": "restaurant",
@@ -583,7 +583,7 @@
       "realLng": 139.7853707
     },
     {
-      "id": "shop_5174378437",
+      "id": "food_5174378437",
       "name": "いきなり！ステーキ",
       "nameJa": "いきなり！ステーキ",
       "category": "restaurant",
@@ -595,7 +595,7 @@
       "realLng": 139.7862893
     },
     {
-      "id": "shop_5174378439",
+      "id": "food_5174378439",
       "name": "うどんが呼んでいる",
       "nameJa": "",
       "category": "restaurant",
@@ -607,7 +607,7 @@
       "realLng": 139.7863276
     },
     {
-      "id": "shop_5643018437",
+      "id": "food_5643018437",
       "name": "お弁当きやり",
       "nameJa": "",
       "category": "fast_food",
@@ -619,7 +619,7 @@
       "realLng": 139.7850461
     },
     {
-      "id": "shop_5173935181",
+      "id": "food_5173935181",
       "name": "かつや",
       "nameJa": "かつや",
       "category": "fast_food",
@@ -631,7 +631,7 @@
       "realLng": 139.7864261
     },
     {
-      "id": "shop_5702439778",
+      "id": "food_5702439778",
       "name": "からあげ家 奥州いわい",
       "nameJa": "",
       "category": "restaurant",
@@ -643,7 +643,7 @@
       "realLng": 139.7805249
     },
     {
-      "id": "shop_7037620061",
+      "id": "food_7037620061",
       "name": "がブリチキン",
       "nameJa": "",
       "category": "pub",
@@ -655,7 +655,7 @@
       "realLng": 139.7858505
     },
     {
-      "id": "shop_6235126988",
+      "id": "food_6235126988",
       "name": "くうかい",
       "nameJa": "",
       "category": "restaurant",
@@ -667,7 +667,7 @@
       "realLng": 139.7850363
     },
     {
-      "id": "shop_5550466620",
+      "id": "food_5550466620",
       "name": "ごえん",
       "nameJa": "",
       "category": "pub",
@@ -679,7 +679,7 @@
       "realLng": 139.7836541
     },
     {
-      "id": "shop_9785683556",
+      "id": "food_9785683556",
       "name": "ごっつり",
       "nameJa": "",
       "category": "pub",
@@ -691,7 +691,7 @@
       "realLng": 139.7841332
     },
     {
-      "id": "shop_7835111330",
+      "id": "food_7835111330",
       "name": "さんほれ",
       "nameJa": "",
       "category": "restaurant",
@@ -703,7 +703,7 @@
       "realLng": 139.7779837
     },
     {
-      "id": "shop_10269667481",
+      "id": "food_10269667481",
       "name": "しま",
       "nameJa": "",
       "category": "restaurant",
@@ -715,7 +715,7 @@
       "realLng": 139.7861871
     },
     {
-      "id": "shop_7057951850",
+      "id": "food_7057951850",
       "name": "しゃにむに",
       "nameJa": "",
       "category": "pub",
@@ -727,7 +727,7 @@
       "realLng": 139.7843416
     },
     {
-      "id": "shop_5174556093",
+      "id": "food_5174556093",
       "name": "すき家",
       "nameJa": "すき家",
       "category": "fast_food",
@@ -739,7 +739,7 @@
       "realLng": 139.7869062
     },
     {
-      "id": "shop_9234146626",
+      "id": "food_9234146626",
       "name": "ずく箱",
       "nameJa": "",
       "category": "pub",
@@ -751,7 +751,7 @@
       "realLng": 139.7780124
     },
     {
-      "id": "shop_7037767128",
+      "id": "food_7037767128",
       "name": "そば八",
       "nameJa": "",
       "category": "restaurant",
@@ -763,7 +763,7 @@
       "realLng": 139.7862446
     },
     {
-      "id": "shop_9212264202",
+      "id": "food_9212264202",
       "name": "そば処 春日",
       "nameJa": "",
       "category": "restaurant",
@@ -775,7 +775,7 @@
       "realLng": 139.7787474
     },
     {
-      "id": "shop_4209297989",
+      "id": "food_4209297989",
       "name": "たいこ茶屋",
       "nameJa": "",
       "category": "cafe",
@@ -787,7 +787,7 @@
       "realLng": 139.7822684
     },
     {
-      "id": "shop_5573770399",
+      "id": "food_5573770399",
       "name": "たのや",
       "nameJa": "",
       "category": "restaurant",
@@ -799,7 +799,7 @@
       "realLng": 139.7833443
     },
     {
-      "id": "shop_2292271763",
+      "id": "food_2292271763",
       "name": "ていんがーら",
       "nameJa": "",
       "category": "pub",
@@ -811,7 +811,7 @@
       "realLng": 139.784654
     },
     {
-      "id": "shop_6240948460",
+      "id": "food_6240948460",
       "name": "とんかつ はしや",
       "nameJa": "",
       "category": "restaurant",
@@ -823,7 +823,7 @@
       "realLng": 139.7818366
     },
     {
-      "id": "shop_5158268498",
+      "id": "food_5158268498",
       "name": "とんかつスエヒロ",
       "nameJa": "",
       "category": "restaurant",
@@ -835,7 +835,7 @@
       "realLng": 139.7848061
     },
     {
-      "id": "shop_5182882158",
+      "id": "food_5182882158",
       "name": "とんかつ藤芳",
       "nameJa": "",
       "category": "restaurant",
@@ -847,7 +847,7 @@
       "realLng": 139.7840966
     },
     {
-      "id": "shop_5533731220",
+      "id": "food_5533731220",
       "name": "なかや",
       "nameJa": "",
       "category": "restaurant",
@@ -859,7 +859,7 @@
       "realLng": 139.7843206
     },
     {
-      "id": "shop_2292258041",
+      "id": "food_2292258041",
       "name": "なか卯",
       "nameJa": "なか卯",
       "category": "fast_food",
@@ -871,7 +871,7 @@
       "realLng": 139.7798076
     },
     {
-      "id": "shop_5665757888",
+      "id": "food_5665757888",
       "name": "にぎり屋 八べゑ",
       "nameJa": "",
       "category": "restaurant",
@@ -883,7 +883,7 @@
       "realLng": 139.778592
     },
     {
-      "id": "shop_4674362089",
+      "id": "food_4674362089",
       "name": "はしや",
       "nameJa": "はしや",
       "category": "restaurant",
@@ -895,7 +895,7 @@
       "realLng": 139.7795959
     },
     {
-      "id": "shop_4989824693",
+      "id": "food_4989824693",
       "name": "はなび",
       "nameJa": "",
       "category": "restaurant",
@@ -907,7 +907,7 @@
       "realLng": 139.7814195
     },
     {
-      "id": "shop_5460950831",
+      "id": "food_5460950831",
       "name": "ひよっ子",
       "nameJa": "",
       "category": "pub",
@@ -919,7 +919,7 @@
       "realLng": 139.7838239
     },
     {
-      "id": "shop_9785762523",
+      "id": "food_9785762523",
       "name": "びんてじ",
       "nameJa": "",
       "category": "bar",
@@ -931,7 +931,7 @@
       "realLng": 139.7857214
     },
     {
-      "id": "shop_9785762525",
+      "id": "food_9785762525",
       "name": "ふたみ食堂",
       "nameJa": "",
       "category": "restaurant",
@@ -943,7 +943,7 @@
       "realLng": 139.7857455
     },
     {
-      "id": "shop_4992239615",
+      "id": "food_4992239615",
       "name": "ほのぼの亭",
       "nameJa": "",
       "category": "restaurant",
@@ -955,19 +955,19 @@
       "realLng": 139.7836348
     },
     {
-      "id": "shop_9684185916",
+      "id": "food_9684185916",
       "name": "まいばすけっと",
       "nameJa": "まいばすけっと",
       "category": "supermarket",
       "cuisine": "",
-      "foodTypeId": "speedUp",
+      "foodTypeId": "energy",
       "gameX": -215.83,
       "gameZ": -225.53,
       "realLat": 35.698113,
       "realLng": 139.7836796
     },
     {
-      "id": "shop_13347677101",
+      "id": "food_13347677101",
       "name": "まいばすけっと",
       "nameJa": "",
       "category": "supermarket",
@@ -979,7 +979,7 @@
       "realLng": 139.7832226
     },
     {
-      "id": "shop_6346251285",
+      "id": "food_6346251285",
       "name": "まいばすけっと（イオン）",
       "nameJa": "まいばすけった（イオン）",
       "category": "supermarket",
@@ -991,7 +991,7 @@
       "realLng": 139.7786798
     },
     {
-      "id": "shop_5692002866",
+      "id": "food_5692002866",
       "name": "みなと亭",
       "nameJa": "",
       "category": "restaurant",
@@ -1003,7 +1003,7 @@
       "realLng": 139.7821996
     },
     {
-      "id": "shop_6235126579",
+      "id": "food_6235126579",
       "name": "みらい",
       "nameJa": "",
       "category": "restaurant",
@@ -1015,7 +1015,7 @@
       "realLng": 139.7852369
     },
     {
-      "id": "shop_4989824692",
+      "id": "food_4989824692",
       "name": "むさし乃",
       "nameJa": "",
       "category": "pub",
@@ -1027,7 +1027,7 @@
       "realLng": 139.7803713
     },
     {
-      "id": "shop_582907925",
+      "id": "food_582907925",
       "name": "めんや らきち",
       "nameJa": "",
       "category": "restaurant",
@@ -1039,7 +1039,7 @@
       "realLng": 139.7832808
     },
     {
-      "id": "shop_5174384327",
+      "id": "food_5174384327",
       "name": "もつ蔵",
       "nameJa": "",
       "category": "pub",
@@ -1051,7 +1051,7 @@
       "realLng": 139.7862833
     },
     {
-      "id": "shop_9762732912",
+      "id": "food_9762732912",
       "name": "やきとん三吉",
       "nameJa": "",
       "category": "pub",
@@ -1063,7 +1063,7 @@
       "realLng": 139.7852191
     },
     {
-      "id": "shop_9768872809",
+      "id": "food_9768872809",
       "name": "よいや",
       "nameJa": "",
       "category": "pub",
@@ -1075,7 +1075,7 @@
       "realLng": 139.7854344
     },
     {
-      "id": "shop_5643876750",
+      "id": "food_5643876750",
       "name": "ろく月",
       "nameJa": "",
       "category": "restaurant",
@@ -1087,7 +1087,7 @@
       "realLng": 139.7853056
     },
     {
-      "id": "shop_1590215999",
+      "id": "food_1590215999",
       "name": "アカス",
       "nameJa": "",
       "category": "restaurant",
@@ -1099,7 +1099,7 @@
       "realLng": 139.7838348
     },
     {
-      "id": "shop_10281842827",
+      "id": "food_10281842827",
       "name": "アカネコ",
       "nameJa": "",
       "category": "restaurant",
@@ -1111,7 +1111,7 @@
       "realLng": 139.7876385
     },
     {
-      "id": "shop_7579950620",
+      "id": "food_7579950620",
       "name": "アンチョビ",
       "nameJa": "",
       "category": "restaurant",
@@ -1123,7 +1123,7 @@
       "realLng": 139.7788411
     },
     {
-      "id": "shop_5174556106",
+      "id": "food_5174556106",
       "name": "インターネットコミックカフェ",
       "nameJa": "",
       "category": "cafe",
@@ -1135,7 +1135,7 @@
       "realLng": 139.7860801
     },
     {
-      "id": "shop_9762732911",
+      "id": "food_9762732911",
       "name": "エゴイストプラス",
       "nameJa": "",
       "category": "bar",
@@ -1147,7 +1147,7 @@
       "realLng": 139.7852273
     },
     {
-      "id": "shop_9785762520",
+      "id": "food_9785762520",
       "name": "エレガンテ",
       "nameJa": "",
       "category": "bar",
@@ -1159,7 +1159,7 @@
       "realLng": 139.7857348
     },
     {
-      "id": "shop_12511423101",
+      "id": "food_12511423101",
       "name": "カフェ 摩天楼珈琲 シェアリングコーヒーショップ 日本橋",
       "nameJa": "",
       "category": "cafe",
@@ -1171,7 +1171,7 @@
       "realLng": 139.7829295
     },
     {
-      "id": "shop_3663934350",
+      "id": "food_3663934350",
       "name": "カフェ・ベローチェ",
       "nameJa": "カフェ・ベローチェ",
       "category": "cafe",
@@ -1183,7 +1183,7 @@
       "realLng": 139.7844349
     },
     {
-      "id": "shop_3663939645",
+      "id": "food_3663939645",
       "name": "カフェ・ベローチェ",
       "nameJa": "カフェ・ベローチェ",
       "category": "cafe",
@@ -1195,7 +1195,7 @@
       "realLng": 139.7868144
     },
     {
-      "id": "shop_7835151812",
+      "id": "food_7835151812",
       "name": "カルディ",
       "nameJa": "",
       "category": "cafe",
@@ -1207,7 +1207,7 @@
       "realLng": 139.7803013
     },
     {
-      "id": "shop_5593558638",
+      "id": "food_5593558638",
       "name": "キッチンレタス",
       "nameJa": "",
       "category": "fast_food",
@@ -1219,7 +1219,7 @@
       "realLng": 139.7813474
     },
     {
-      "id": "shop_6235492422",
+      "id": "food_6235492422",
       "name": "ギリシャ家庭料理 フィリ",
       "nameJa": "",
       "category": "restaurant",
@@ -1231,7 +1231,7 @@
       "realLng": 139.7849477
     },
     {
-      "id": "shop_5173930107",
+      "id": "food_5173930107",
       "name": "コメダ珈琲店",
       "nameJa": "コメダ珈琲店",
       "category": "cafe",
@@ -1243,7 +1243,7 @@
       "realLng": 139.7867212
     },
     {
-      "id": "shop_1590216000",
+      "id": "food_1590216000",
       "name": "コーヒーの店 杉",
       "nameJa": "",
       "category": "cafe",
@@ -1255,7 +1255,7 @@
       "realLng": 139.784817
     },
     {
-      "id": "shop_5185152681",
+      "id": "food_5185152681",
       "name": "サッポロラーメン天竜",
       "nameJa": "",
       "category": "restaurant",
@@ -1267,7 +1267,7 @@
       "realLng": 139.7835521
     },
     {
-      "id": "shop_2192227247",
+      "id": "food_2192227247",
       "name": "サンマルクカフェ",
       "nameJa": "サンマルクカフェ",
       "category": "cafe",
@@ -1279,7 +1279,7 @@
       "realLng": 139.786428
     },
     {
-      "id": "shop_1590216001",
+      "id": "food_1590216001",
       "name": "ジョンティ",
       "nameJa": "",
       "category": "restaurant",
@@ -1291,7 +1291,7 @@
       "realLng": 139.7848814
     },
     {
-      "id": "shop_10044534617",
+      "id": "food_10044534617",
       "name": "ストーン",
       "nameJa": "",
       "category": "restaurant",
@@ -1303,7 +1303,7 @@
       "realLng": 139.7854579
     },
     {
-      "id": "shop_5907541309",
+      "id": "food_5907541309",
       "name": "スペイン食堂 EL PEQUENA",
       "nameJa": "",
       "category": "pub",
@@ -1315,19 +1315,19 @@
       "realLng": 139.7839444
     },
     {
-      "id": "shop_5173102446",
+      "id": "food_5173102446",
       "name": "スリーエフ",
       "nameJa": "スリーエフ",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "energy",
+      "foodTypeId": "speedUp",
       "gameX": -160.25,
       "gameZ": -178.49,
       "realLat": 35.697764,
       "realLng": 139.7843246
     },
     {
-      "id": "shop_1925677649",
+      "id": "food_1925677649",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
@@ -1339,7 +1339,7 @@
       "realLng": 139.7873672
     },
     {
-      "id": "shop_2012214876",
+      "id": "food_2012214876",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
@@ -1351,7 +1351,7 @@
       "realLng": 139.7830512
     },
     {
-      "id": "shop_3652475125",
+      "id": "food_3652475125",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
@@ -1363,7 +1363,7 @@
       "realLng": 139.78566
     },
     {
-      "id": "shop_3750497457",
+      "id": "food_3750497457",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
@@ -1375,19 +1375,19 @@
       "realLng": 139.7800196
     },
     {
-      "id": "shop_3750527697",
+      "id": "food_3750527697",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "speedUp",
+      "foodTypeId": "energy",
       "gameX": -236.7,
       "gameZ": -205.52,
       "realLat": 35.6979645,
       "realLng": 139.7834375
     },
     {
-      "id": "shop_3758377125",
+      "id": "food_3758377125",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
@@ -1399,7 +1399,7 @@
       "realLng": 139.784757
     },
     {
-      "id": "shop_3758428874",
+      "id": "food_3758428874",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
@@ -1411,31 +1411,31 @@
       "realLng": 139.7846576
     },
     {
-      "id": "shop_4987379751",
+      "id": "food_4987379751",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "energy",
+      "foodTypeId": "speedUp",
       "gameX": -567.18,
       "gameZ": 101.61,
       "realLat": 35.6956856,
       "realLng": 139.7796029
     },
     {
-      "id": "shop_4987382586",
+      "id": "food_4987382586",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "energy",
+      "foodTypeId": "recoveryCooldownShort",
       "gameX": -107.27,
       "gameZ": 252.96,
       "realLat": 35.6945626,
       "realLng": 139.7849393
     },
     {
-      "id": "shop_7719090620",
+      "id": "food_7719090620",
       "name": "セブン-イレブン",
       "nameJa": "セブン-イレブン",
       "category": "convenience",
@@ -1447,7 +1447,7 @@
       "realLng": 139.7863032
     },
     {
-      "id": "shop_7037767129",
+      "id": "food_7037767129",
       "name": "タイ屋台 555",
       "nameJa": "",
       "category": "restaurant",
@@ -1459,7 +1459,7 @@
       "realLng": 139.7862725
     },
     {
-      "id": "shop_5210429942",
+      "id": "food_5210429942",
       "name": "タイ料理 ガパオ",
       "nameJa": "",
       "category": "restaurant",
@@ -1471,7 +1471,7 @@
       "realLng": 139.7807237
     },
     {
-      "id": "shop_5706868650",
+      "id": "food_5706868650",
       "name": "タカカラ",
       "nameJa": "",
       "category": "pub",
@@ -1483,7 +1483,7 @@
       "realLng": 139.7783525
     },
     {
-      "id": "shop_9785762526",
+      "id": "food_9785762526",
       "name": "テンテコマイ",
       "nameJa": "",
       "category": "restaurant",
@@ -1495,7 +1495,7 @@
       "realLng": 139.785665
     },
     {
-      "id": "shop_4674416190",
+      "id": "food_4674416190",
       "name": "デニーズ",
       "nameJa": "デニーズ",
       "category": "restaurant",
@@ -1507,7 +1507,7 @@
       "realLng": 139.781264
     },
     {
-      "id": "shop_3639102802",
+      "id": "food_3639102802",
       "name": "ドトールコーヒーショップ",
       "nameJa": "ドトールコーヒーショップ",
       "category": "cafe",
@@ -1519,7 +1519,7 @@
       "realLng": 139.7857538
     },
     {
-      "id": "shop_5641913676",
+      "id": "food_5641913676",
       "name": "ニラカナ",
       "nameJa": "",
       "category": "pub",
@@ -1531,7 +1531,7 @@
       "realLng": 139.7831271
     },
     {
-      "id": "shop_5174556101",
+      "id": "food_5174556101",
       "name": "バーガーキング",
       "nameJa": "バーガーキング",
       "category": "fast_food",
@@ -1543,7 +1543,7 @@
       "realLng": 139.7863108
     },
     {
-      "id": "shop_5188045516",
+      "id": "food_5188045516",
       "name": "ファイン",
       "nameJa": "",
       "category": "cafe",
@@ -1555,7 +1555,7 @@
       "realLng": 139.7848212
     },
     {
-      "id": "shop_1590216015",
+      "id": "food_1590216015",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
@@ -1567,31 +1567,31 @@
       "realLng": 139.7831443
     },
     {
-      "id": "shop_2283943988",
+      "id": "food_2283943988",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "speedUp",
+      "foodTypeId": "energy",
       "gameX": -116.57,
       "gameZ": 423.42,
       "realLat": 35.6932978,
       "realLng": 139.7848314
     },
     {
-      "id": "shop_2283943989",
+      "id": "food_2283943989",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "speedUp",
+      "foodTypeId": "recoveryCooldownShort",
       "gameX": -71.63,
       "gameZ": 351.43,
       "realLat": 35.693832,
       "realLng": 139.7853528
     },
     {
-      "id": "shop_2292257215",
+      "id": "food_2292257215",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
@@ -1603,19 +1603,19 @@
       "realLng": 139.7798149
     },
     {
-      "id": "shop_2292262116",
+      "id": "food_2292262116",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "speedUp",
+      "foodTypeId": "energy",
       "gameX": -276.39,
       "gameZ": -169.05,
       "realLat": 35.6976939,
       "realLng": 139.782977
     },
     {
-      "id": "shop_3396652569",
+      "id": "food_3396652569",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
@@ -1627,55 +1627,55 @@
       "realLng": 139.7808315
     },
     {
-      "id": "shop_6542034085",
+      "id": "food_6542034085",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "speedUp",
+      "foodTypeId": "energy",
       "gameX": -348.18,
       "gameZ": 483.42,
       "realLat": 35.6928526,
       "realLng": 139.782144
     },
     {
-      "id": "shop_9665642681",
+      "id": "food_9665642681",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "recoveryCooldownShort",
+      "foodTypeId": "energy",
       "gameX": -25.5,
       "gameZ": 30.09,
       "realLat": 35.6962163,
       "realLng": 139.7858881
     },
     {
-      "id": "shop_9810204641",
+      "id": "food_9810204641",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "recoveryCooldownShort",
+      "foodTypeId": "energy",
       "gameX": 66.71,
       "gameZ": -211.73,
       "realLat": 35.6980106,
       "realLng": 139.786958
     },
     {
-      "id": "shop_13228717629",
+      "id": "food_13228717629",
       "name": "ファミリーマート",
       "nameJa": "ファミリーマート",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "energy",
+      "foodTypeId": "recoveryCooldownShort",
       "gameX": 3.16,
       "gameZ": -179.84,
       "realLat": 35.697774,
       "realLng": 139.7862206
     },
     {
-      "id": "shop_2192222805",
+      "id": "food_2192222805",
       "name": "フレッシュネスバーガー",
       "nameJa": "フレッシュネスバーガー",
       "category": "fast_food",
@@ -1687,7 +1687,7 @@
       "realLng": 139.786894
     },
     {
-      "id": "shop_11212469657",
+      "id": "food_11212469657",
       "name": "ベア",
       "nameJa": "",
       "category": "restaurant",
@@ -1699,7 +1699,7 @@
       "realLng": 139.7827993
     },
     {
-      "id": "shop_11212368249",
+      "id": "food_11212368249",
       "name": "ポアル館",
       "nameJa": "",
       "category": "pub",
@@ -1711,7 +1711,7 @@
       "realLng": 139.7839424
     },
     {
-      "id": "shop_11999980069",
+      "id": "food_11999980069",
       "name": "ポキボウルクラブトウキョウ",
       "nameJa": "",
       "category": "restaurant",
@@ -1723,19 +1723,19 @@
       "realLng": 139.7830687
     },
     {
-      "id": "shop_2283944054",
+      "id": "food_2283944054",
       "name": "マルマンストア",
       "nameJa": "",
       "category": "supermarket",
       "cuisine": "",
-      "foodTypeId": "energy",
+      "foodTypeId": "speedUp",
       "gameX": -388.98,
       "gameZ": 518.3,
       "realLat": 35.6925938,
       "realLng": 139.7816706
     },
     {
-      "id": "shop_1590215994",
+      "id": "food_1590215994",
       "name": "ミニストップ",
       "nameJa": "ミニストップ",
       "category": "convenience",
@@ -1747,31 +1747,31 @@
       "realLng": 139.7847927
     },
     {
-      "id": "shop_2283944073",
+      "id": "food_2283944073",
       "name": "ミニストップ",
       "nameJa": "ミニストップ",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "energy",
+      "foodTypeId": "recoveryCooldownShort",
       "gameX": -398.23,
       "gameZ": 474.4,
       "realLat": 35.6929195,
       "realLng": 139.7815632
     },
     {
-      "id": "shop_4987379752",
+      "id": "food_4987379752",
       "name": "ミニストップ",
       "nameJa": "ミニストップ",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "energy",
+      "foodTypeId": "speedUp",
       "gameX": -293.48,
       "gameZ": 135.67,
       "realLat": 35.6954329,
       "realLng": 139.7827787
     },
     {
-      "id": "shop_5300700313",
+      "id": "food_5300700313",
       "name": "ヤマゴヤ",
       "nameJa": "",
       "category": "cafe",
@@ -1783,7 +1783,7 @@
       "realLng": 139.7826126
     },
     {
-      "id": "shop_160439006",
+      "id": "food_160439006",
       "name": "ライフ",
       "nameJa": "ライフ",
       "category": "supermarket",
@@ -1795,7 +1795,7 @@
       "realLng": 139.78018
     },
     {
-      "id": "shop_9682997511",
+      "id": "food_9682997511",
       "name": "ラムちゃん",
       "nameJa": "",
       "category": "pub",
@@ -1807,7 +1807,7 @@
       "realLng": 139.7826964
     },
     {
-      "id": "shop_5175739096",
+      "id": "food_5175739096",
       "name": "ラーメン桜坊",
       "nameJa": "",
       "category": "restaurant",
@@ -1819,31 +1819,31 @@
       "realLng": 139.7821013
     },
     {
-      "id": "shop_2292269427",
+      "id": "food_2292269427",
       "name": "ローソン",
       "nameJa": "ローソン",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "speedUp",
+      "foodTypeId": "energy",
       "gameX": -232.63,
       "gameZ": -70.76,
       "realLat": 35.6969646,
       "realLng": 139.7834847
     },
     {
-      "id": "shop_3396652568",
+      "id": "food_3396652568",
       "name": "ローソン",
       "nameJa": "ローソン",
       "category": "convenience",
       "cuisine": "",
-      "foodTypeId": "speedUp",
+      "foodTypeId": "energy",
       "gameX": -718.36,
       "gameZ": 101.56,
       "realLat": 35.695686,
       "realLng": 139.7778487
     },
     {
-      "id": "shop_10281842828",
+      "id": "food_10281842828",
       "name": "一心酒場",
       "nameJa": "",
       "category": "pub",
@@ -1855,7 +1855,7 @@
       "realLng": 139.7876705
     },
     {
-      "id": "shop_5573770405",
+      "id": "food_5573770405",
       "name": "万花衣",
       "nameJa": "",
       "category": "fast_food",
@@ -1867,7 +1867,7 @@
       "realLng": 139.7834133
     },
     {
-      "id": "shop_5575025459",
+      "id": "food_5575025459",
       "name": "万花衣",
       "nameJa": "",
       "category": "fast_food",
@@ -1879,7 +1879,7 @@
       "realLng": 139.7810577
     },
     {
-      "id": "shop_5581509361",
+      "id": "food_5581509361",
       "name": "万花衣",
       "nameJa": "",
       "category": "fast_food",
@@ -1891,7 +1891,7 @@
       "realLng": 139.7806849
     },
     {
-      "id": "shop_2292275381",
+      "id": "food_2292275381",
       "name": "世界の山ちゃん",
       "nameJa": "",
       "category": "pub",
@@ -1903,7 +1903,7 @@
       "realLng": 139.7856365
     },
     {
-      "id": "shop_5179173787",
+      "id": "food_5179173787",
       "name": "中華そば 幸貴",
       "nameJa": "",
       "category": "restaurant",
@@ -1915,7 +1915,7 @@
       "realLng": 139.7845277
     },
     {
-      "id": "shop_2292271912",
+      "id": "food_2292271912",
       "name": "中華料理 龍",
       "nameJa": "",
       "category": "restaurant",
@@ -1927,7 +1927,7 @@
       "realLng": 139.785638
     },
     {
-      "id": "shop_5181912976",
+      "id": "food_5181912976",
       "name": "串焼き 合",
       "nameJa": "",
       "category": "pub",
@@ -1939,7 +1939,7 @@
       "realLng": 139.7842857
     },
     {
-      "id": "shop_9768872813",
+      "id": "food_9768872813",
       "name": "串焼き本舗",
       "nameJa": "",
       "category": "pub",
@@ -1951,7 +1951,7 @@
       "realLng": 139.7853644
     },
     {
-      "id": "shop_5755406425",
+      "id": "food_5755406425",
       "name": "串竹",
       "nameJa": "",
       "category": "pub",
@@ -1963,7 +1963,7 @@
       "realLng": 139.7854289
     },
     {
-      "id": "shop_9768872807",
+      "id": "food_9768872807",
       "name": "丸一酒場",
       "nameJa": "",
       "category": "pub",
@@ -1975,7 +1975,7 @@
       "realLng": 139.7853579
     },
     {
-      "id": "shop_5185152690",
+      "id": "food_5185152690",
       "name": "亀ちゃん",
       "nameJa": "",
       "category": "restaurant",
@@ -1987,7 +1987,7 @@
       "realLng": 139.7837412
     },
     {
-      "id": "shop_4956843762",
+      "id": "food_4956843762",
       "name": "伊勢屋",
       "nameJa": "",
       "category": "confectionery",
@@ -1999,7 +1999,7 @@
       "realLng": 139.7831074
     },
     {
-      "id": "shop_7836352292",
+      "id": "food_7836352292",
       "name": "俵屋",
       "nameJa": "",
       "category": "fast_food",
@@ -2011,7 +2011,7 @@
       "realLng": 139.7802651
     },
     {
-      "id": "shop_5173139179",
+      "id": "food_5173139179",
       "name": "元気寿司",
       "nameJa": "元気寿司",
       "category": "fast_food",
@@ -2023,7 +2023,7 @@
       "realLng": 139.7853834
     },
     {
-      "id": "shop_5653878032",
+      "id": "food_5653878032",
       "name": "克賢",
       "nameJa": "",
       "category": "pub",
@@ -2035,7 +2035,7 @@
       "realLng": 139.7811971
     },
     {
-      "id": "shop_5573580200",
+      "id": "food_5573580200",
       "name": "六和園",
       "nameJa": "",
       "category": "restaurant",
@@ -2047,7 +2047,7 @@
       "realLng": 139.7835664
     },
     {
-      "id": "shop_2292270865",
+      "id": "food_2292270865",
       "name": "加賀屋",
       "nameJa": "",
       "category": "pub",
@@ -2059,7 +2059,7 @@
       "realLng": 139.783914
     },
     {
-      "id": "shop_4674525890",
+      "id": "food_4674525890",
       "name": "北出食堂",
       "nameJa": "北出食堂",
       "category": "restaurant",
@@ -2071,7 +2071,7 @@
       "realLng": 139.7790342
     },
     {
-      "id": "shop_5174556104",
+      "id": "food_5174556104",
       "name": "北海道",
       "nameJa": "",
       "category": "pub",
@@ -2083,7 +2083,7 @@
       "realLng": 139.7861096
     },
     {
-      "id": "shop_9253203298",
+      "id": "food_9253203298",
       "name": "匠",
       "nameJa": "",
       "category": "restaurant",
@@ -2095,7 +2095,7 @@
       "realLng": 139.7786304
     },
     {
-      "id": "shop_4674510492",
+      "id": "food_4674510492",
       "name": "千吉",
       "nameJa": "千吉",
       "category": "restaurant",
@@ -2107,7 +2107,7 @@
       "realLng": 139.7818387
     },
     {
-      "id": "shop_5174556105",
+      "id": "food_5174556105",
       "name": "博多満月",
       "nameJa": "",
       "category": "pub",
@@ -2119,7 +2119,7 @@
       "realLng": 139.7861257
     },
     {
-      "id": "shop_5573770394",
+      "id": "food_5573770394",
       "name": "古月",
       "nameJa": "",
       "category": "pub",
@@ -2131,7 +2131,7 @@
       "realLng": 139.7833742
     },
     {
-      "id": "shop_5641940329",
+      "id": "food_5641940329",
       "name": "吉源",
       "nameJa": "",
       "category": "restaurant",
@@ -2143,7 +2143,7 @@
       "realLng": 139.7836054
     },
     {
-      "id": "shop_2283944071",
+      "id": "food_2283944071",
       "name": "吉野家",
       "nameJa": "吉野家",
       "category": "fast_food",
@@ -2155,7 +2155,7 @@
       "realLng": 139.78185
     },
     {
-      "id": "shop_4992239618",
+      "id": "food_4992239618",
       "name": "味仙",
       "nameJa": "",
       "category": "restaurant",
@@ -2167,7 +2167,7 @@
       "realLng": 139.7815821
     },
     {
-      "id": "shop_1590216016",
+      "id": "food_1590216016",
       "name": "味加久",
       "nameJa": "",
       "category": "restaurant",
@@ -2179,7 +2179,7 @@
       "realLng": 139.7848449
     },
     {
-      "id": "shop_4953838923",
+      "id": "food_4953838923",
       "name": "和食 食楽",
       "nameJa": "",
       "category": "restaurant",
@@ -2191,7 +2191,7 @@
       "realLng": 139.78474
     },
     {
-      "id": "shop_6278396365",
+      "id": "food_6278396365",
       "name": "品香苑",
       "nameJa": "",
       "category": "restaurant",
@@ -2203,7 +2203,7 @@
       "realLng": 139.7854575
     },
     {
-      "id": "shop_5181912990",
+      "id": "food_5181912990",
       "name": "土佐料理げんさん",
       "nameJa": "",
       "category": "pub",
@@ -2215,7 +2215,7 @@
       "realLng": 139.7848128
     },
     {
-      "id": "shop_7721162928",
+      "id": "food_7721162928",
       "name": "夢矢",
       "nameJa": "",
       "category": "pub",
@@ -2227,7 +2227,7 @@
       "realLng": 139.7868214
     },
     {
-      "id": "shop_10281678004",
+      "id": "food_10281678004",
       "name": "大吉",
       "nameJa": "",
       "category": "restaurant",
@@ -2239,7 +2239,7 @@
       "realLng": 139.788284
     },
     {
-      "id": "shop_4788544966",
+      "id": "food_4788544966",
       "name": "大戸屋",
       "nameJa": "大戸屋",
       "category": "restaurant",
@@ -2251,7 +2251,7 @@
       "realLng": 139.7870005
     },
     {
-      "id": "shop_7037784504",
+      "id": "food_7037784504",
       "name": "大樹",
       "nameJa": "",
       "category": "restaurant",
@@ -2263,7 +2263,7 @@
       "realLng": 139.7861329
     },
     {
-      "id": "shop_5573770400",
+      "id": "food_5573770400",
       "name": "天ぷら三定",
       "nameJa": "",
       "category": "restaurant",
@@ -2275,7 +2275,7 @@
       "realLng": 139.7832369
     },
     {
-      "id": "shop_5173128803",
+      "id": "food_5173128803",
       "name": "季節料理いろは",
       "nameJa": "",
       "category": "restaurant",
@@ -2287,7 +2287,7 @@
       "realLng": 139.785307
     },
     {
-      "id": "shop_5581686312",
+      "id": "food_5581686312",
       "name": "安兵衛",
       "nameJa": "",
       "category": "pub",
@@ -2299,7 +2299,7 @@
       "realLng": 139.7841436
     },
     {
-      "id": "shop_5533733825",
+      "id": "food_5533733825",
       "name": "寿し政",
       "nameJa": "",
       "category": "restaurant",
@@ -2311,7 +2311,7 @@
       "realLng": 139.7841059
     },
     {
-      "id": "shop_7057951848",
+      "id": "food_7057951848",
       "name": "小池寿司",
       "nameJa": "",
       "category": "restaurant",
@@ -2323,7 +2323,7 @@
       "realLng": 139.7842507
     },
     {
-      "id": "shop_5573770391",
+      "id": "food_5573770391",
       "name": "居酒屋あいちゃん",
       "nameJa": "",
       "category": "pub",
@@ -2335,7 +2335,7 @@
       "realLng": 139.7833654
     },
     {
-      "id": "shop_5182895107",
+      "id": "food_5182895107",
       "name": "居酒屋弥三郎",
       "nameJa": "",
       "category": "pub",
@@ -2347,7 +2347,7 @@
       "realLng": 139.7841033
     },
     {
-      "id": "shop_5173128805",
+      "id": "food_5173128805",
       "name": "山海料理 みちのく",
       "nameJa": "",
       "category": "pub",
@@ -2359,7 +2359,7 @@
       "realLng": 139.7850455
     },
     {
-      "id": "shop_5174556099",
+      "id": "food_5174556099",
       "name": "巡りや",
       "nameJa": "",
       "category": "pub",
@@ -2371,7 +2371,7 @@
       "realLng": 139.786288
     },
     {
-      "id": "shop_4989824691",
+      "id": "food_4989824691",
       "name": "慶太郎",
       "nameJa": "",
       "category": "pub",
@@ -2383,7 +2383,7 @@
       "realLng": 139.7802277
     },
     {
-      "id": "shop_591023058",
+      "id": "food_591023058",
       "name": "新橋やきとん",
       "nameJa": "",
       "category": "pub",
@@ -2395,7 +2395,7 @@
       "realLng": 139.7833438
     },
     {
-      "id": "shop_5641913692",
+      "id": "food_5641913692",
       "name": "日乃屋カレー",
       "nameJa": "",
       "category": "restaurant",
@@ -2407,7 +2407,7 @@
       "realLng": 139.7835267
     },
     {
-      "id": "shop_5648972216",
+      "id": "food_5648972216",
       "name": "日本亭",
       "nameJa": "",
       "category": "fast_food",
@@ -2419,7 +2419,7 @@
       "realLng": 139.7827985
     },
     {
-      "id": "shop_5460950829",
+      "id": "food_5460950829",
       "name": "日本焼肉党",
       "nameJa": "",
       "category": "pub",
@@ -2431,7 +2431,7 @@
       "realLng": 139.7837577
     },
     {
-      "id": "shop_5174378438",
+      "id": "food_5174378438",
       "name": "日高屋",
       "nameJa": "日高屋",
       "category": "fast_food",
@@ -2443,7 +2443,7 @@
       "realLng": 139.7863141
     },
     {
-      "id": "shop_5573770393",
+      "id": "food_5573770393",
       "name": "明よし",
       "nameJa": "",
       "category": "pub",
@@ -2455,7 +2455,7 @@
       "realLng": 139.7833696
     },
     {
-      "id": "shop_13228717626",
+      "id": "food_13228717626",
       "name": "朝天門",
       "nameJa": "",
       "category": "restaurant",
@@ -2467,7 +2467,7 @@
       "realLng": 139.7861803
     },
     {
-      "id": "shop_2292268023",
+      "id": "food_2292268023",
       "name": "村さ来",
       "nameJa": "村さ来",
       "category": "pub",
@@ -2479,7 +2479,7 @@
       "realLng": 139.7831469
     },
     {
-      "id": "shop_5185152685",
+      "id": "food_5185152685",
       "name": "来々軒",
       "nameJa": "",
       "category": "restaurant",
@@ -2491,7 +2491,7 @@
       "realLng": 139.7837057
     },
     {
-      "id": "shop_3652476225",
+      "id": "food_3652476225",
       "name": "東京MEAT酒場",
       "nameJa": "",
       "category": "pub",
@@ -2503,7 +2503,7 @@
       "realLng": 139.7854573
     },
     {
-      "id": "shop_4992239580",
+      "id": "food_4992239580",
       "name": "東海飯店",
       "nameJa": "",
       "category": "restaurant",
@@ -2515,7 +2515,7 @@
       "realLng": 139.7856393
     },
     {
-      "id": "shop_3838666160",
+      "id": "food_3838666160",
       "name": "松屋",
       "nameJa": "松屋",
       "category": "fast_food",
@@ -2527,7 +2527,7 @@
       "realLng": 139.7863527
     },
     {
-      "id": "shop_4674525889",
+      "id": "food_4674525889",
       "name": "松屋",
       "nameJa": "松屋",
       "category": "fast_food",
@@ -2539,7 +2539,7 @@
       "realLng": 139.7820639
     },
     {
-      "id": "shop_1083264659",
+      "id": "food_1083264659",
       "name": "柳橋 小松屋",
       "nameJa": "",
       "category": "restaurant",
@@ -2551,7 +2551,7 @@
       "realLng": 139.7874044
     },
     {
-      "id": "shop_5181887879",
+      "id": "food_5181887879",
       "name": "桃源郷",
       "nameJa": "",
       "category": "pub",
@@ -2563,7 +2563,7 @@
       "realLng": 139.7848161
     },
     {
-      "id": "shop_5681984303",
+      "id": "food_5681984303",
       "name": "権兵衛",
       "nameJa": "",
       "category": "pub",
@@ -2575,7 +2575,7 @@
       "realLng": 139.7804722
     },
     {
-      "id": "shop_5681220063",
+      "id": "food_5681220063",
       "name": "正味飯店",
       "nameJa": "",
       "category": "restaurant",
@@ -2587,7 +2587,7 @@
       "realLng": 139.7806285
     },
     {
-      "id": "shop_5173128802",
+      "id": "food_5173128802",
       "name": "気まぐれキッチンISHIBASHI",
       "nameJa": "",
       "category": "restaurant",
@@ -2599,7 +2599,7 @@
       "realLng": 139.7852889
     },
     {
-      "id": "shop_5173139163",
+      "id": "food_5173139163",
       "name": "浅草家",
       "nameJa": "",
       "category": "restaurant",
@@ -2611,7 +2611,7 @@
       "realLng": 139.7855645
     },
     {
-      "id": "shop_9785683557",
+      "id": "food_9785683557",
       "name": "浅草橋双麺",
       "nameJa": "",
       "category": "restaurant",
@@ -2623,7 +2623,7 @@
       "realLng": 139.7841888
     },
     {
-      "id": "shop_5643018444",
+      "id": "food_5643018444",
       "name": "浅草橋焼餃子",
       "nameJa": "",
       "category": "restaurant",
@@ -2635,7 +2635,7 @@
       "realLng": 139.7852527
     },
     {
-      "id": "shop_7037736465",
+      "id": "food_7037736465",
       "name": "満る賀",
       "nameJa": "",
       "category": "restaurant",
@@ -2647,7 +2647,7 @@
       "realLng": 139.7860774
     },
     {
-      "id": "shop_5174556107",
+      "id": "food_5174556107",
       "name": "焼肉 ごち苑。",
       "nameJa": "",
       "category": "restaurant",
@@ -2659,7 +2659,7 @@
       "realLng": 139.7861217
     },
     {
-      "id": "shop_5173043603",
+      "id": "food_5173043603",
       "name": "珈琲 葦",
       "nameJa": "",
       "category": "cafe",
@@ -2671,7 +2671,7 @@
       "realLng": 139.7846049
     },
     {
-      "id": "shop_5581511673",
+      "id": "food_5581511673",
       "name": "珍香苑",
       "nameJa": "",
       "category": "restaurant",
@@ -2683,7 +2683,7 @@
       "realLng": 139.7805275
     },
     {
-      "id": "shop_5524133692",
+      "id": "food_5524133692",
       "name": "生姜キング",
       "nameJa": "",
       "category": "restaurant",
@@ -2695,7 +2695,7 @@
       "realLng": 139.7834534
     },
     {
-      "id": "shop_10281842832",
+      "id": "food_10281842832",
       "name": "百そば",
       "nameJa": "",
       "category": "fast_food",
@@ -2707,7 +2707,7 @@
       "realLng": 139.7875944
     },
     {
-      "id": "shop_5182882165",
+      "id": "food_5182882165",
       "name": "相撲料理ちゃんこ成山",
       "nameJa": "",
       "category": "restaurant",
@@ -2719,7 +2719,7 @@
       "realLng": 139.7839075
     },
     {
-      "id": "shop_5703364421",
+      "id": "food_5703364421",
       "name": "福篭",
       "nameJa": "",
       "category": "fast_food",
@@ -2731,7 +2731,7 @@
       "realLng": 139.7865934
     },
     {
-      "id": "shop_10269667488",
+      "id": "food_10269667488",
       "name": "竹や",
       "nameJa": "",
       "category": "restaurant",
@@ -2743,7 +2743,7 @@
       "realLng": 139.7854713
     },
     {
-      "id": "shop_9762732909",
+      "id": "food_9762732909",
       "name": "竹山",
       "nameJa": "",
       "category": "pub",
@@ -2755,7 +2755,7 @@
       "realLng": 139.7852182
     },
     {
-      "id": "shop_2265854373",
+      "id": "food_2265854373",
       "name": "肉のハナマサ",
       "nameJa": "肉のハナマサ",
       "category": "supermarket",
@@ -2767,7 +2767,7 @@
       "realLng": 139.7839822
     },
     {
-      "id": "shop_5173139161",
+      "id": "food_5173139161",
       "name": "肉食堂 優",
       "nameJa": "",
       "category": "restaurant",
@@ -2779,7 +2779,7 @@
       "realLng": 139.7855048
     },
     {
-      "id": "shop_6249214824",
+      "id": "food_6249214824",
       "name": "菜香縁",
       "nameJa": "",
       "category": "restaurant",
@@ -2791,7 +2791,7 @@
       "realLng": 139.7799691
     },
     {
-      "id": "shop_6229436451",
+      "id": "food_6229436451",
       "name": "華味",
       "nameJa": "",
       "category": "restaurant",
@@ -2803,7 +2803,7 @@
       "realLng": 139.7861843
     },
     {
-      "id": "shop_4950866700",
+      "id": "food_4950866700",
       "name": "蘭氏食苑",
       "nameJa": "",
       "category": "restaurant",
@@ -2815,7 +2815,7 @@
       "realLng": 139.7848004
     },
     {
-      "id": "shop_5173139159",
+      "id": "food_5173139159",
       "name": "街のハンバーグ屋さん",
       "nameJa": "",
       "category": "restaurant",
@@ -2827,7 +2827,7 @@
       "realLng": 139.7859406
     },
     {
-      "id": "shop_9173867489",
+      "id": "food_9173867489",
       "name": "西口やきとん",
       "nameJa": "",
       "category": "pub",
@@ -2839,7 +2839,7 @@
       "realLng": 139.7825353
     },
     {
-      "id": "shop_9785683558",
+      "id": "food_9785683558",
       "name": "赤文字",
       "nameJa": "",
       "category": "pub",
@@ -2851,7 +2851,7 @@
       "realLng": 139.7844349
     },
     {
-      "id": "shop_4674409991",
+      "id": "food_4674409991",
       "name": "跳馬らーめん",
       "nameJa": "跳馬らーめん",
       "category": "restaurant",
@@ -2863,7 +2863,7 @@
       "realLng": 139.7802533
     },
     {
-      "id": "shop_9812383319",
+      "id": "food_9812383319",
       "name": "酒肴肉寿司",
       "nameJa": "",
       "category": "pub",
@@ -2875,7 +2875,7 @@
       "realLng": 139.785293
     },
     {
-      "id": "shop_5573770392",
+      "id": "food_5573770392",
       "name": "酔つ馬",
       "nameJa": "",
       "category": "pub",
@@ -2887,7 +2887,7 @@
       "realLng": 139.7833696
     },
     {
-      "id": "shop_11212368237",
+      "id": "food_11212368237",
       "name": "醸ス",
       "nameJa": "",
       "category": "pub",
@@ -2899,7 +2899,7 @@
       "realLng": 139.783347
     },
     {
-      "id": "shop_7037526331",
+      "id": "food_7037526331",
       "name": "金太楼",
       "nameJa": "",
       "category": "restaurant",
@@ -2911,7 +2911,7 @@
       "realLng": 139.7853995
     },
     {
-      "id": "shop_7721162914",
+      "id": "food_7721162914",
       "name": "鉄板焼 Tamaya",
       "nameJa": "",
       "category": "restaurant",
@@ -2923,7 +2923,7 @@
       "realLng": 139.7869557
     },
     {
-      "id": "shop_5173067371",
+      "id": "food_5173067371",
       "name": "鉄板焼 夕煙",
       "nameJa": "",
       "category": "restaurant",
@@ -2935,7 +2935,7 @@
       "realLng": 139.7849214
     },
     {
-      "id": "shop_9785762524",
+      "id": "food_9785762524",
       "name": "鉢の木",
       "nameJa": "",
       "category": "pub",
@@ -2947,7 +2947,7 @@
       "realLng": 139.7856771
     },
     {
-      "id": "shop_7579950617",
+      "id": "food_7579950617",
       "name": "銀座にしかわ",
       "nameJa": "",
       "category": "bakery",
@@ -2959,7 +2959,7 @@
       "realLng": 139.7787881
     },
     {
-      "id": "shop_9253203301",
+      "id": "food_9253203301",
       "name": "青島食堂",
       "nameJa": "",
       "category": "fast_food",
@@ -2971,7 +2971,7 @@
       "realLng": 139.7788319
     },
     {
-      "id": "shop_4636615589",
+      "id": "food_4636615589",
       "name": "風林",
       "nameJa": "風林",
       "category": "restaurant",
@@ -2983,7 +2983,7 @@
       "realLng": 139.7795015
     },
     {
-      "id": "shop_5182895100",
+      "id": "food_5182895100",
       "name": "飯蔵",
       "nameJa": "",
       "category": "pub",
@@ -2995,7 +2995,7 @@
       "realLng": 139.7838247
     },
     {
-      "id": "shop_591023059",
+      "id": "food_591023059",
       "name": "餃子の王将",
       "nameJa": "餃子の王将",
       "category": "restaurant",
@@ -3007,7 +3007,7 @@
       "realLng": 139.783144
     },
     {
-      "id": "shop_4342034191",
+      "id": "food_4342034191",
       "name": "饗 くろ㐂",
       "nameJa": "",
       "category": "fast_food",
@@ -3019,7 +3019,7 @@
       "realLng": 139.7801517
     },
     {
-      "id": "shop_5174378436",
+      "id": "food_5174378436",
       "name": "魚まみれ",
       "nameJa": "",
       "category": "pub",
@@ -3031,7 +3031,7 @@
       "realLng": 139.7863021
     },
     {
-      "id": "shop_5174384328",
+      "id": "food_5174384328",
       "name": "魚三蔵",
       "nameJa": "",
       "category": "pub",
@@ -3043,7 +3043,7 @@
       "realLng": 139.7863242
     },
     {
-      "id": "shop_5174556088",
+      "id": "food_5174556088",
       "name": "魚鮮水産",
       "nameJa": "魚鮮水産 浅草橋久月店",
       "category": "pub",
@@ -3055,7 +3055,7 @@
       "realLng": 139.7867366
     },
     {
-      "id": "shop_4788544968",
+      "id": "food_4788544968",
       "name": "鮒佐",
       "nameJa": "",
       "category": "deli",
@@ -3067,7 +3067,7 @@
       "realLng": 139.7870498
     },
     {
-      "id": "shop_5173043602",
+      "id": "food_5173043602",
       "name": "鳥勝",
       "nameJa": "",
       "category": "pub",
@@ -3079,7 +3079,7 @@
       "realLng": 139.784566
     },
     {
-      "id": "shop_5174556098",
+      "id": "food_5174556098",
       "name": "鳥良商店",
       "nameJa": "",
       "category": "pub",
@@ -3091,7 +3091,7 @@
       "realLng": 139.7863993
     },
     {
-      "id": "shop_1138559735",
+      "id": "food_1138559735",
       "name": "麺やまるとも",
       "nameJa": "",
       "category": "restaurant",
@@ -3103,7 +3103,7 @@
       "realLng": 139.7829392
     },
     {
-      "id": "shop_5649302907",
+      "id": "food_5649302907",
       "name": "麺屋のろし",
       "nameJa": "",
       "category": "restaurant",

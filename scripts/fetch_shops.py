@@ -1,7 +1,7 @@
 """
 Overpass API（OpenStreetMap）からお店情報を取得するスクリプト
 
-浅草橋駅周辺の飲食店・コンビニ等を取得し、JSONで保存する。
+浅草橋駅周辺の飲食店・コンビニ・装備店等を取得し、JSONで保存する。
 """
 
 import json
@@ -34,10 +34,10 @@ class Shop:
 def build_overpass_query(center_lat: float, center_lng: float, radius_m: int) -> str:
     """
     Overpass QL クエリを構築。
-    飲食店・カフェ・コンビニ・ファストフード等を検索。
+    飲食店・カフェ・コンビニ・ファストフード・装備店等を検索。
     """
-    # 検索対象のタグ
-    amenities = [
+    # 検索対象のタグ - 食べ物系
+    amenities_food = [
         "restaurant",
         "cafe",
         "fast_food",
@@ -45,16 +45,44 @@ def build_overpass_query(center_lat: float, center_lng: float, radius_m: int) ->
         "pub",
         "food_court",
     ]
-    shops = [
+    shops_food = [
         "convenience",
         "supermarket",
         "bakery",
         "confectionery",
         "deli",
     ]
+    
+    # 検索対象のタグ - 装備系
+    amenities_equip = [
+        "pharmacy",  # 薬局
+    ]
+    shops_equip = [
+        "jewelry",        # 宝石店 → 宝石
+        "bag",            # カバン店 → バッグ
+        "shoes",          # 靴屋 → 靴
+        "clothes",        # 衣料品店 → 防具、帽子、服
+        "sports",         # スポーツ用品 → 磁石、武器、翼
+        "electronics",    # 電器店 → 磁石
+        "optician",       # メガネ店 → メガネ
+        "watches",        # 時計店 → 時計
+        "chemist",        # ドラッグストア → 薬
+        "bicycle",        # 自転車店 → 自転車
+        "outdoor",        # アウトドア店 → 翼、釣り具
+        "fishing",        # 釣具店 → 釣り具
+        "houseware",      # 雑貨店 → 料理道具
+        "department_store",  # デパート → タオル、ランダム
+        "gift",           # ギフト店 → 旗
+        "variety_store",  # 100均・雑貨 → バッグ、旗
+        "hats",           # 帽子店 → 帽子
+    ]
+    
+    # 全てのamenityとshopを結合
+    all_amenities = amenities_food + amenities_equip
+    all_shops = shops_food + shops_equip
 
-    amenity_filter = "|".join(amenities)
-    shop_filter = "|".join(shops)
+    amenity_filter = "|".join(all_amenities)
+    shop_filter = "|".join(all_shops)
 
     query = f"""
 [out:json][timeout:30];
@@ -193,14 +221,9 @@ if __name__ == "__main__":
         output_dir = os.path.join(os.path.dirname(script_dir), "data")
         os.makedirs(output_dir, exist_ok=True)
         output_path = os.path.join(output_dir, "shops_raw.json")
-
+        
+        # 保存
         save_shops_raw(shops, output_path)
-
-        print("\n" + "=" * 50)
-        print("次のステップ:")
-        print("1. coord_transform.py で対応点を設定")
-        print("2. convert_shops.py で座標変換してゲーム用JSONを生成")
-        print("=" * 50)
 
     except Exception as e:
         print(f"エラー: {e}")

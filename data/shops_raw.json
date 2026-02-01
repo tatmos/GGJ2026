@@ -6,8 +6,45 @@
     "lng": 139.7832
   },
   "radius_m": 500,
-  "count": 257,
+  "count": 312,
   "shops": [
+    {
+      "osm_id": 5575025463,
+      "name": "ACTEK GOLF",
+      "name_en": null,
+      "category": "sports",
+      "lat": 35.6955243,
+      "lng": 139.7812685,
+      "tags": {
+        "name": "ACTEK GOLF",
+        "shop": "sports",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5173128813,
+      "name": "ART",
+      "name_en": null,
+      "category": "jewelry",
+      "lat": 35.697421,
+      "lng": 139.7850522,
+      "tags": {
+        "name": "ART",
+        "shop": "jewelry"
+      }
+    },
+    {
+      "osm_id": 7944813076,
+      "name": "ART",
+      "name_en": null,
+      "category": "jewelry",
+      "lat": 35.6972499,
+      "lng": 139.7844856,
+      "tags": {
+        "name": "ART",
+        "shop": "jewelry"
+      }
+    },
     {
       "osm_id": 10269667475,
       "name": "Axis",
@@ -19,6 +56,19 @@
         "amenity": "bar",
         "level": "0",
         "name": "Axis"
+      }
+    },
+    {
+      "osm_id": 5583891601,
+      "name": "BERETTA SPORTS SHOP",
+      "name_en": null,
+      "category": "sports",
+      "lat": 35.6963285,
+      "lng": 139.7823339,
+      "tags": {
+        "name": "BERETTA SPORTS SHOP",
+        "shop": "sports",
+        "source": "survey"
       }
     },
     {
@@ -34,6 +84,18 @@
         "name": "BROS TOKYO",
         "source": "GSI/KIBAN 2500;NARO",
         "source_ref": "http://wiki.osm.org/wiki/GSI_KIBAN"
+      }
+    },
+    {
+      "osm_id": 9810202709,
+      "name": "Best Sports",
+      "name_en": null,
+      "category": "bicycle",
+      "lat": 35.6956257,
+      "lng": 139.780167,
+      "tags": {
+        "name": "Best Sports",
+        "shop": "bicycle"
       }
     },
     {
@@ -77,6 +139,19 @@
         "cuisine": "breakfast;coffee_shop",
         "name": "Bouquet",
         "opening_hours": "We-Su 08:00-19:00"
+      }
+    },
+    {
+      "osm_id": 5648830435,
+      "name": "Branche",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6984421,
+      "lng": 139.7845788,
+      "tags": {
+        "name": "Branche",
+        "shop": "clothes",
+        "source": "survey"
       }
     },
     {
@@ -194,6 +269,18 @@
         "short_name:en": "CoCoICHI",
         "short_name:ja": "ココイチ",
         "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 5173128816,
+      "name": "D & L",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.69744,
+      "lng": 139.7848041,
+      "tags": {
+        "name": "D & L",
+        "shop": "clothes"
       }
     },
     {
@@ -332,6 +419,19 @@
       }
     },
     {
+      "osm_id": 7944867209,
+      "name": "HARRYTOIT",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.697055,
+      "lng": 139.7830774,
+      "tags": {
+        "name": "HARRYTOIT",
+        "shop": "clothes",
+        "source": "survey"
+      }
+    },
+    {
       "osm_id": 5174571976,
       "name": "HONEST",
       "name_en": null,
@@ -356,6 +456,20 @@
         "cuisine": "italian",
         "name": "IL Mercato",
         "source": "survey, bing"
+      }
+    },
+    {
+      "osm_id": 5575025480,
+      "name": "JOHN B. STETSON & GO",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6954546,
+      "lng": 139.7820423,
+      "tags": {
+        "level": "0",
+        "name": "JOHN B. STETSON & GO",
+        "shop": "clothes",
+        "source": "survey"
       }
     },
     {
@@ -386,6 +500,60 @@
       }
     },
     {
+      "osm_id": 5550459112,
+      "name": "LAMB MODE",
+      "name_en": null,
+      "category": "bag",
+      "lat": 35.6995531,
+      "lng": 139.7830578,
+      "tags": {
+        "level": "1",
+        "name": "LAMB MODE",
+        "shop": "bag",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5573685024,
+      "name": "LIME",
+      "name_en": null,
+      "category": "bag",
+      "lat": 35.699664,
+      "lng": 139.7843977,
+      "tags": {
+        "level": "0",
+        "name": "LIME",
+        "shop": "bag",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 6235126986,
+      "name": "Latief",
+      "name_en": null,
+      "category": "jewelry",
+      "lat": 35.6981554,
+      "lng": 139.7852493,
+      "tags": {
+        "name": "Latief",
+        "shop": "jewelry"
+      }
+    },
+    {
+      "osm_id": 5581686279,
+      "name": "MACHINE BOX",
+      "name_en": null,
+      "category": "electronics",
+      "lat": 35.6990394,
+      "lng": 139.7835421,
+      "tags": {
+        "level": "0",
+        "name": "MACHINE BOX",
+        "shop": "electronics",
+        "source": "survey"
+      }
+    },
+    {
       "osm_id": 7944813069,
       "name": "MEIMEI",
       "name_en": null,
@@ -400,6 +568,33 @@
       }
     },
     {
+      "osm_id": 4788544969,
+      "name": "MK Plus",
+      "name_en": null,
+      "category": "bag",
+      "lat": 35.6989397,
+      "lng": 139.7870764,
+      "tags": {
+        "name": "MK Plus",
+        "shop": "bag"
+      }
+    },
+    {
+      "osm_id": 5158636813,
+      "name": "Maria fantasia",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.69898,
+      "lng": 139.7841241,
+      "tags": {
+        "contact:fax": "+81 3 3861 2318",
+        "contact:phone": "+81 3 3861 2318",
+        "name": "Maria fantasia",
+        "name:ja": "マリアファンタジア",
+        "shop": "clothes"
+      }
+    },
+    {
       "osm_id": 6235126571,
       "name": "Moon Bar",
       "name_en": null,
@@ -409,6 +604,18 @@
       "tags": {
         "amenity": "bar",
         "name": "Moon Bar"
+      }
+    },
+    {
+      "osm_id": 5179173789,
+      "name": "Napa",
+      "name_en": null,
+      "category": "jewelry",
+      "lat": 35.6983331,
+      "lng": 139.7845364,
+      "tags": {
+        "name": "Napa",
+        "shop": "jewelry"
       }
     },
     {
@@ -508,6 +715,38 @@
       }
     },
     {
+      "osm_id": 5173128815,
+      "name": "QUEENS PART IV",
+      "name_en": null,
+      "category": "jewelry",
+      "lat": 35.6974329,
+      "lng": 139.7849073,
+      "tags": {
+        "name": "QUEENS PART IV",
+        "shop": "jewelry"
+      }
+    },
+    {
+      "osm_id": 9927436651,
+      "name": "Rocky Mountain Featherbed",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6949897,
+      "lng": 139.7872566,
+      "tags": {
+        "branch": "A'r22724",
+        "branch:ja": "アール柳橋",
+        "contact:instagram": "ar22724_yanagibashi",
+        "contact:phone": "+81-80-7024-4090",
+        "level": "0",
+        "name": "Rocky Mountain Featherbed",
+        "opening_hours": "13:00-20:00; Tu off",
+        "shop": "clothes",
+        "website": "https://ar22724-yanagibashi.com/",
+        "wheelchair": "yes"
+      }
+    },
+    {
       "osm_id": 4992239589,
       "name": "SQUARE Cafe",
       "name_en": null,
@@ -518,6 +757,19 @@
         "amenity": "cafe",
         "level": "0",
         "name": "SQUARE Cafe"
+      }
+    },
+    {
+      "osm_id": 8928818264,
+      "name": "Sex Pot Tokyo",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.7003939,
+      "lng": 139.7849226,
+      "tags": {
+        "level": "0",
+        "name": "Sex Pot Tokyo",
+        "shop": "clothes"
       }
     },
     {
@@ -826,6 +1078,19 @@
       }
     },
     {
+      "osm_id": 5641940332,
+      "name": "きもの 和遊房",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6976719,
+      "lng": 139.78326,
+      "tags": {
+        "level": "0",
+        "name": "きもの 和遊房",
+        "shop": "clothes"
+      }
+    },
+    {
       "osm_id": 6235126988,
       "name": "くうかい",
       "name_en": null,
@@ -835,6 +1100,20 @@
       "tags": {
         "amenity": "restaurant",
         "name": "くうかい"
+      }
+    },
+    {
+      "osm_id": 5681220060,
+      "name": "くすりのいしい",
+      "name_en": null,
+      "category": "pharmacy",
+      "lat": 35.6982156,
+      "lng": 139.7804001,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "くすりのいしい",
+        "opening_hours": "09:00-19:00;Su off"
       }
     },
     {
@@ -862,6 +1141,26 @@
         "amenity": "pub",
         "name": "ごっつり",
         "source": "survey"
+      }
+    },
+    {
+      "osm_id": 4989869694,
+      "name": "さくら薬局",
+      "name_en": "Sakura Pharmacy",
+      "category": "pharmacy",
+      "lat": 35.6953558,
+      "lng": 139.783037,
+      "tags": {
+        "amenity": "pharmacy",
+        "brand": "さくら薬局",
+        "brand:en": "Sakura Pharmacy",
+        "brand:ja": "さくら薬局",
+        "brand:wikidata": "Q11299021",
+        "brand:wikipedia": "ja:クラフト (ドラッグストア)",
+        "healthcare": "pharmacy",
+        "name": "さくら薬局",
+        "name:en": "Sakura Pharmacy",
+        "name:ja": "さくら薬局"
       }
     },
     {
@@ -1345,6 +1644,22 @@
       }
     },
     {
+      "osm_id": 5563887725,
+      "name": "ゆうま薬局",
+      "name_en": null,
+      "category": "pharmacy",
+      "lat": 35.7001398,
+      "lng": 139.7809704,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "level": "0",
+        "name": "ゆうま薬局",
+        "source": "survey"
+      }
+    },
+    {
       "osm_id": 9768872809,
       "name": "よいや",
       "name_en": null,
@@ -1406,6 +1721,19 @@
       }
     },
     {
+      "osm_id": 5708670786,
+      "name": "アルパインベル",
+      "name_en": null,
+      "category": "sports",
+      "lat": 35.6994037,
+      "lng": 139.7811598,
+      "tags": {
+        "level": "0",
+        "name": "アルパインベル",
+        "shop": "sports"
+      }
+    },
+    {
       "osm_id": 7579950620,
       "name": "アンチョビ",
       "name_en": null,
@@ -1415,6 +1743,29 @@
       "tags": {
         "amenity": "restaurant",
         "name": "アンチョビ"
+      }
+    },
+    {
+      "osm_id": 3929902771,
+      "name": "アヴェロ",
+      "name_en": "avelo",
+      "category": "bicycle",
+      "lat": 35.6921357,
+      "lng": 139.7840679,
+      "tags": {
+        "addr:block_number": "9",
+        "addr:city": "中央区",
+        "addr:housenumber": "11",
+        "addr:neighbourhood": "3丁目",
+        "addr:postcode": "103-0004",
+        "addr:quarter": "東日本橋",
+        "name": "アヴェロ",
+        "name:en": "avelo",
+        "note": "MiniVero etc.",
+        "opening_hours": "Mo-Sa 09:00-21:00; Su 09:00-19:00",
+        "phone": "+81-70-5075-8192",
+        "shop": "bicycle",
+        "website": "https://www.avelotokyo.com/"
       }
     },
     {
@@ -1603,6 +1954,32 @@
       }
     },
     {
+      "osm_id": 5174556108,
+      "name": "ココカラファイン",
+      "name_en": "Cocokara Fine",
+      "category": "pharmacy",
+      "lat": 35.6976595,
+      "lng": 139.7861579,
+      "tags": {
+        "amenity": "pharmacy",
+        "brand": "ココカラファイン",
+        "brand:en": "Cocokara Fine",
+        "brand:ja": "ココカラファイン",
+        "brand:wikidata": "Q11301948",
+        "brand:wikipedia": "ja:ココカラファイン",
+        "check_date": "2025-09",
+        "dispensing": "no",
+        "healthcare": "pharmacy",
+        "level": "0;1",
+        "name": "ココカラファイン",
+        "name:en": "Cocokara Fine",
+        "name:ja": "ココカラファイン",
+        "name:ja-Hira": "ここからふぁいん",
+        "name:ja-Latn": "Kokokara Fain",
+        "name:ja_rm": "Kokokara Fain"
+      }
+    },
+    {
       "osm_id": 5173930107,
       "name": "コメダ珈琲店",
       "name_en": "Komeda's Coffee",
@@ -1628,6 +2005,21 @@
       }
     },
     {
+      "osm_id": 5573770416,
+      "name": "コーセイ浅草橋薬局",
+      "name_en": null,
+      "category": "pharmacy",
+      "lat": 35.6984259,
+      "lng": 139.7834781,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "コーセイ浅草橋薬局",
+        "source": "survey"
+      }
+    },
+    {
       "osm_id": 1590216000,
       "name": "コーヒーの店 杉",
       "name_en": null,
@@ -1639,6 +2031,18 @@
         "level": "0",
         "name": "コーヒーの店 杉",
         "source": "survey, bing"
+      }
+    },
+    {
+      "osm_id": 2283944051,
+      "name": "サカゼン",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6935,
+      "lng": 139.7829795,
+      "tags": {
+        "name": "サカゼン",
+        "shop": "clothes"
       }
     },
     {
@@ -1691,6 +2095,19 @@
         "source": "survey; (URL) 2015",
         "takeaway": "yes",
         "website": "http://www.saint-marc-hd.com/cafe/"
+      }
+    },
+    {
+      "osm_id": 5573770413,
+      "name": "ジュエリー石津",
+      "name_en": null,
+      "category": "jewelry",
+      "lat": 35.6984365,
+      "lng": 139.7833362,
+      "tags": {
+        "name": "ジュエリー石津",
+        "shop": "jewelry",
+        "source": "survey"
       }
     },
     {
@@ -1757,6 +2174,35 @@
         "name:ja_rm": "Surīefu",
         "operator": "スリーエフ",
         "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 4992239601,
+      "name": "セイワの白衣",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6946948,
+      "lng": 139.7846483,
+      "tags": {
+        "name": "セイワの白衣",
+        "shop": "clothes"
+      }
+    },
+    {
+      "osm_id": 5173073239,
+      "name": "セピア薬局",
+      "name_en": "Sepia Pharmacy",
+      "category": "pharmacy",
+      "lat": 35.6985743,
+      "lng": 139.7848289,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "level": "0",
+        "name": "セピア薬局",
+        "name:en": "Sepia Pharmacy",
+        "source": "survey"
       }
     },
     {
@@ -2165,6 +2611,23 @@
       }
     },
     {
+      "osm_id": 5173139158,
+      "name": "トレジャーセレクト",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6974324,
+      "lng": 139.7860151,
+      "tags": {
+        "branch": "浅草橋店",
+        "level": "0",
+        "name": "トレジャーセレクト",
+        "second_hand": "only",
+        "shop": "clothes",
+        "source": "survey",
+        "website": "http://www.furugikaitori.jp/"
+      }
+    },
+    {
       "osm_id": 3639102802,
       "name": "ドトールコーヒーショップ",
       "name_en": "Doutor Coffee Shop",
@@ -2247,6 +2710,33 @@
         "source": "survey",
         "takeaway": "yes",
         "wheelchair": "no"
+      }
+    },
+    {
+      "osm_id": 7057652334,
+      "name": "パンドラ・ノ・ハコニワ",
+      "name_en": null,
+      "category": "houseware",
+      "lat": 35.7001078,
+      "lng": 139.7851212,
+      "tags": {
+        "level": "0",
+        "name": "パンドラ・ノ・ハコニワ",
+        "shop": "houseware",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5550478423,
+      "name": "ビッグバン",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6976523,
+      "lng": 139.7834051,
+      "tags": {
+        "level": "0",
+        "name": "ビッグバン",
+        "shop": "clothes"
       }
     },
     {
@@ -2476,6 +2966,18 @@
       }
     },
     {
+      "osm_id": 5173028901,
+      "name": "フクヤデンキ",
+      "name_en": null,
+      "category": "electronics",
+      "lat": 35.6995817,
+      "lng": 139.7846659,
+      "tags": {
+        "name": "フクヤデンキ",
+        "shop": "electronics"
+      }
+    },
+    {
       "osm_id": 2192222805,
       "name": "フレッシュネスバーガー",
       "name_en": "Freshness Burger",
@@ -2495,6 +2997,19 @@
         "name:ja": "フレッシュネスバーガー",
         "source": "survey",
         "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 4989869693,
+      "name": "プラザ薬局",
+      "name_en": null,
+      "category": "pharmacy",
+      "lat": 35.6953723,
+      "lng": 139.782973,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "プラザ薬局"
       }
     },
     {
@@ -2553,6 +3068,20 @@
         "name": "マルマンストア",
         "name:en": "Maruman Store",
         "shop": "supermarket"
+      }
+    },
+    {
+      "osm_id": 5593530148,
+      "name": "マルユウ電機",
+      "name_en": null,
+      "category": "electronics",
+      "lat": 35.6989234,
+      "lng": 139.7801679,
+      "tags": {
+        "brand": "TOSHIBA",
+        "name": "マルユウ電機",
+        "shop": "electronics",
+        "source": "survey"
       }
     },
     {
@@ -3214,6 +3743,18 @@
       }
     },
     {
+      "osm_id": 9768872812,
+      "name": "増田木製",
+      "name_en": null,
+      "category": "gift",
+      "lat": 35.697943,
+      "lng": 139.7853711,
+      "tags": {
+        "name": "増田木製",
+        "shop": "gift"
+      }
+    },
+    {
       "osm_id": 7721162928,
       "name": "夢矢",
       "name_en": null,
@@ -3481,6 +4022,25 @@
       }
     },
     {
+      "osm_id": 4989869692,
+      "name": "日本調剤",
+      "name_en": "Nihon Chouzai",
+      "category": "pharmacy",
+      "lat": 35.6953781,
+      "lng": 139.7828602,
+      "tags": {
+        "amenity": "pharmacy",
+        "brand": "日本調剤",
+        "brand:en": "Nihon Chouzai",
+        "brand:ja": "日本調剤",
+        "brand:wikidata": "Q11509159",
+        "healthcare": "pharmacy",
+        "name": "日本調剤",
+        "name:en": "Nihon Chouzai",
+        "name:ja": "日本調剤"
+      }
+    },
+    {
       "osm_id": 5174378438,
       "name": "日高屋",
       "name_en": "Hidakaya",
@@ -3584,6 +4144,44 @@
       }
     },
     {
+      "osm_id": 5642875283,
+      "name": "東京リッチ株式会社",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6978452,
+      "lng": 139.7837882,
+      "tags": {
+        "level": "0",
+        "name": "東京リッチ株式会社",
+        "shop": "clothes",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5158268493,
+      "name": "東宝服飾",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6989539,
+      "lng": 139.7842555,
+      "tags": {
+        "name": "東宝服飾",
+        "shop": "clothes"
+      }
+    },
+    {
+      "osm_id": 11388921086,
+      "name": "東日本橋ドラッグ",
+      "name_en": null,
+      "category": "chemist",
+      "lat": 35.6923488,
+      "lng": 139.7851412,
+      "tags": {
+        "name": "東日本橋ドラッグ",
+        "shop": "chemist"
+      }
+    },
+    {
       "osm_id": 4992239580,
       "name": "東海飯店",
       "name_en": null,
@@ -3681,6 +4279,46 @@
       }
     },
     {
+      "osm_id": 9762732913,
+      "name": "松栄",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6975453,
+      "lng": 139.7850424,
+      "tags": {
+        "name": "松栄",
+        "shop": "clothes"
+      }
+    },
+    {
+      "osm_id": 5573770384,
+      "name": "松竹タオル店",
+      "name_en": null,
+      "category": "houseware",
+      "lat": 35.6972444,
+      "lng": 139.7832428,
+      "tags": {
+        "level": "0",
+        "name": "松竹タオル店",
+        "shop": "houseware",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5593558632,
+      "name": "柳北でんき",
+      "name_en": null,
+      "category": "electronics",
+      "lat": 35.6992261,
+      "lng": 139.7810726,
+      "tags": {
+        "brand": "Panasonic",
+        "name": "柳北でんき",
+        "shop": "electronics",
+        "source": "survey"
+      }
+    },
+    {
       "osm_id": 1083264659,
       "name": "柳橋 小松屋",
       "name_en": "Yanagibashi Komatsuya",
@@ -3765,6 +4403,19 @@
       }
     },
     {
+      "osm_id": 5913863389,
+      "name": "水野鞄店",
+      "name_en": null,
+      "category": "bag",
+      "lat": 35.6979757,
+      "lng": 139.781402,
+      "tags": {
+        "level": "0;1",
+        "name": "水野鞄店",
+        "shop": "bag"
+      }
+    },
+    {
       "osm_id": 5173139163,
       "name": "浅草家",
       "name_en": null,
@@ -3809,6 +4460,20 @@
       }
     },
     {
+      "osm_id": 1590216019,
+      "name": "浅草橋眼鏡店",
+      "name_en": null,
+      "category": "optician",
+      "lat": 35.699023,
+      "lng": 139.7837298,
+      "tags": {
+        "contact:phone": "+81 3 3864 5691",
+        "name": "浅草橋眼鏡店",
+        "shop": "optician",
+        "source": "survey, bing"
+      }
+    },
+    {
       "osm_id": 7037736465,
       "name": "満る賀",
       "name_en": null,
@@ -3834,6 +4499,19 @@
         "level": "2",
         "name": "焼肉 ごち苑。",
         "name:en": "Yakiniku Gochien"
+      }
+    },
+    {
+      "osm_id": 4992239588,
+      "name": "玉木薬局本店",
+      "name_en": null,
+      "category": "pharmacy",
+      "lat": 35.6945396,
+      "lng": 139.7855756,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "玉木薬局本店"
       }
     },
     {
@@ -3952,6 +4630,18 @@
       }
     },
     {
+      "osm_id": 2292261004,
+      "name": "紳士服バルコン",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6975,
+      "lng": 139.781623,
+      "tags": {
+        "name": "紳士服バルコン",
+        "shop": "clothes"
+      }
+    },
+    {
       "osm_id": 2265854373,
       "name": "肉のハナマサ",
       "name_en": null,
@@ -3978,6 +4668,20 @@
         "amenity": "restaurant",
         "cuisine": "steak_house",
         "name": "肉食堂 優"
+      }
+    },
+    {
+      "osm_id": 5648830429,
+      "name": "草深時計店",
+      "name_en": null,
+      "category": "watches",
+      "lat": 35.6988412,
+      "lng": 139.7805078,
+      "tags": {
+        "level": "0",
+        "name": "草深時計店",
+        "shop": "watches",
+        "source": "survey"
       }
     },
     {
@@ -4008,6 +4712,33 @@
         "name": "華味",
         "opening_hours": "Mo-Su 11:00-23:00",
         "wheelchair": "no"
+      }
+    },
+    {
+      "osm_id": 5173028906,
+      "name": "華雅苑",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6996204,
+      "lng": 139.7846807,
+      "tags": {
+        "name": "華雅苑",
+        "shop": "clothes"
+      }
+    },
+    {
+      "osm_id": 5574882638,
+      "name": "薬の達生堂",
+      "name_en": null,
+      "category": "pharmacy",
+      "lat": 35.695114,
+      "lng": 139.7804488,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "level": "0",
+        "name": "薬の達生堂",
+        "source": "survey"
       }
     },
     {
@@ -4056,6 +4787,22 @@
         "amenity": "pub",
         "brewery": "yes",
         "name": "西口やきとん"
+      }
+    },
+    {
+      "osm_id": 5643018458,
+      "name": "誠心堂",
+      "name_en": null,
+      "category": "pharmacy",
+      "lat": 35.698408,
+      "lng": 139.785115,
+      "tags": {
+        "amenity": "pharmacy",
+        "branch": "浅草橋店",
+        "healthcare": "pharmacy",
+        "level": "0",
+        "name": "誠心堂",
+        "source": "survey"
       }
     },
     {
@@ -4217,6 +4964,19 @@
         "name": "風林",
         "name:en": "Furin",
         "name:ja": "風林"
+      }
+    },
+    {
+      "osm_id": 5173128814,
+      "name": "飛衛門",
+      "name_en": "Tobiemon",
+      "category": "variety_store",
+      "lat": 35.6974264,
+      "lng": 139.7849871,
+      "tags": {
+        "name": "飛衛門",
+        "name:en": "Tobiemon",
+        "shop": "variety_store"
       }
     },
     {
@@ -4395,6 +5155,19 @@
         "name": "麺屋のろし",
         "name:en": "Noroshi",
         "note": "子ども食堂実施"
+      }
+    },
+    {
+      "osm_id": 7719090639,
+      "name": "黄月舘",
+      "name_en": null,
+      "category": "clothes",
+      "lat": 35.6985922,
+      "lng": 139.7853465,
+      "tags": {
+        "name": "黄月舘",
+        "shop": "clothes",
+        "source": "survey"
       }
     }
   ]

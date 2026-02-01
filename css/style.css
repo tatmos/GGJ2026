@@ -402,10 +402,40 @@ canvas { display: block; }
   pointer-events: none;
 }
 
+/* equipment panel */
+.equipment-panel {
+  position: fixed;
+  top: 200px;
+  right: 24px;
+  padding: 8px 10px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  pointer-events: none;
+  z-index: 10;
+  min-width: 180px;
+  max-width: 220px;
+}
+.equipment-panel .equipment-header {
+  font-size: 12px;
+  color: rgba(255,255,255,0.95);
+  margin-bottom: 8px;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 4px;
+}
+.equipment-panel .equipment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
 /* mask panel */
 .mask-panel {
   position: fixed;
-  bottom: 200px;
+  bottom: 160px;
   left: 24px;
   padding: 8px 10px;
   background: rgba(0,0,0,0.4);
@@ -437,7 +467,7 @@ canvas { display: block; }
 /* buff panel */
 .buff-panel {
   position: fixed;
-  bottom: 260px;
+  bottom: 220px;
   left: 24px;
   padding: 8px 10px;
   background: rgba(0,0,0,0.4);

@@ -19,6 +19,24 @@ import {
   energyPerFood
 } from './food.js';
 import {
+  getEquipments,
+  updateEquipmentHeights,
+  updateEquipmentAnimation,
+  loadEquipmentSpawnsFromJson,
+  collectEquipment,
+  equipmentCollectRadius
+} from './equipment.js';
+import {
+  createInventory,
+  canAddItem,
+  addItem,
+  isBag,
+  getEffectMultipliers,
+  getItemsForDisplay,
+  getBagsForDisplay,
+  getInventorySummary
+} from './inventory.js';
+import {
   tickBuffQueue,
   addBuffToQueue,
   getSpeedMultiplierFromBuff,
@@ -54,7 +72,9 @@ import {
   updateBuffQueue,
   updateEnemyGuide,
   updateBossPanel,
-  showItemPopup
+  showItemPopup,
+  showEquipmentPopup,
+  updateEquipmentUI
 } from './ui.js';
 
 const { scene, camera, renderer, ground, checkerTexProximity, cityRoot } = createScene();
@@ -85,6 +105,14 @@ tryLoadPLATEAU(scene, cityRoot, {
     }
   }
   onUpdateFoodHeights();
+})();
+
+// 装備の配置: JSONから読み込み
+(async () => {
+  const count = await loadEquipmentSpawnsFromJson(scene);
+  console.log(`[Equipment] ${count} 件の装備を配置`);
+  // 高さ更新
+  updateEquipmentHeights(getHeightAt);
 })();
 
 // transform.json の対応点を表示（デバッグ用）
@@ -166,6 +194,9 @@ const gameState = {
   grip: 1,
   absorb: 1,
   search: 5,
+  /** 装備インベントリ（createInventory()で初期化） */
+  equipmentInventory: createInventory(),
+  /** UI互換用（後で削除予定） */
   inventory: [],
   inventoryMaxSlots: 5,
   masks: [],
@@ -481,6 +512,43 @@ function animate() {
     }
   });
 
+  // 装備のアニメーション更新
+  updateEquipmentAnimation(dt);
+
+  // 装備の取得判定
+  const equipments = getEquipments();
+  equipments.forEach((e) => {
+    if (e.collected) return;
+    const dx = camera.position.x - e.x;
+    const dz = camera.position.z - e.z;
+    if (dx * dx + dz * dz < equipmentCollectRadius * equipmentCollectRadius) {
+      // インベントリに空きがあるか確認
+      if (canAddItem(gameState.equipmentInventory)) {
+        // 装備を回収
+        collectEquipment(e, scene);
+        // インベントリに追加
+        addItem(gameState.equipmentInventory, {
+          itemCategory: e.itemCategory,
+          typeId: e.typeId,
+          name: e.name,
+          nameJa: e.nameJa,
+          effect: e.effect,
+          value: e.value,
+          color: e.color,
+          icon: e.icon,
+          shopName: e.shopName,
+          shopNameJa: e.shopNameJa
+        });
+        // 取得ポップアップ表示
+        showEquipmentPopup(e);
+        console.log(`[Equipment] 取得: ${e.icon} ${e.nameJa} (${e.effect}: ${e.value > 0 ? '+' : ''}${(e.value * 100).toFixed(0)}%)`);
+      } else {
+        // スロットが満杯の場合（後で交換UIを追加予定）
+        // 現在は何もしない
+      }
+    }
+  });
+
   gameState.survivalSec += dt;
 
   updateEnergyBar(energy);
@@ -500,6 +568,12 @@ function animate() {
     search: gameState.search
   });
   updateInventory(gameState.inventory, gameState.inventoryMaxSlots);
+  // 装備UIの更新
+  updateEquipmentUI(
+    getInventorySummary(gameState.equipmentInventory),
+    getItemsForDisplay(gameState.equipmentInventory),
+    getBagsForDisplay(gameState.equipmentInventory)
+  );
   updateMaskList(gameState.masks);
   updateBuffQueue(getActiveBuffsForDisplay(gameState), getBuffQueueForDisplay(gameState));
   updateEnemyGuide(gameState.enemies, camera.position, yaw, gameState.searchRange);

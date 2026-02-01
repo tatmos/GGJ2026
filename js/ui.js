@@ -437,3 +437,244 @@ export function showItemPopup(name, nameJa, cuisine, typeId) {
     if (itemPopupEl) itemPopupEl.style.opacity = '0';
   }, 2000);
 }
+
+// ============================================================
+// 装備関連UI
+// ============================================================
+
+let equipmentPopupEl = null;
+let equipmentPopupTimeout = null;
+
+/**
+ * 装備取得時のポップアップを表示
+ * @param {Object} equipment 装備オブジェクト
+ */
+export function showEquipmentPopup(equipment) {
+  if (!equipmentPopupEl) {
+    equipmentPopupEl = document.createElement('div');
+    equipmentPopupEl.id = 'equipmentPopup';
+    equipmentPopupEl.style.cssText = `
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.9);
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      text-align: center;
+      z-index: 200;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      border: 2px solid;
+    `;
+    document.body.appendChild(equipmentPopupEl);
+  }
+
+  const {
+    icon,
+    nameJa,
+    name,
+    effect,
+    value,
+    color,
+    itemCategory,
+    shopNameJa,
+    shopName
+  } = equipment;
+
+  const displayName = nameJa || name || '???';
+  const shopDisplayName = shopNameJa || shopName || '';
+  const valueText = effect === 'slotExpand' 
+    ? `+${value}枠` 
+    : `${value > 0 ? '+' : ''}${(value * 100).toFixed(0)}%`;
+  
+  const effectLabels = {
+    attack: '攻撃力',
+    defense: '防御力',
+    speed: '移動速度',
+    verticalSpeed: '上下速度',
+    groundSpeed: '地上速度',
+    pickupRange: '取得範囲',
+    magnetism: '吸引力',
+    detection: '索敵範囲',
+    buffDuration: 'バフ持続',
+    recoveryCooldown: '回復CD',
+    energyRegen: 'エネルギー回復',
+    foodBuffBoost: '食事バフ強化',
+    slotExpand: 'スロット拡張',
+    allStats: '全能力'
+  };
+  const effectLabel = effectLabels[effect] || effect;
+
+  equipmentPopupEl.style.borderColor = color;
+  equipmentPopupEl.innerHTML = `
+    <div style="font-size:48px;margin-bottom:8px;">${icon}</div>
+    <div style="font-size:24px;font-weight:bold;color:${color};margin-bottom:4px;">${displayName}</div>
+    <div style="font-size:16px;color:#4ade80;margin-bottom:8px;">${effectLabel} ${valueText}</div>
+    ${shopDisplayName ? `<div style="font-size:12px;color:#888;">from: ${shopDisplayName}</div>` : ''}
+    <div style="font-size:10px;color:#666;margin-top:8px;">${itemCategory === 'gem' ? '💎 宝石' : '⚙️ 装備'}</div>
+  `;
+  equipmentPopupEl.style.opacity = '1';
+  equipmentPopupEl.style.display = 'block';
+
+  // 一定時間後にフェードアウト
+  if (equipmentPopupTimeout) clearTimeout(equipmentPopupTimeout);
+  equipmentPopupTimeout = setTimeout(() => {
+    if (equipmentPopupEl) equipmentPopupEl.style.opacity = '0';
+  }, 2500);
+}
+
+/** 効果ラベルのマッピング */
+const EFFECT_LABELS = {
+  attack: '攻撃',
+  defense: '防御',
+  speed: '速度',
+  verticalSpeed: '上下',
+  groundSpeed: '地上',
+  pickupRange: '範囲',
+  magnetism: '吸引',
+  detection: '索敵',
+  buffDuration: '持続',
+  recoveryCooldown: 'CD',
+  energyRegen: '回復',
+  foodBuffBoost: '食事',
+  slotExpand: '枠',
+  allStats: '全能力'
+};
+
+/**
+ * 装備インベントリUIを更新
+ * @param {Object} inventorySummary { used, max, empty, bagCount }
+ * @param {Array} items 装備アイテム配列
+ * @param {Array} bags バッグ配列（省略可）
+ */
+export function updateEquipmentUI(inventorySummary, items, bags = []) {
+  const panelEl = document.getElementById('equipmentPanel');
+  if (!panelEl) return;
+
+  const { used, max, bagCount } = inventorySummary;
+  
+  // ヘッダー更新
+  const headerEl = panelEl.querySelector('.equipment-header');
+  if (headerEl) {
+    const bagText = bagCount > 0 ? ` 🎒×${bagCount}` : '';
+    headerEl.textContent = `装備 (${used}/${max})${bagText}`;
+  }
+  
+  // アイテムリスト更新
+  const listEl = panelEl.querySelector('.equipment-list');
+  if (!listEl) return;
+  
+  listEl.innerHTML = '';
+  
+  // バッグを表示（別枠）
+  if (bags.length > 0) {
+    const bagHeader = document.createElement('div');
+    bagHeader.style.cssText = `
+      font-size: 10px;
+      color: #888;
+      margin-bottom: 4px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    `;
+    bagHeader.textContent = `🎒 バッグ (${bags.length}個 = +${bags.length * 2}枠)`;
+    listEl.appendChild(bagHeader);
+    
+    for (const bag of bags) {
+      const bagEl = createEquipmentItemElement(bag, true);
+      listEl.appendChild(bagEl);
+    }
+    
+    // 区切り線
+    const separator = document.createElement('div');
+    separator.style.cssText = `
+      height: 1px;
+      background: rgba(255,255,255,0.2);
+      margin: 6px 0;
+    `;
+    listEl.appendChild(separator);
+  }
+  
+  // 装備アイテムを表示
+  for (const item of items) {
+    const itemEl = createEquipmentItemElement(item, false);
+    listEl.appendChild(itemEl);
+  }
+  
+  // 空きスロットを表示（最大3つまで）
+  const emptyCount = Math.min(3, max - used);
+  for (let i = 0; i < emptyCount; i++) {
+    const emptyEl = document.createElement('div');
+    emptyEl.className = 'equipment-item empty';
+    emptyEl.style.cssText = `
+      padding: 4px 8px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 4px;
+      border: 1px dashed rgba(255,255,255,0.2);
+      margin-bottom: 4px;
+      font-size: 11px;
+      color: #666;
+      text-align: center;
+    `;
+    emptyEl.textContent = '[空き]';
+    listEl.appendChild(emptyEl);
+  }
+  
+  // 残りの空きスロットがある場合
+  if (max - used > 3) {
+    const moreEl = document.createElement('div');
+    moreEl.style.cssText = `
+      font-size: 10px;
+      color: #666;
+      text-align: center;
+    `;
+    moreEl.textContent = `+${max - used - 3}枠`;
+    listEl.appendChild(moreEl);
+  }
+}
+
+/**
+ * 装備アイテム要素を作成
+ * @param {Object} item アイテム
+ * @param {boolean} isBag バッグかどうか
+ * @returns {HTMLElement}
+ */
+function createEquipmentItemElement(item, isBag) {
+  const itemEl = document.createElement('div');
+  itemEl.className = 'equipment-item';
+  
+  const valueText = item.effect === 'slotExpand' 
+    ? `+${item.value}枠` 
+    : `${item.value > 0 ? '+' : ''}${(item.value * 100).toFixed(0)}%`;
+  
+  const effectLabel = EFFECT_LABELS[item.effect] || item.effect;
+  const shopDisplay = item.shopNameJa || item.shopName || '';
+  
+  itemEl.style.cssText = `
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 6px 8px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 4px;
+    border-left: 3px solid ${item.color};
+    margin-bottom: 4px;
+    font-size: 11px;
+    ${isBag ? 'opacity: 0.8;' : ''}
+  `;
+  
+  itemEl.innerHTML = `
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span style="font-size:16px;">${item.icon}</span>
+      <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:bold;">${item.nameJa || item.name}</span>
+      <span style="color:${item.color};font-weight:bold;">${effectLabel}${valueText}</span>
+    </div>
+    ${shopDisplay ? `<div style="font-size:9px;color:#888;margin-left:22px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">📍 ${shopDisplay}</div>` : ''}
+  `;
+  
+  itemEl.title = `${item.nameJa || item.name}\n${effectLabel}: ${valueText}\nfrom: ${item.shopNameJa || item.shopName || '???'}`;
+  
+  return itemEl;
+}
