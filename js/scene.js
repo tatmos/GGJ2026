@@ -58,7 +58,12 @@ export function createScene() {
   checkerTexProximity.repeat.set(4, 4);
 
   const groundGeo = new THREE.PlaneGeometry(2000, 2000);
-  const groundMat = new THREE.MeshStandardMaterial({ color: 0xffffff, map: checkerTex });
+  /** 床＝川・海想定。青系の水面風（市松テクスチャは使わない） */
+  const groundMat = new THREE.MeshStandardMaterial({
+    color: 0x1e40af,
+    metalness: 0.1,
+    roughness: 0.3
+  });
   const ground = new THREE.Mesh(groundGeo, groundMat);
   ground.rotation.x = -Math.PI / 2;
   ground.receiveShadow = true;

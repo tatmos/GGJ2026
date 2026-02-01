@@ -26,7 +26,9 @@ import {
   energyRecoveryPerSec,
   verticalSpeed,
   minHeight,
-  maxHeight
+  maxHeight,
+  hoverGraceTimeSec,
+  autoDescendSpeed
 } from './player.js';
 import {
   updateLoadProgress,
@@ -71,6 +73,8 @@ let speedMultiplier = 1;
 let energy = 100;
 /** 加速・減速直後の回復待ち（秒）。この間は回復しない */
 let recoveryCooldown = 0;
+/** 加速・減速していない状態が続いた秒数。hoverGraceTimeSec を超えると自動下降開始 */
+let hoverGraceElapsed = 0;
 const clock = new THREE.Clock();
 const foods = getFoods();
 
@@ -94,7 +98,9 @@ const gameState = {
   searchRange: 50,
   bossHp: null,
   bossHpMax: 100,
-  bossMaskCount: 0
+  bossMaskCount: 0,
+  /** ホバー猶予時間（秒）。成長で延長可能。未設定時は player.js の hoverGraceTimeSec を使用 */
+  hoverGraceTimeSec: undefined
 };
 
 const debugFpsEl = document.getElementById('debugFps');
@@ -193,11 +199,13 @@ function animate() {
     speedMultiplier = 1.6;
     energy = Math.max(0, energy - energyCostPerSec * dt);
     recoveryCooldown = 1.0;
+    hoverGraceElapsed = 0;
   }
   if (keys.s && energy > 0) {
     speedMultiplier = 0.5;
     energy = Math.max(0, energy - energyCostPerSec * dt);
     recoveryCooldown = 1.0;
+    hoverGraceElapsed = 0;
   }
   recoveryCooldown = Math.max(0, recoveryCooldown - dt);
   if (!keys.w && !keys.s && recoveryCooldown <= 0) {
@@ -207,8 +215,21 @@ function animate() {
   const move = forward.multiplyScalar(baseSpeed * speedMultiplier * dt);
   camera.position.add(move);
 
+  if (keys.w && energy > 0) camera.position.y += verticalSpeed * dt;
+  if (keys.s) camera.position.y -= verticalSpeed * dt;
   if (keys.q) camera.position.y += verticalSpeed * dt;
   if (keys.e) camera.position.y -= verticalSpeed * dt;
+  const hoverGrace = gameState.hoverGraceTimeSec ?? hoverGraceTimeSec;
+  if (!keys.w && !keys.s && !keys.q && !keys.e) {
+    hoverGraceElapsed += dt;
+    if (hoverGraceElapsed >= hoverGrace && camera.position.y > minHeight) {
+      camera.position.y -= autoDescendSpeed * dt;
+      if (camera.position.y < minHeight) camera.position.y = minHeight;
+    }
+  } else {
+    hoverGraceElapsed = 0;
+  }
+
   resolveCollisions(camera);
 
   foods.forEach((f) => {

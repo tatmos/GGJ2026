@@ -2,7 +2,8 @@ import * as THREE from 'three';
 
 export const collectRadius = 2.5;
 export const energyPerFood = 25;
-const beamHeight = 18;
+/** アイテムから出る光の高さ（Y方向の長さ）。建物で隠れるよう depthTest: true で描画 */
+const beamHeight = 70;
 
 const foods = [];
 const foodGeo = new THREE.SphereGeometry(0.4, 12, 12);
@@ -25,7 +26,8 @@ export function addFood(scene, x, z) {
     color: 0xffdd44,
     transparent: true,
     opacity: 0.85,
-    depthTest: false
+    depthTest: true,
+    depthWrite: false
   });
   const beam = new THREE.Line(beamGeo, beamMat);
   beam.scale.y = beamHeight;
