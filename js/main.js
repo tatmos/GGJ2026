@@ -500,6 +500,30 @@ document.getElementById('debugCheckbox').addEventListener('change', (e) => {
   if (on) updateDebugCheckerStateLabel();
 });
 
+// クレジットダイアログ制御
+const creditsBtn = document.getElementById('creditsBtn');
+const creditsDialog = document.getElementById('creditsDialog');
+const creditsCloseBtn = document.getElementById('creditsCloseBtn');
+
+if (creditsBtn && creditsDialog) {
+  creditsBtn.addEventListener('click', () => {
+    creditsDialog.showModal();
+  });
+}
+if (creditsCloseBtn && creditsDialog) {
+  creditsCloseBtn.addEventListener('click', () => {
+    creditsDialog.close();
+  });
+}
+// ダイアログ外クリックで閉じる
+if (creditsDialog) {
+  creditsDialog.addEventListener('click', (e) => {
+    if (e.target === creditsDialog) {
+      creditsDialog.close();
+    }
+  });
+}
+
 if (debugProximityCheckbox) {
   debugProximityCheckbox.addEventListener('change', (e) => {
     proximity.setProximityEnabled(e.target.checked);

@@ -91,3 +91,49 @@ Blenderでオブジェクトに回転（例: X 90°）がついたままエク�
 
 - [PLATEAU - Three.jsで活用する（3D都市モデルの読み込みと表示）](https://www.mlit.go.jp/plateau/learning/tpc12-1/)
 - [Three.js](https://threejs.org/)
+
+---
+
+## Credits
+
+### Development
+
+- **Developer**: tatmos
+
+### Development Environment
+
+- [Cursor](https://cursor.sh/) (auto, Opus 4.5)
+- [Blender](https://www.blender.org/)
+- Python
+- [PLATEAU GIS Converter](https://github.com/Project-PLATEAU/PLATEAU-GIS-Converter)
+
+### Third-Party Assets & Data
+
+| Asset | Source | License |
+|-------|--------|---------|
+| 3D City Model | [PLATEAU](https://www.mlit.go.jp/plateau/) by MLIT Japan (国土交通省) | CC BY 4.0 |
+| Map Data | [OpenStreetMap](https://www.openstreetmap.org/) | ODbL |
+| 3D Engine | [Three.js](https://threejs.org/) | MIT License |
+
+---
+
+## License
+
+This game was created for **[Global Game Jam 2026](https://globalgamejam.org/)** (Theme: "BUBBLE").
+
+### Game License
+
+This work is licensed under the [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License (CC BY-NC-SA 4.0)](https://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+You are free to:
+- **Share** — copy and redistribute the material in any medium or format
+- **Adapt** — remix, transform, and build upon the material
+
+Under the following terms:
+- **Attribution** — You must give appropriate credit
+- **NonCommercial** — You may not use the material for commercial purposes
+- **ShareAlike** — If you remix, you must distribute under the same license
+
+### Third-Party Licenses
+
+Third-party components retain their original licenses. See [LICENSE](LICENSE) for details.

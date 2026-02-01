@@ -1,0 +1,83 @@
+Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+
+Copyright (c) 2026 tatmos
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+
+You are free to:
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material
+
+Under the following terms:
+- Attribution — You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made.
+- NonCommercial — You may not use the material for commercial purposes.
+- ShareAlike — If you remix, transform, or build upon the material, you must
+  distribute your contributions under the same license as the original.
+
+Full license text: https://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
+
+================================================================================
+THIRD-PARTY LICENSES
+================================================================================
+
+This project uses the following third-party components:
+
+--------------------------------------------------------------------------------
+Three.js
+--------------------------------------------------------------------------------
+License: MIT License
+URL: https://github.com/mrdoob/three.js
+Copyright: Copyright 2010-2024 Three.js Authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+--------------------------------------------------------------------------------
+PLATEAU 3D City Model
+--------------------------------------------------------------------------------
+License: CC BY 4.0 (Creative Commons Attribution 4.0 International)
+Source: 国土交通省 PLATEAU
+URL: https://www.mlit.go.jp/plateau/
+
+出典：国土交通省「PLATEAU」 https://www.mlit.go.jp/plateau/
+
+You are free to:
+- Share — copy and redistribute the material in any medium or format
+- Adapt — remix, transform, and build upon the material for any purpose,
+  even commercially
+
+Under the following terms:
+- Attribution — You must give appropriate credit, provide a link to the license,
+  and indicate if changes were made.
+
+Full license text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+--------------------------------------------------------------------------------
+OpenStreetMap Data
+--------------------------------------------------------------------------------
+License: Open Database License (ODbL)
+URL: https://www.openstreetmap.org/copyright
+
+© OpenStreetMap contributors
+
+You are free to copy, distribute, transmit and adapt our data, as long as you
+credit OpenStreetMap and its contributors. If you alter or build upon our data,
+you may distribute the result only under the same licence.
+
+Full license text: https://opendatacommons.org/licenses/odbl/1.0/

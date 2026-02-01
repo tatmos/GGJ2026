@@ -177,6 +177,48 @@
       </div>
     </div>
   </div>
+  
+  <!-- クレジットボタン -->
+  <button id="creditsBtn" class="credits-btn">Credits</button>
+  
+  <!-- クレジットダイアログ -->
+  <dialog id="creditsDialog" class="credits-dialog">
+    <h2>Credits</h2>
+    <div class="credits-content">
+      <section>
+        <h3>Development</h3>
+        <p><strong>tatmos</strong></p>
+      </section>
+      <section>
+        <h3>Development Environment</h3>
+        <ul>
+          <li>Cursor (auto, Opus 4.5)</li>
+          <li>Blender</li>
+          <li>Python</li>
+          <li>PLATEAU GIS Converter</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Map Data</h3>
+        <p>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</p>
+      </section>
+      <section>
+        <h3>3D City Model</h3>
+        <p>PLATEAU by MLIT Japan (国土交通省)</p>
+        <p class="license-note">Licensed under CC BY 4.0</p>
+      </section>
+      <section>
+        <h3>Game Engine</h3>
+        <p><a href="https://threejs.org/" target="_blank" rel="noopener">Three.js</a> - MIT License</p>
+      </section>
+      <section class="ggj-section">
+        <h3>Global Game Jam 2026</h3>
+        <p>Theme: "BUBBLE"</p>
+      </section>
+    </div>
+    <button id="creditsCloseBtn" class="credits-close-btn">Close</button>
+  </dialog>
+  
   <div id="birdEyeCrosshair" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:100;">
     <div style="width:20px;height:2px;background:#ff0;position:absolute;left:-10px;top:-1px;"></div>
     <div style="width:2px;height:20px;background:#ff0;position:absolute;left:-1px;top:-10px;"></div>
