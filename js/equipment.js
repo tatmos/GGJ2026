@@ -9,8 +9,79 @@ const beamHeight = 70;
 /** 装備アイテムの配列 */
 const equipments = [];
 
-/** 八面体ジオメトリ（ダイヤモンド形） */
+/** 八面体ジオメトリ（ダイヤモンド形） - デフォルト */
 const equipmentGeo = new THREE.OctahedronGeometry(0.6, 0);
+
+/** カプセルジオメトリ（薬用） */
+const capsuleGeo = new THREE.CapsuleGeometry(0.25, 0.6, 8, 16);
+
+/** 箱ジオメトリ（バッグ用） */
+const bagGeo = new THREE.BoxGeometry(0.6, 0.7, 0.3);
+
+/** 薄い箱ジオメトリ（服用） */
+const clothesGeo = new THREE.BoxGeometry(0.8, 0.9, 0.1);
+
+/** トーラスジオメトリ（磁石用 - U字の代わりに馬蹄形） */
+const magnetGeo = new THREE.TorusGeometry(0.35, 0.12, 8, 16, Math.PI);
+
+/** 旗用ジオメトリを作成（棒 + 布） */
+function createFlagGeometry() {
+  // 旗は複合オブジェクトなのでnullを返し、専用処理で対応
+  return null;
+}
+
+/**
+ * typeIdに応じたジオメトリを返す
+ * @returns {THREE.BufferGeometry|null} nullの場合は専用メッシュ作成が必要
+ */
+function getGeometryForType(typeId) {
+  switch (typeId) {
+    case 'medicine':
+      return capsuleGeo;
+    case 'bag':
+      return bagGeo;
+    case 'clothes':
+      return clothesGeo;
+    case 'magnet':
+      return magnetGeo;
+    case 'flag':
+      return null; // 専用処理
+    default:
+      return equipmentGeo;
+  }
+}
+
+/**
+ * 旗の3Dモデルを作成（棒 + 布の複合オブジェクト）
+ */
+function createFlagMesh(color) {
+  const group = new THREE.Group();
+  
+  // 棒（ポール）
+  const poleGeo = new THREE.CylinderGeometry(0.03, 0.03, 1.2, 8);
+  const poleMat = new THREE.MeshStandardMaterial({
+    color: 0x8B4513,
+    metalness: 0.3,
+    roughness: 0.7
+  });
+  const pole = new THREE.Mesh(poleGeo, poleMat);
+  pole.position.y = 0;
+  group.add(pole);
+  
+  // 布（旗本体）
+  const flagGeo = new THREE.PlaneGeometry(0.6, 0.4);
+  const flagMat = new THREE.MeshStandardMaterial({
+    color: color,
+    emissive: color,
+    emissiveIntensity: 0.3,
+    side: THREE.DoubleSide
+  });
+  const flag = new THREE.Mesh(flagGeo, flagMat);
+  flag.position.set(0.32, 0.35, 0);
+  group.add(flag);
+  
+  return group;
+}
 
 export function getEquipments() {
   return equipments;
@@ -43,16 +114,39 @@ export function addEquipment(scene, spawnData) {
   const meshColor = new THREE.Color(color);
   const beamColor = meshColor.clone().lerp(new THREE.Color(0xffffff), 0.3);
 
-  // メッシュ作成
-  const material = new THREE.MeshStandardMaterial({
-    color: meshColor,
-    emissive: meshColor,
-    emissiveIntensity: 0.3,
-    metalness: 0.5,
-    roughness: 0.3
-  });
-  const mesh = new THREE.Mesh(equipmentGeo, material);
+  // メッシュ作成（typeIdに応じたジオメトリ）
+  const geometry = getGeometryForType(typeId);
+  let mesh;
+  
+  if (typeId === 'flag') {
+    // 旗は専用の複合オブジェクト
+    mesh = createFlagMesh(meshColor);
+  } else {
+    const material = new THREE.MeshStandardMaterial({
+      color: meshColor,
+      emissive: meshColor,
+      emissiveIntensity: 0.3,
+      metalness: 0.5,
+      roughness: 0.3
+    });
+    mesh = new THREE.Mesh(geometry, material);
+  }
+  
   mesh.position.set(gameX, 0.8, gameZ);
+  
+  // typeId別の初期回転
+  switch (typeId) {
+    case 'medicine':
+      mesh.rotation.z = Math.PI / 6; // 30度傾ける
+      break;
+    case 'magnet':
+      mesh.rotation.x = Math.PI / 2; // U字が上を向くように
+      break;
+    case 'clothes':
+      mesh.rotation.y = Math.PI / 4; // 斜めに
+      break;
+  }
+  
   mesh.castShadow = true;
   scene.add(mesh);
 

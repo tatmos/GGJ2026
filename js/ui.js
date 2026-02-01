@@ -1,3 +1,41 @@
+// ============================================================
+// 戦闘ログ
+// ============================================================
+
+/** ログの最大表示数 */
+const MAX_COMBAT_LOGS = 5;
+
+/**
+ * 戦闘ログを追加
+ * @param {string} message メッセージ
+ * @param {'attack'|'damage'|'defeat'|'mask'} type ログタイプ
+ */
+export function addCombatLog(message, type = 'attack') {
+  const logEl = document.getElementById('combatLog');
+  if (!logEl) return;
+  
+  const entry = document.createElement('div');
+  entry.className = `combat-log-entry ${type}`;
+  entry.textContent = message;
+  logEl.appendChild(entry);
+  
+  // 古いログを削除
+  while (logEl.children.length > MAX_COMBAT_LOGS) {
+    logEl.removeChild(logEl.firstChild);
+  }
+  
+  // 3秒後に自動削除
+  setTimeout(() => {
+    if (entry.parentNode === logEl) {
+      logEl.removeChild(entry);
+    }
+  }, 3000);
+}
+
+// ============================================================
+// ローディング
+// ============================================================
+
 export function updateLoadProgress(percent) {
   const pct = Math.min(100, Math.max(0, percent));
   const fill = document.getElementById('loadingProgressFill');
@@ -99,6 +137,18 @@ export function updateInventory(items, maxSlots) {
 }
 
 /** 所持マスク: masks = [{ id, name?, level? }] */
+/** マスク効果ラベル */
+const MASK_EFFECT_LABELS = {
+  attack: '攻撃',
+  defense: '防御',
+  speed: '速度',
+  pickupRange: '範囲',
+  magnetism: '吸引',
+  detection: '索敵',
+  buffDuration: '持続',
+  allStats: '全能力',
+};
+
 export function updateMaskList(masks) {
   const countEl = document.getElementById('maskCount');
   const slotsEl = document.getElementById('maskSlots');
@@ -109,8 +159,30 @@ export function updateMaskList(masks) {
   list.forEach((m) => {
     const slot = document.createElement('div');
     slot.className = 'mask-slot';
-    slot.title = m.name ? (m.level ? `${m.name} Lv${m.level}` : m.name) : '';
-    slot.textContent = m.level ?? '';
+    
+    // 色を設定
+    const colorHex = typeof m.color === 'number' 
+      ? `#${m.color.toString(16).padStart(6, '0')}` 
+      : (m.color || '#888');
+    slot.style.backgroundColor = colorHex;
+    slot.style.border = '2px solid rgba(255,255,255,0.5)';
+    
+    // レベル表示
+    if (m.level && m.level > 1) {
+      slot.textContent = m.level;
+      slot.style.color = '#fff';
+      slot.style.fontWeight = 'bold';
+      slot.style.fontSize = '12px';
+      slot.style.display = 'flex';
+      slot.style.alignItems = 'center';
+      slot.style.justifyContent = 'center';
+    }
+    
+    // ツールチップ
+    const effectLabel = MASK_EFFECT_LABELS[m.effect] || m.effect || '';
+    const valueText = m.value ? `${m.value > 0 ? '+' : ''}${(m.value * 100).toFixed(0)}%` : '';
+    slot.title = `${m.nameJa || m.name || 'マスク'}${m.level ? ` Lv${m.level}` : ''}\n${effectLabel} ${valueText}`;
+    
     slotsEl.appendChild(slot);
   });
 }

@@ -67,15 +67,41 @@ import {
   updateAltitudeMeter,
   updatePosMeter,
   updateStatusPanel,
-  updateInventory,
   updateMaskList,
   updateBuffQueue,
   updateEnemyGuide,
   updateBossPanel,
   showItemPopup,
   showEquipmentPopup,
-  updateEquipmentUI
+  updateEquipmentUI,
+  addCombatLog
 } from './ui.js';
+import {
+  ENEMY_CONFIG,
+  spawnEnemy,
+  getEnemies,
+  getAliveEnemies,
+  updateEnemies,
+  cleanupDeadEnemies
+} from './enemy.js';
+import {
+  playerAttack,
+  enemyAttacks,
+  updateDamageNumbers,
+  COMBAT_CONFIG
+} from './combat.js';
+import {
+  getDroppedMasks,
+  updateDroppedMasks,
+  collectMask,
+  cleanupCollectedMasks,
+  dropMasksFromEnemy,
+  createMaskInventory,
+  addMaskToInventory,
+  getMaskEffects,
+  getMasksForDisplay,
+  MASK_COLLECT_RADIUS
+} from './mask.js';
 
 const { scene, camera, renderer, ground, checkerTexProximity, cityRoot } = createScene();
 document.body.appendChild(renderer.domElement);
@@ -196,10 +222,16 @@ const gameState = {
   search: 5,
   /** 装備インベントリ（createInventory()で初期化） */
   equipmentInventory: createInventory(),
+  /** マスクインベントリ */
+  maskInventory: createMaskInventory(),
   /** UI互換用（後で削除予定） */
   inventory: [],
   inventoryMaxSlots: 5,
   masks: [],
+  /** 敵スポーン用タイマー */
+  enemySpawnTimer: 0,
+  /** 次の敵スポーンまでの時間（秒） */
+  nextEnemySpawnSec: 30, // 最初は30秒後
   /** 現在消費中バフ 1 つ（とった順に 1 つずつ消費）。null のときはキュー先頭を次に取り出す */
   activeBuff: null,
   /** 待機中のバフキュー。各要素は { typeId, durationMax } */
@@ -551,6 +583,94 @@ function animate() {
 
   gameState.survivalSec += dt;
 
+  // === 敵システム ===
+  
+  // 敵スポーン
+  gameState.enemySpawnTimer += dt;
+  if (gameState.enemySpawnTimer >= gameState.nextEnemySpawnSec) {
+    gameState.enemySpawnTimer = 0;
+    gameState.nextEnemySpawnSec = ENEMY_CONFIG.spawnIntervalSec;
+    
+    // プレイヤーから離れた位置にスポーン
+    const spawnAngle = Math.random() * Math.PI * 2;
+    const spawnDist = 50 + Math.random() * 50;
+    const spawnX = camera.position.x + Math.cos(spawnAngle) * spawnDist;
+    const spawnZ = camera.position.z + Math.sin(spawnAngle) * spawnDist;
+    
+    // 強さはプレイヤーより少し弱め（0.5〜0.9）
+    const strength = 0.5 + Math.random() * 0.4;
+    spawnEnemy(scene, spawnX, spawnZ, strength);
+  }
+  
+  // 敵の更新
+  updateEnemies(dt, camera.position, getHeightAt);
+  
+  // プレイヤーの自動攻撃
+  const playerStats = {
+    baseAttack: gameState.attack,
+    attackMult: getMaskEffects(gameState.maskInventory).attack ?? 0,
+    defenseMult: getMaskEffects(gameState.maskInventory).defense ?? 0,
+  };
+  const attackResult = playerAttack(dt, camera.position, playerStats, getAliveEnemies(), scene);
+  if (attackResult.attacked && attackResult.target) {
+    const targetName = attackResult.target.masks[0]?.nameJa || '敵';
+    if (attackResult.target.isAlive) {
+      addCombatLog(`${targetName} に ${attackResult.damage} ダメージ！`, 'attack');
+    }
+  }
+  
+  // 敵の攻撃
+  const enemyDamage = enemyAttacks(dt, camera.position, getAliveEnemies(), playerStats);
+  if (enemyDamage > 0) {
+    energy = Math.max(0, energy - enemyDamage);
+    addCombatLog(`敵から攻撃を受けた！ ${enemyDamage} ダメージ`, 'damage');
+  }
+  
+  // ダメージ表示更新
+  updateDamageNumbers(dt, scene);
+  
+  // 死亡した敵のマスクをドロップ
+  const deadEnemies = cleanupDeadEnemies(scene);
+  for (const enemy of deadEnemies) {
+    const enemyName = enemy.masks[0]?.nameJa || '敵';
+    addCombatLog(`${enemyName} を倒した！`, 'defeat');
+    dropMasksFromEnemy(scene, enemy);
+  }
+  
+  // マスクのアニメーション
+  updateDroppedMasks(dt);
+  
+  // マスクの回収
+  const droppedMasks = getDroppedMasks();
+  for (const mask of droppedMasks) {
+    if (mask.collected) continue;
+    const dx = camera.position.x - mask.x;
+    const dz = camera.position.z - mask.z;
+    if (dx * dx + dz * dz < MASK_COLLECT_RADIUS * MASK_COLLECT_RADIUS) {
+      collectMask(scene, mask);
+      const result = addMaskToInventory(gameState.maskInventory, mask, gameState.absorb);
+      // ログ表示
+      if (result.isNew) {
+        addCombatLog(`${mask.nameJa} を入手！`, 'mask');
+      } else {
+        addCombatLog(`${mask.nameJa} Lv${result.mask.level} に合成！`, 'mask');
+      }
+      // UI用のmasksを更新
+      gameState.masks = getMasksForDisplay(gameState.maskInventory);
+    }
+  }
+  cleanupCollectedMasks();
+  
+  // 敵ガイド用のenemiesを更新
+  gameState.enemies = getAliveEnemies().map(e => ({
+    x: e.x,
+    y: e.y,
+    z: e.z,
+    hp: e.hp,
+    maxHp: e.maxHp,
+    maskCount: e.masks.length,
+  }));
+
   updateEnergyBar(energy);
   updatePosMeter(camera);
   updateAltitudeMeter(camera, minHeight, maxHeight);
@@ -567,7 +687,6 @@ function animate() {
     absorb: gameState.absorb,
     search: gameState.search
   });
-  updateInventory(gameState.inventory, gameState.inventoryMaxSlots);
   // 装備UIの更新
   updateEquipmentUI(
     getInventorySummary(gameState.equipmentInventory),
