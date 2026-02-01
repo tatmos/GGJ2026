@@ -136,6 +136,72 @@ document.body.appendChild(renderer.domElement);
 
 const proximity = createProximityUpdater(camera, cityRoot, ground, checkerTexProximity);
 
+// ミニマップ用カメラ（上から見下ろす）
+const minimapCamera = new THREE.OrthographicCamera(-80, 80, 80, -80, 1, 500);
+minimapCamera.position.set(0, 200, 0);
+minimapCamera.lookAt(0, 0, 0);
+minimapCamera.up.set(0, 0, -1); // 北が上になるように
+
+// ミニマップ用レンダーターゲット
+const minimapSize = 150;
+const minimapRenderTarget = new THREE.WebGLRenderTarget(minimapSize, minimapSize);
+
+// ミニマップCanvas
+const minimapCanvas = document.getElementById('radarMinimap');
+const minimapCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
+
+/**
+ * ミニマップを描画
+ */
+function renderMinimap() {
+  if (!minimapCtx) return;
+  
+  // カメラをプレイヤーの位置に移動
+  minimapCamera.position.x = camera.position.x;
+  minimapCamera.position.z = camera.position.z;
+  minimapCamera.lookAt(camera.position.x, 0, camera.position.z);
+  
+  // 霧を一時的に無効化
+  const originalFog = scene.fog;
+  scene.fog = null;
+  
+  // レンダーターゲットに描画
+  renderer.setRenderTarget(minimapRenderTarget);
+  renderer.render(scene, minimapCamera);
+  renderer.setRenderTarget(null);
+  
+  // 霧を復元
+  scene.fog = originalFog;
+  
+  // Canvas 2Dに転送
+  const width = minimapSize;
+  const height = minimapSize;
+  const pixels = new Uint8Array(width * height * 4);
+  renderer.readRenderTargetPixels(minimapRenderTarget, 0, 0, width, height, pixels);
+  
+  // ImageDataを作成（WebGLは下から上に読むので反転）
+  const imageData = minimapCtx.createImageData(width, height);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const srcIdx = ((height - 1 - y) * width + x) * 4;
+      const dstIdx = (y * width + x) * 4;
+      imageData.data[dstIdx] = pixels[srcIdx];
+      imageData.data[dstIdx + 1] = pixels[srcIdx + 1];
+      imageData.data[dstIdx + 2] = pixels[srcIdx + 2];
+      imageData.data[dstIdx + 3] = 180; // 半透明
+    }
+  }
+  
+  // 円形にマスク
+  minimapCtx.clearRect(0, 0, width, height);
+  minimapCtx.save();
+  minimapCtx.beginPath();
+  minimapCtx.arc(width / 2, height / 2, width / 2, 0, Math.PI * 2);
+  minimapCtx.clip();
+  minimapCtx.putImageData(imageData, 0, 0);
+  minimapCtx.restore();
+}
+
 function onUpdateFoodHeights() {
   updateFoodHeights(getHeightAt);
 }
@@ -240,6 +306,7 @@ let recoveryCooldown = 0;
 /** 加速・減速していない状態が続いた秒数。hoverGraceTimeSec を超えると自動下降開始 */
 let hoverGraceElapsed = 0;
 const clock = new THREE.Clock();
+let frameCount = 0;
 const foods = getFoods();
 
 /** UI用仮状態（生存時間・転生・ステータス・所持・マスク・バフ・敵は後で実データに差し替え） */
@@ -591,6 +658,7 @@ document.addEventListener('keyup', (e) => {
 
 function animate() {
   requestAnimationFrame(animate);
+  frameCount++;
   const dt = Math.min(clock.getDelta(), 0.1);
 
   // 俯瞰カメラモード
@@ -991,13 +1059,26 @@ function animate() {
   
   // 敵の更新（ドロップマスクを渡して敵が拾えるように）
   const droppedMasksForEnemy = getDroppedMasks().filter(m => !m.collected);
-  const enemyPickedMasks = updateEnemies(dt, camera.position, getHeightAt, droppedMasksForEnemy, scene, collectMask);
+  const { pickedUpMasks: enemyPickedMasks, enemyBattleResults } = updateEnemies(dt, camera.position, getHeightAt, droppedMasksForEnemy, scene, collectMask);
   
   // 敵がマスクを拾ったらログ表示
   for (const { enemy, mask } of enemyPickedMasks) {
     const enemyName = enemy.masks[0]?.nameJa || '敵';
     addCombatLog(`${enemyName} が ${mask.nameJa} を奪った！`, 'mask');
     playSoundEnemyPickupMask();
+  }
+  
+  // 敵同士の戦闘結果を処理
+  for (const result of enemyBattleResults) {
+    const attackerName = result.attacker.masks[0]?.nameJa || '敵';
+    const targetName = result.target.masks[0]?.nameJa || '敵';
+    
+    if (result.killed) {
+      // 敵が敵を倒した
+      addCombatLog(`${attackerName} が ${targetName} を倒した！`, 'defeat');
+      // 倒された敵のマスクをドロップ
+      dropMasksFromEnemy(scene, result.target);
+    }
   }
   
   // プレイヤーの自動攻撃（装備効果 + マスク効果）
@@ -1177,6 +1258,12 @@ function animate() {
     updateBossPanel(0, gameState.bossHpMax, 0);
   }
   proximity.updateProximityMaterials();
+  
+  // ミニマップ描画（パフォーマンスのため5フレームに1回）
+  if (frameCount % 5 === 0) {
+    renderMinimap();
+  }
+  
   renderer.render(scene, camera);
 }
 

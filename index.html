@@ -91,14 +91,15 @@
     <div class="survival-milestone" id="survivalMilestone">次の成長選択まで 5:00</div>
   </div>
   <div class="boundary-warning" id="boundaryWarning">⚠ 街の外に出ています ⚠</div>
-  <!-- 円形レーダー -->
+  <!-- 円形レーダー（ミニマップ付き） -->
   <div class="radar" id="radar" aria-hidden="true">
+    <canvas class="radar-minimap" id="radarMinimap" width="150" height="150"></canvas>
     <div class="radar-bg">
       <div class="radar-ring radar-ring-outer"></div>
       <div class="radar-ring radar-ring-mid"></div>
       <div class="radar-ring radar-ring-inner"></div>
       <div class="radar-cross"></div>
-      <div class="radar-north">N</div>
+      <div class="radar-north" id="radarNorth"></div>
     </div>
     <div class="radar-player"></div>
     <div class="radar-dots" id="radarDots"></div>

@@ -350,12 +350,47 @@ function enemyPickupMask(enemy, mask, scene, collectMaskFn) {
   return mask;
 }
 
+/** 敵同士の戦闘距離 */
+const ENEMY_VS_ENEMY_RANGE = 8;
+
+/**
+ * 最も弱い敵を探す（自分以外）
+ */
+function findWeakestEnemy(self, enemies) {
+  let weakest = null;
+  let weakestHp = Infinity;
+  let weakestDist = Infinity;
+  
+  for (const other of enemies) {
+    if (other === self || !other.isAlive) continue;
+    
+    const dx = other.x - self.x;
+    const dz = other.z - self.z;
+    const dist = Math.sqrt(dx * dx + dz * dz);
+    
+    // 戦闘範囲内で、より弱い敵を探す
+    if (dist < ENEMY_CONFIG.chaseRange) {
+      // HPが低い敵を優先
+      if (other.hp < weakestHp || (other.hp === weakestHp && dist < weakestDist)) {
+        weakestHp = other.hp;
+        weakestDist = dist;
+        weakest = other;
+      }
+    }
+  }
+  
+  return { target: weakest, dist: weakestDist };
+}
+
 /**
  * 敵を更新（毎フレーム）
  */
 export function updateEnemies(dt, playerPos, getHeightAt, droppedMasks = [], scene = null, collectMaskFn = null) {
   // 敵がマスクを拾ったリスト
   const pickedUpMasks = [];
+  
+  // 敵同士の戦闘結果リスト
+  const enemyBattleResults = [];
   
   for (const enemy of enemies) {
     if (!enemy.isAlive) {
@@ -376,7 +411,7 @@ export function updateEnemies(dt, playerPos, getHeightAt, droppedMasks = [], sce
     // プレイヤーとの距離
     const dx = playerPos.x - enemy.x;
     const dz = playerPos.z - enemy.z;
-    const dist = Math.sqrt(dx * dx + dz * dz);
+    const distToPlayer = Math.sqrt(dx * dx + dz * dz);
     
     // 近くにドロップマスクがあるかチェック
     let nearestMask = null;
@@ -397,25 +432,56 @@ export function updateEnemies(dt, playerPos, getHeightAt, droppedMasks = [], sce
       }
       
       // プレイヤーより近いマスクがあれば優先ターゲットに
-      if (maskDist < nearestMaskDist && maskDist < dist * 0.5) {
+      if (maskDist < nearestMaskDist && maskDist < distToPlayer * 0.5) {
         nearestMaskDist = maskDist;
         nearestMask = mask;
       }
     }
     
-    // 追跡ターゲットを決定（近くにマスクがあればそちらを優先）
-    let targetX, targetZ, targetDist;
+    // 他の敵との関係をチェック（弱い敵がいれば攻撃対象に）
+    const { target: weakestEnemy, dist: distToEnemy } = findWeakestEnemy(enemy, enemies);
     
-    if (nearestMask && nearestMaskDist < ENEMY_CONFIG.chaseRange) {
+    // 追跡ターゲットを決定（優先順位: マスク > 弱い敵 > プレイヤー）
+    let targetX, targetZ, targetDist;
+    let targetType = 'player'; // 'player', 'mask', 'enemy'
+    let targetEnemy = null;
+    
+    if (nearestMask && nearestMaskDist < ENEMY_CONFIG.chaseRange && nearestMaskDist < distToPlayer * 0.5) {
       // マスクを追いかける
       targetX = nearestMask.x;
       targetZ = nearestMask.z;
       targetDist = nearestMaskDist;
+      targetType = 'mask';
+    } else if (weakestEnemy && distToEnemy < distToPlayer * 0.7 && weakestEnemy.hp < enemy.hp) {
+      // 弱い敵を追いかける（自分より弱い敵のみ）
+      targetX = weakestEnemy.x;
+      targetZ = weakestEnemy.z;
+      targetDist = distToEnemy;
+      targetType = 'enemy';
+      targetEnemy = weakestEnemy;
     } else {
       // プレイヤーを追いかける
       targetX = playerPos.x;
       targetZ = playerPos.z;
-      targetDist = dist;
+      targetDist = distToPlayer;
+      targetType = 'player';
+    }
+    
+    // 敵同士の戦闘
+    if (targetType === 'enemy' && targetEnemy && targetDist < ENEMY_VS_ENEMY_RANGE) {
+      // 攻撃実行
+      const damage = enemy.tryAttack(dt);
+      if (damage > 0) {
+        const actualDamage = targetEnemy.takeDamage(damage);
+        if (actualDamage > 0) {
+          enemyBattleResults.push({
+            attacker: enemy,
+            target: targetEnemy,
+            damage: actualDamage,
+            killed: !targetEnemy.isAlive
+          });
+        }
+      }
     }
     
     // 追跡
@@ -467,7 +533,7 @@ export function updateEnemies(dt, playerPos, getHeightAt, droppedMasks = [], sce
     }
   }
   
-  return pickedUpMasks;
+  return { pickedUpMasks, enemyBattleResults };
 }
 
 /**

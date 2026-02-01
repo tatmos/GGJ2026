@@ -1033,7 +1033,16 @@ const RADAR_CONFIG = {
 export function updateRadar(playerPos, yaw, enemies = [], droppedMasks = [], foods = [], equipments = [], rival = null) {
   const dotsContainer = document.getElementById('radarDots');
   const rangeEl = document.getElementById('radarRange');
+  const northEl = document.getElementById('radarNorth');
   if (!dotsContainer) return;
+  
+  // Nマーカーを実際の北方向に回転（yawに応じて回転）
+  // yaw=0の時、プレイヤーは-Z（北）を向いている → Nは上
+  // yaw増加で左旋回 → Nは右に回転
+  if (northEl) {
+    const northAngleDeg = (yaw * 180 / Math.PI);
+    northEl.style.transform = `rotate(${northAngleDeg}deg)`;
+  }
   
   // ドットをクリア
   dotsContainer.innerHTML = '';
@@ -1049,21 +1058,32 @@ export function updateRadar(playerPos, yaw, enemies = [], droppedMasks = [], foo
     const dx = targetX - playerPos.x;
     const dz = targetZ - playerPos.z;
     
-    // プレイヤーの向きを考慮して回転（北を上にする）
-    const rotatedX = dx * Math.cos(-yaw) - dz * Math.sin(-yaw);
-    const rotatedZ = dx * Math.sin(-yaw) + dz * Math.cos(-yaw);
-    
     // 距離
     const dist = Math.sqrt(dx * dx + dz * dz);
+    
+    // プレイヤーの向きを考慮して回転（前方が上になるように）
+    // yaw=0の時、カメラは-Z方向を向いている
+    // 左旋回（A）でyaw増加 → レーダーは右に回転するべき
+    const rotatedX = dx * Math.cos(-yaw) + dz * Math.sin(-yaw);
+    const rotatedZ = -dx * Math.sin(-yaw) + dz * Math.cos(-yaw);
+    
+    // 距離が0の場合は中心に
+    if (dist < 0.1) {
+      return {
+        x: radius,
+        y: radius,
+        dist: 0,
+        outOfRange: false,
+      };
+    }
     
     // 範囲内に収める
     let normalizedDist = dist / range;
     if (normalizedDist > 1) normalizedDist = 1;
     
-    // レーダー座標（中心が0,0）
-    const angle = Math.atan2(rotatedX, -rotatedZ);
-    const radarX = Math.sin(angle) * normalizedDist * radius;
-    const radarY = -Math.cos(angle) * normalizedDist * radius;
+    // レーダー座標（中心が0,0、前方が上）
+    const radarX = (rotatedX / dist) * normalizedDist * radius;
+    const radarY = (rotatedZ / dist) * normalizedDist * radius;
     
     return {
       x: radius + radarX,
