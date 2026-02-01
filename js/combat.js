@@ -97,9 +97,11 @@ export function playerAttack(dt, playerPos, playerStats, enemies, scene) {
 
 /**
  * 敵の攻撃を処理
+ * @returns {{ totalDamage: number, attackers: Array }} 合計ダメージと攻撃した敵のリスト
  */
 export function enemyAttacks(dt, playerPos, enemies, playerStats) {
   let totalDamage = 0;
+  const attackers = [];
   
   for (const enemy of enemies) {
     if (!enemy.isAlive) continue;
@@ -118,10 +120,11 @@ export function enemyAttacks(dt, playerPos, enemies, playerStats) {
       const defenseMult = playerStats.defenseMult ?? 0;
       const actualDamage = Math.max(1, Math.floor(damage * (1 - defenseMult * 0.5)));
       totalDamage += actualDamage;
+      attackers.push(enemy);
     }
   }
   
-  return totalDamage;
+  return { totalDamage, attackers };
 }
 
 /**

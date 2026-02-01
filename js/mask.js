@@ -181,11 +181,33 @@ export function dropMask(scene, x, y, z, maskData) {
 
 /**
  * 敵の死亡時にマスクをドロップ
+ * 複数のマスクは円形に散らばって配置される
  */
 export function dropMasksFromEnemy(scene, enemy) {
   const masks = [];
-  for (const maskData of enemy.masks) {
-    const mask = dropMask(scene, enemy.x, enemy.y, enemy.z, maskData);
+  const count = enemy.masks.length;
+  
+  for (let i = 0; i < count; i++) {
+    const maskData = enemy.masks[i];
+    
+    // 複数のマスクは円形にばらけて配置
+    let offsetX = 0;
+    let offsetZ = 0;
+    
+    if (count > 1) {
+      const angle = (i / count) * Math.PI * 2 + Math.random() * 0.3;
+      const radius = 2 + Math.random() * 1.5; // 2〜3.5mの範囲に散らばる
+      offsetX = Math.cos(angle) * radius;
+      offsetZ = Math.sin(angle) * radius;
+    }
+    
+    const mask = dropMask(
+      scene,
+      enemy.x + offsetX,
+      enemy.y,
+      enemy.z + offsetZ,
+      maskData
+    );
     masks.push(mask);
   }
   return masks;

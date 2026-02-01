@@ -91,6 +91,19 @@
     <div class="survival-milestone" id="survivalMilestone">次の成長選択まで 5:00</div>
   </div>
   <div class="boundary-warning" id="boundaryWarning">⚠ 街の外に出ています ⚠</div>
+  
+  <!-- 戦闘時ピクチャーインピクチャー -->
+  <div class="combat-pip hidden" id="combatPip">
+    <div class="combat-pip-label">COMBAT VIEW</div>
+    <canvas class="combat-pip-canvas" id="combatPipCanvas" width="180" height="180"></canvas>
+  </div>
+  
+  <!-- バックミラー（画面外からの攻撃時） -->
+  <div class="rear-mirror hidden" id="rearMirror">
+    <div class="rear-mirror-label">⚠ REAR ATTACK ⚠</div>
+    <canvas class="rear-mirror-canvas" id="rearMirrorCanvas" width="240" height="120"></canvas>
+  </div>
+  
   <!-- 円形レーダー（ミニマップ付き） -->
   <div class="radar" id="radar" aria-hidden="true">
     <canvas class="radar-minimap" id="radarMinimap" width="150" height="150"></canvas>
@@ -224,7 +237,7 @@
     <div style="width:2px;height:20px;background:#ff0;position:absolute;left:-1px;top:-10px;"></div>
   </div>
   <div id="birdEyeCoord" style="display:none;position:fixed;top:50%;left:calc(50% + 20px);transform:translateY(-50%);color:#ff0;font-size:14px;font-family:monospace;pointer-events:none;z-index:100;text-shadow:1px 1px 2px #000;"></div>
-  <p class="hint">W: 加速+上昇　S: 減速+下降　A/D: 旋回　Q/E: 上下　何もしないと約1秒で自動下降（26mまで）　食べ物で回復</p>
+  <p class="hint">W: 加速+上昇　S: 減速+下降　A/D: 旋回　Wダブルタップ: 宙返り　Sダブルタップ: 回避　敵に近づくと自動攻撃</p>
 
   <script type="importmap">
     {

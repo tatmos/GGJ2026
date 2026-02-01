@@ -167,6 +167,48 @@ const minimapRenderTarget = new THREE.WebGLRenderTarget(minimapSize, minimapSize
 const minimapCanvas = document.getElementById('radarMinimap');
 const minimapCtx = minimapCanvas ? minimapCanvas.getContext('2d') : null;
 
+// 戦闘時PiP用カメラ（俯瞰）
+const pipCamera = new THREE.OrthographicCamera(-30, 30, 30, -30, 1, 300);
+pipCamera.position.set(0, 100, 0);
+pipCamera.lookAt(0, 0, 0);
+pipCamera.up.set(0, 0, -1);
+
+// 戦闘時PiP用レンダーターゲット
+const pipSize = 180;
+const pipRenderTarget = new THREE.WebGLRenderTarget(pipSize, pipSize);
+
+// 戦闘時PiP Canvas
+const combatPipEl = document.getElementById('combatPip');
+const combatPipCanvas = document.getElementById('combatPipCanvas');
+const pipCtx = combatPipCanvas ? combatPipCanvas.getContext('2d') : null;
+
+// 戦闘状態追跡
+let combatActive = false;
+let combatTarget = null;
+let combatFadeTimer = 0;
+const COMBAT_FADE_DURATION = 2.0; // 戦闘終了後にフェードアウトするまでの秒数
+
+// マスクドロップ位置追跡（Combat View用）
+let maskDropPosition = null;
+let maskDropTimer = 0;
+const MASK_DROP_VIEW_DURATION = 3.0; // マスクドロップ表示時間
+
+// バックミラー用カメラ（後方確認）
+const rearMirrorCamera = new THREE.PerspectiveCamera(60, 2, 1, 500);
+const rearMirrorWidth = 240;
+const rearMirrorHeight = 120;
+const rearMirrorRenderTarget = new THREE.WebGLRenderTarget(rearMirrorWidth, rearMirrorHeight);
+
+const rearMirrorEl = document.getElementById('rearMirror');
+const rearMirrorCanvas = document.getElementById('rearMirrorCanvas');
+const rearMirrorCtx = rearMirrorCanvas ? rearMirrorCanvas.getContext('2d') : null;
+
+// バックミラー状態
+let rearMirrorActive = false;
+let rearMirrorTarget = null;
+let rearMirrorTimer = 0;
+const REAR_MIRROR_DURATION = 2.0; // バックミラー表示時間
+
 /**
  * ミニマップを描画
  */
@@ -221,6 +263,203 @@ function renderMinimap() {
   minimapCtx.clip();
   minimapCtx.putImageData(imageData, 0, 0);
   minimapCtx.restore();
+}
+
+/**
+ * 戦闘時PiPを描画
+ * @param {object} target 戦闘対象の敵オブジェクト
+ */
+function renderCombatPip(target) {
+  if (!pipCtx || !combatPipEl || !target) return;
+  
+  let centerX, centerZ;
+  let cameraHeight = 80;
+  
+  // マスクドロップの場合
+  if (target.targetType === 'mask_drop') {
+    centerX = target.x;
+    centerZ = target.z;
+    cameraHeight = 50; // マスクは少し低めから見る
+  }
+  // 敵同士の戦闘の場合
+  else if (target.targetType === 'enemy' && target.targetPos) {
+    centerX = (target.x + target.targetPos.x) / 2;
+    centerZ = (target.z + target.targetPos.z) / 2;
+  } else {
+    // プレイヤーと敵の戦闘の場合
+    centerX = (camera.position.x + target.x) / 2;
+    centerZ = (camera.position.z + target.z) / 2;
+  }
+  
+  // カメラを中間点の上に配置
+  pipCamera.position.set(centerX, cameraHeight, centerZ);
+  pipCamera.lookAt(centerX, 0, centerZ);
+  
+  // 上が北になるように
+  pipCamera.up.set(0, 0, -1);
+  
+  // 霧を一時的に無効化
+  const originalFog = scene.fog;
+  scene.fog = null;
+  
+  // レンダーターゲットに描画
+  renderer.setRenderTarget(pipRenderTarget);
+  renderer.render(scene, pipCamera);
+  renderer.setRenderTarget(null);
+  
+  // 霧を復元
+  scene.fog = originalFog;
+  
+  // Canvas 2Dに転送
+  const width = pipSize;
+  const height = pipSize;
+  const pixels = new Uint8Array(width * height * 4);
+  renderer.readRenderTargetPixels(pipRenderTarget, 0, 0, width, height, pixels);
+  
+  // ImageDataを作成（WebGLは下から上に読むので反転）
+  const imageData = pipCtx.createImageData(width, height);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const srcIdx = ((height - 1 - y) * width + x) * 4;
+      const dstIdx = (y * width + x) * 4;
+      imageData.data[dstIdx] = pixels[srcIdx];
+      imageData.data[dstIdx + 1] = pixels[srcIdx + 1];
+      imageData.data[dstIdx + 2] = pixels[srcIdx + 2];
+      imageData.data[dstIdx + 3] = 255;
+    }
+  }
+  
+  pipCtx.putImageData(imageData, 0, 0);
+}
+
+/**
+ * 戦闘PiPの表示/非表示を更新
+ */
+function updateCombatPip(dt, inCombat, target) {
+  if (inCombat && target) {
+    combatActive = true;
+    combatTarget = target;
+    combatFadeTimer = COMBAT_FADE_DURATION;
+    if (combatPipEl) combatPipEl.classList.remove('hidden');
+  } else if (combatActive) {
+    combatFadeTimer -= dt;
+    if (combatFadeTimer <= 0) {
+      combatActive = false;
+      combatTarget = null;
+      if (combatPipEl) combatPipEl.classList.add('hidden');
+    }
+  }
+  
+  // 戦闘中またはフェード中はPiPを描画
+  if (combatActive && combatTarget) {
+    renderCombatPip(combatTarget);
+  }
+}
+
+/**
+ * マスクドロップ時にCombat Viewに位置を表示
+ */
+function showMaskDropInPip(x, y, z) {
+  maskDropPosition = { x, y, z };
+  maskDropTimer = MASK_DROP_VIEW_DURATION;
+}
+
+/**
+ * 敵がカメラの視界外（後方）にいるかチェック
+ */
+function isEnemyBehindCamera(enemy) {
+  // カメラの前方ベクトル
+  const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+  forward.y = 0;
+  forward.normalize();
+  
+  // 敵への方向ベクトル
+  const toEnemy = new THREE.Vector3(
+    enemy.x - camera.position.x,
+    0,
+    enemy.z - camera.position.z
+  ).normalize();
+  
+  // 前方ベクトルと敵への方向の内積
+  const dot = forward.dot(toEnemy);
+  
+  // dot < 0 なら後方（視野外）
+  // dot < 0.3 なら視界の端より外（約72度以上横）
+  return dot < 0.3;
+}
+
+/**
+ * バックミラーを描画
+ */
+function renderRearMirror(target) {
+  if (!rearMirrorCtx || !rearMirrorEl || !target) return;
+  
+  // カメラを敵の方向に向ける
+  rearMirrorCamera.position.copy(camera.position);
+  rearMirrorCamera.lookAt(target.x, target.y + 1.5, target.z);
+  
+  // 霧を一時的に無効化
+  const originalFog = scene.fog;
+  scene.fog = null;
+  
+  // レンダーターゲットに描画
+  renderer.setRenderTarget(rearMirrorRenderTarget);
+  renderer.render(scene, rearMirrorCamera);
+  renderer.setRenderTarget(null);
+  
+  // 霧を復元
+  scene.fog = originalFog;
+  
+  // Canvas 2Dに転送
+  const width = rearMirrorWidth;
+  const height = rearMirrorHeight;
+  const pixels = new Uint8Array(width * height * 4);
+  renderer.readRenderTargetPixels(rearMirrorRenderTarget, 0, 0, width, height, pixels);
+  
+  // ImageDataを作成（WebGLは下から上に読むので反転）
+  const imageData = rearMirrorCtx.createImageData(width, height);
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const srcIdx = ((height - 1 - y) * width + x) * 4;
+      const dstIdx = (y * width + x) * 4;
+      imageData.data[dstIdx] = pixels[srcIdx];
+      imageData.data[dstIdx + 1] = pixels[srcIdx + 1];
+      imageData.data[dstIdx + 2] = pixels[srcIdx + 2];
+      imageData.data[dstIdx + 3] = 255;
+    }
+  }
+  
+  rearMirrorCtx.putImageData(imageData, 0, 0);
+}
+
+/**
+ * 画面外からの攻撃時にバックミラーを表示
+ */
+function showRearMirror(enemy) {
+  if (isEnemyBehindCamera(enemy)) {
+    rearMirrorActive = true;
+    rearMirrorTarget = enemy;
+    rearMirrorTimer = REAR_MIRROR_DURATION;
+    if (rearMirrorEl) rearMirrorEl.classList.remove('hidden');
+  }
+}
+
+/**
+ * バックミラーの更新
+ */
+function updateRearMirror(dt) {
+  if (rearMirrorActive) {
+    rearMirrorTimer -= dt;
+    
+    if (rearMirrorTimer <= 0 || !rearMirrorTarget) {
+      rearMirrorActive = false;
+      rearMirrorTarget = null;
+      if (rearMirrorEl) rearMirrorEl.classList.add('hidden');
+    } else {
+      // バックミラーを描画
+      renderRearMirror(rearMirrorTarget);
+    }
+  }
 }
 
 function onUpdateFoodHeights() {
@@ -942,6 +1181,28 @@ if (joystickRight) {
 // キーボード入力
 // ============================================================
 
+// 宙返り（Wダブルタップ）関連
+let lastWKeyReleaseTime = 0; // Wキーを離した時刻
+const DOUBLE_TAP_THRESHOLD = 300; // ダブルタップ判定の閾値（ミリ秒）
+let isDoingFlip = false;
+let flipProgress = 0;
+let flipYawStart = 0;
+const FLIP_DURATION = 0.6; // 宙返りにかかる時間（秒）
+let wKeyWasReleased = true; // Wキーが一度離されたかどうか
+
+// バレルロール回避（Sダブルタップ）関連
+let lastSKeyReleaseTime = 0; // Sキーを離した時刻
+let isDoingBarrelRoll = false;
+let barrelRollProgress = 0;
+let barrelRollDirection = 1; // 1: 右回転, -1: 左回転
+const BARREL_ROLL_DURATION = 0.5; // バレルロールにかかる時間（秒）
+let sKeyWasReleased = true; // Sキーが一度離されたかどうか
+
+// 回避状態（宙返り・バレルロール中は敵の攻撃を回避）
+function isEvading() {
+  return isDoingFlip || isDoingBarrelRoll;
+}
+
 document.addEventListener('keydown', (e) => {
   // 最初のキー入力でサウンド初期化
   initSound();
@@ -963,11 +1224,40 @@ document.addEventListener('keydown', (e) => {
   }
   const k = e.key.toLowerCase();
   if (k === 'w') {
+    // 長押しでない場合のみダブルタップを検出（キーが一度離されている必要がある）
+    if (wKeyWasReleased && !keys.w) {
+      const now = performance.now();
+      // ダブルタップ検出（前回離してから短時間で再度押した）
+      if (now - lastWKeyReleaseTime < DOUBLE_TAP_THRESHOLD && !isDoingFlip && energy >= 20) {
+        // 宙返り開始
+        isDoingFlip = true;
+        flipProgress = 0;
+        flipYawStart = yaw;
+        energy -= 20; // 宙返りにエネルギー消費
+        addCombatLog('宙返り！', 'heal');
+      }
+    }
+    wKeyWasReleased = false;
+    
     if (!keys.w) startAfterburner(); // 押下開始時にサウンド開始
     keys.w = true;
   }
   if (k === 'a') keys.a = true;
   if (k === 's') {
+    // バレルロール回避（ダブルタップ検出）
+    if (sKeyWasReleased && !keys.s) {
+      const now = performance.now();
+      if (now - lastSKeyReleaseTime < DOUBLE_TAP_THRESHOLD && !isDoingBarrelRoll && !isDoingFlip && energy >= 15) {
+        // バレルロール開始
+        isDoingBarrelRoll = true;
+        barrelRollProgress = 0;
+        barrelRollDirection = Math.random() > 0.5 ? 1 : -1; // ランダムに左右
+        energy -= 15; // バレルロールにエネルギー消費
+        addCombatLog('回避行動！', 'heal');
+      }
+    }
+    sKeyWasReleased = false;
+    
     if (!keys.s) startRetroThrust(); // 押下開始時にサウンド開始
     keys.s = true;
   }
@@ -981,11 +1271,17 @@ document.addEventListener('keyup', (e) => {
   if (k === 'w') {
     keys.w = false;
     stopAfterburner(); // キーリリース時にサウンド停止
+    // ダブルタップ用に離した時刻を記録
+    lastWKeyReleaseTime = performance.now();
+    wKeyWasReleased = true;
   }
   if (k === 'a') keys.a = false;
   if (k === 's') {
     keys.s = false;
     stopRetroThrust(); // キーリリース時にサウンド停止
+    // ダブルタップ用に離した時刻を記録
+    lastSKeyReleaseTime = performance.now();
+    sKeyWasReleased = true;
   }
   if (k === 'd') keys.d = false;
   if (k === 'q') keys.q = false;
@@ -1172,7 +1468,47 @@ function animate() {
   const maxPitch = Math.PI / 12; // 最大15度傾く
   const pitchSpeed = 3.0;
   const targetPitch = -verticalInput * maxPitch; // 上昇で下向き、下降で上向き
-  cameraPitch += (targetPitch - cameraPitch) * pitchSpeed * dt;
+  
+  // 宙返りアニメーション
+  if (isDoingFlip) {
+    flipProgress += dt / FLIP_DURATION;
+    if (flipProgress >= 1) {
+      // 宙返り完了
+      flipProgress = 1;
+      isDoingFlip = false;
+      yaw = flipYawStart + Math.PI; // 180度ターン
+      cameraPitch = 0;
+    } else {
+      // 宙返り中のピッチ（前転）
+      // イーズイン・イーズアウトで滑らかに
+      const eased = flipProgress < 0.5
+        ? 2 * flipProgress * flipProgress
+        : 1 - Math.pow(-2 * flipProgress + 2, 2) / 2;
+      cameraPitch = Math.PI * 2 * eased; // 360度回転
+      
+      // yawも徐々に変化
+      yaw = flipYawStart + Math.PI * eased;
+    }
+  } else {
+    cameraPitch += (targetPitch - cameraPitch) * pitchSpeed * dt;
+  }
+  
+  // バレルロール回避アニメーション
+  if (isDoingBarrelRoll) {
+    barrelRollProgress += dt / BARREL_ROLL_DURATION;
+    if (barrelRollProgress >= 1) {
+      // バレルロール完了
+      barrelRollProgress = 1;
+      isDoingBarrelRoll = false;
+      cameraRoll = 0;
+    } else {
+      // バレルロール中のロール（横回転）
+      const eased = barrelRollProgress < 0.5
+        ? 2 * barrelRollProgress * barrelRollProgress
+        : 1 - Math.pow(-2 * barrelRollProgress + 2, 2) / 2;
+      cameraRoll = Math.PI * 2 * eased * barrelRollDirection; // 360度横回転
+    }
+  }
   const hoverGrace = gameState.hoverGraceTimeSec ?? hoverGraceTimeSec;
   const isTouchIdle = Math.abs(touchInput.speed) < 0.3;
   if (!keys.w && !keys.s && !keys.q && !keys.e && isTouchIdle) {
@@ -1376,6 +1712,10 @@ function animate() {
     showRivalWarning();
     playSoundRivalAppear();
     addCombatLog('⚠ ライバルが出現した！', 'damage');
+    
+    // ライバル出現をCombat Viewに表示
+    showMaskDropInPip(rival.x, rival.y, rival.z);
+    showRearMirror(rival);
   }
   
   // ライバルのHP更新
@@ -1441,6 +1781,10 @@ function animate() {
       }
       
       addCombatLog(`${enemyName} が現れた！ ${clockHour}時方向 ${compass} ${dist}m${speedInfo}`, 'damage');
+      
+      // 敵出現をCombat Viewとバックミラーに表示
+      showMaskDropInPip(newEnemy.x, newEnemy.y, newEnemy.z);
+      showRearMirror(newEnemy);
     }
   }
   
@@ -1559,6 +1903,7 @@ function animate() {
       addCombatLog(`${attackerName} が ${targetName} を倒した！`, 'defeat');
       // 倒された敵のマスクをドロップ
       dropMasksFromEnemy(scene, result.target);
+      showMaskDropInPip(result.target.x, result.target.y, result.target.z);
     }
   }
   
@@ -1626,8 +1971,16 @@ function animate() {
   }
   
   // 敵の攻撃
-  const enemyDamage = enemyAttacks(dt, camera.position, getAliveEnemies(), playerStats);
-  if (enemyDamage > 0) {
+  const enemyAttackResult = enemyAttacks(dt, camera.position, getAliveEnemies(), playerStats);
+  const enemyDamage = enemyAttackResult.totalDamage;
+  
+  // 回避中は敵の攻撃を無効化
+  if (enemyDamage > 0 && isEvading()) {
+    // 回避成功
+    if (enemyAttackResult.attackers.length > 0) {
+      addCombatLog('回避成功！敵の攻撃をかわした！', 'heal');
+    }
+  } else if (enemyDamage > 0) {
     const previousEnergy = energy;
     energy = Math.max(0, energy - enemyDamage);
     
@@ -1638,6 +1991,11 @@ function animate() {
       `敵の攻撃を受けた！ ${enemyDamage} ダメージ！`,
     ];
     addCombatLog(damageMessages[Math.floor(Math.random() * damageMessages.length)], 'damage');
+    
+    // 画面外から攻撃してきた敵がいればバックミラーを表示
+    for (const attacker of enemyAttackResult.attackers) {
+      showRearMirror(attacker);
+    }
     
     // エネルギー状況の実況
     if (energy < 30 && previousEnergy >= 30) {
@@ -1706,6 +2064,7 @@ function animate() {
     const enemyColor = enemy.masks[0]?.color ?? 0xff4444;
     spawnEnemyDefeatEffect(scene, enemy.x, enemy.y + 1.5, enemy.z, enemyColor);
     dropMasksFromEnemy(scene, enemy);
+    showMaskDropInPip(enemy.x, enemy.y, enemy.z);
   }
   
   // マスクのアニメーション（プレイヤー位置を渡して点滅速度を調整）
@@ -1837,6 +2196,81 @@ function animate() {
   if (frameCount % 5 === 0) {
     renderMinimap();
   }
+  
+  // 戦闘時PiP更新（プレイヤーが攻撃中、被攻撃中、または敵同士の戦闘を表示）
+  // プレイヤーとの戦闘中の敵を探す
+  let nearestCombatEnemy = null;
+  let nearestDist = Infinity;
+  let pipTarget = null;
+  
+  const aliveEnemies = getAliveEnemies();
+  
+  // プレイヤーとの戦闘をチェック
+  for (const enemy of aliveEnemies) {
+    if (enemy.inCombat || enemy.attackCooldown < enemy.attackCooldownMax * 0.5) {
+      const dx = enemy.x - camera.position.x;
+      const dz = enemy.z - camera.position.z;
+      const dist = Math.sqrt(dx * dx + dz * dz);
+      if (dist < nearestDist && dist < 30) {
+        nearestDist = dist;
+        nearestCombatEnemy = enemy;
+        pipTarget = enemy;
+      }
+    }
+  }
+  
+  // 敵同士の戦闘をチェック（プレイヤーとの戦闘がない場合）
+  if (!nearestCombatEnemy) {
+    let closestEnemyBattle = null;
+    let closestBattleDist = Infinity;
+    
+    for (const enemy of aliveEnemies) {
+      // 敵が他の敵をターゲットにしている場合
+      if (enemy.targetType === 'enemy' && enemy.targetPos) {
+        const battleCenterX = (enemy.x + enemy.targetPos.x) / 2;
+        const battleCenterZ = (enemy.z + enemy.targetPos.z) / 2;
+        const dx = battleCenterX - camera.position.x;
+        const dz = battleCenterZ - camera.position.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+        
+        if (dist < closestBattleDist && dist < 80) {
+          closestBattleDist = dist;
+          closestEnemyBattle = enemy;
+        }
+      }
+    }
+    
+    if (closestEnemyBattle) {
+      pipTarget = closestEnemyBattle;
+    }
+  }
+  
+  // マスクドロップ位置の表示更新
+  if (maskDropTimer > 0) {
+    maskDropTimer -= dt;
+    if (maskDropTimer <= 0) {
+      maskDropPosition = null;
+    }
+  }
+  
+  // マスクドロップがあり、戦闘がない場合はマスクドロップ位置を表示
+  if (!pipTarget && maskDropPosition) {
+    // マスクドロップ用の擬似ターゲットを作成
+    const maskTarget = {
+      x: maskDropPosition.x,
+      y: maskDropPosition.y,
+      z: maskDropPosition.z,
+      targetType: 'mask_drop',
+      targetPos: null
+    };
+    updateCombatPip(dt, true, maskTarget);
+  } else {
+    const isInCombat = pipTarget != null;
+    updateCombatPip(dt, isInCombat, pipTarget);
+  }
+  
+  // バックミラー更新（画面外からの攻撃時）
+  updateRearMirror(dt);
   
   renderer.render(scene, camera);
 }
