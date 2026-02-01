@@ -18,6 +18,14 @@ import {
   energyPerFood
 } from './food.js';
 import {
+  tickBuffQueue,
+  addBuffToQueue,
+  getSpeedMultiplierFromBuff,
+  getRecoveryCooldownScaleFromBuff,
+  getActiveBuffsForDisplay,
+  getBuffQueueForDisplay
+} from './buffs.js';
+import {
   keys,
   resolveCollisions,
   baseSpeed,
@@ -28,6 +36,7 @@ import {
   minHeight,
   maxHeight,
   hoverGraceTimeSec,
+  recoveryCooldownSec,
   autoDescendSpeed
 } from './player.js';
 import {
@@ -80,6 +89,7 @@ const foods = getFoods();
 
 /** UI用仮状態（生存時間・転生・ステータス・所持・マスク・バフ・敵は後で実データに差し替え） */
 const gameState = {
+  /** 生存時間（秒）。毎フレーム dt を加算。転生時に 0 にリセット。5分／15分トリガーの基準。 */
   survivalSec: 0,
   reincarnation: 0,
   attack: 10,
@@ -92,7 +102,9 @@ const gameState = {
   inventory: [],
   inventoryMaxSlots: 5,
   masks: [],
-  activeBuffs: [],
+  /** 現在消費中バフ 1 つ（とった順に 1 つずつ消費）。null のときはキュー先頭を次に取り出す */
+  activeBuff: null,
+  /** 待機中のバフキュー。各要素は { typeId, durationMax } */
   buffQueue: [],
   enemies: [],
   searchRange: 50,
@@ -177,6 +189,10 @@ function animate() {
   requestAnimationFrame(animate);
   const dt = Math.min(clock.getDelta(), 0.1);
 
+  tickBuffQueue(gameState, dt);
+  const effectiveRecoveryCooldownSec = recoveryCooldownSec * getRecoveryCooldownScaleFromBuff(gameState.activeBuff);
+  const buffSpeedMultiplier = getSpeedMultiplierFromBuff(gameState.activeBuff);
+
   if (document.getElementById('debugCheckbox')?.checked && debugFpsEl) {
     debugFpsEl.textContent = Math.round(1 / dt) + ' FPS';
   }
@@ -198,19 +214,20 @@ function animate() {
   if (keys.w && energy > 0) {
     speedMultiplier = 1.6;
     energy = Math.max(0, energy - energyCostPerSec * dt);
-    recoveryCooldown = 1.0;
+    recoveryCooldown = effectiveRecoveryCooldownSec;
     hoverGraceElapsed = 0;
   }
   if (keys.s && energy > 0) {
     speedMultiplier = 0.5;
     energy = Math.max(0, energy - energyCostPerSec * dt);
-    recoveryCooldown = 1.0;
+    recoveryCooldown = effectiveRecoveryCooldownSec;
     hoverGraceElapsed = 0;
   }
   recoveryCooldown = Math.max(0, recoveryCooldown - dt);
   if (!keys.w && !keys.s && recoveryCooldown <= 0) {
     energy = Math.min(100, energy + energyRecoveryPerSec * dt);
   }
+  speedMultiplier *= buffSpeedMultiplier;
 
   const move = forward.multiplyScalar(baseSpeed * speedMultiplier * dt);
   camera.position.add(move);
@@ -240,11 +257,14 @@ function animate() {
       f.collected = true;
       f.mesh.visible = false;
       if (f.beam) f.beam.visible = false;
-      energy = Math.min(100, energy + energyPerFood);
+      const instant = addBuffToQueue(gameState, f.typeId);
+      if (instant && instant.effect === 'energy') {
+        energy = Math.min(100, energy + (instant.value ?? energyPerFood));
+      }
     }
   });
 
-  gameState.survivalSec = clock.getElapsedTime();
+  gameState.survivalSec += dt;
 
   updateEnergyBar(energy);
   updatePosMeter(camera);
@@ -264,7 +284,7 @@ function animate() {
   });
   updateInventory(gameState.inventory, gameState.inventoryMaxSlots);
   updateMaskList(gameState.masks);
-  updateBuffQueue(gameState.activeBuffs, gameState.buffQueue);
+  updateBuffQueue(getActiveBuffsForDisplay(gameState), getBuffQueueForDisplay(gameState));
   updateEnemyGuide(gameState.enemies, camera.position, yaw, gameState.searchRange);
   if (gameState.bossHp != null) {
     updateBossPanel(gameState.bossHp, gameState.bossHpMax, gameState.bossMaskCount);

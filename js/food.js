@@ -1,20 +1,59 @@
 import * as THREE from 'three';
 
 export const collectRadius = 2.5;
+/** エネルギー即回復量（energy タイプ用）。バフ定義は buffs.js の BUFF_TYPES.energy.value を参照 */
 export const energyPerFood = 25;
 /** アイテムから出る光の高さ（Y方向の長さ）。建物で隠れるよう depthTest: true で描画 */
 const beamHeight = 70;
 
+/** 食べ物の種類ごとのメッシュ色（0xRRGGBB）。buffs.js の BUFF_TYPES と対応 */
+const FOOD_COLORS = {
+  energy: 0xfbbf24,
+  speedUp: 0x22c55e,
+  recoveryCooldownShort: 0x3b82f6
+};
+const FOOD_BEAM_COLORS = {
+  energy: 0xffdd44,
+  speedUp: 0x4ade80,
+  recoveryCooldownShort: 0x60a5fa
+};
+
+/** スポーン時の種類抽選ウェイト（energy 多め、他は少なめ） */
+const SPAWN_WEIGHTS = [
+  { id: 'energy', weight: 85 },
+  { id: 'speedUp', weight: 10 },
+  { id: 'recoveryCooldownShort', weight: 5 }
+];
+
+function randomFoodTypeId() {
+  const total = SPAWN_WEIGHTS.reduce((s, w) => s + w.weight, 0);
+  let r = Math.random() * total;
+  for (const w of SPAWN_WEIGHTS) {
+    r -= w.weight;
+    if (r <= 0) return w.id;
+  }
+  return 'energy';
+}
+
 const foods = [];
 const foodGeo = new THREE.SphereGeometry(0.4, 12, 12);
-const foodMat = new THREE.MeshStandardMaterial({ color: 0xfbbf24 });
 
 export function getFoods() {
   return foods;
 }
 
-export function addFood(scene, x, z) {
-  const mesh = new THREE.Mesh(foodGeo, foodMat.clone());
+/**
+ * 食べ物をシーンに追加する。
+ * @param {THREE.Scene} scene
+ * @param {number} x
+ * @param {number} z
+ * @param {string} [typeId] 未指定ならランダム（energy / speedUp / recoveryCooldownShort）
+ */
+export function addFood(scene, x, z, typeId) {
+  const id = typeId ?? randomFoodTypeId();
+  const color = FOOD_COLORS[id] ?? FOOD_COLORS.energy;
+  const beamColor = FOOD_BEAM_COLORS[id] ?? FOOD_BEAM_COLORS.energy;
+  const mesh = new THREE.Mesh(foodGeo, new THREE.MeshStandardMaterial({ color }));
   mesh.position.set(x, 0.6, z);
   mesh.castShadow = true;
   scene.add(mesh);
@@ -23,7 +62,7 @@ export function addFood(scene, x, z) {
     new THREE.Vector3(0, 1, 0)
   ]);
   const beamMat = new THREE.LineBasicMaterial({
-    color: 0xffdd44,
+    color: beamColor,
     transparent: true,
     opacity: 0.85,
     depthTest: true,
@@ -34,7 +73,7 @@ export function addFood(scene, x, z) {
   beam.position.set(x, 0, z);
   beam.visible = false;
   scene.add(beam);
-  foods.push({ mesh, beam, x, z, collected: false });
+  foods.push({ mesh, beam, x, z, collected: false, typeId: id });
 }
 
 export function updateFoodHeights(getHeightAt) {

@@ -3,6 +3,8 @@ export const turnSpeed = 1.8;
 export const energyCostPerSec = 15;
 /** 加速・減速していない時のエネルギー回復（/秒） */
 export const energyRecoveryPerSec = 2.5;
+/** 加速・減速直後の回復待ち（秒）。この間はエネルギー回復しない。成長・バフで短縮可能。 */
+export const recoveryCooldownSec = 1.0;
 /** 上昇・下降の速度（Qで上昇・Eで下降） */
 export const verticalSpeed = 12;
 /** 高度の下限（この位置まで自動下降する） */
