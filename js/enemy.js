@@ -92,6 +92,11 @@ export class Enemy {
     this.halfHpNotified = false;
     this.lowHpNotified = false;
     this.hitCount = 0;
+    
+    // ターゲットライン
+    this.targetLine = null;
+    this.targetType = 'player'; // 'player', 'mask', 'enemy'
+    this.targetPos = { x: 0, y: 0, z: 0 };
   }
   
   /**
@@ -363,6 +368,17 @@ export function spawnEnemy(scene, x, z, strength = 1.0) {
   enemy.healthBar.position.set(0, 3.2, 0);
   enemy.mesh.add(enemy.healthBar);
   
+  // ターゲットライン（敵が何を狙っているか表示）
+  const lineGeo = new THREE.BufferGeometry();
+  lineGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(6), 3));
+  const lineMat = new THREE.LineBasicMaterial({
+    color: 0xff0000,
+    transparent: true,
+    opacity: 0.5,
+  });
+  enemy.targetLine = new THREE.Line(lineGeo, lineMat);
+  scene.add(enemy.targetLine);
+  
   enemies.push(enemy);
   console.log(`[Enemy] スポーン: ${id} (強さ: ${strength.toFixed(2)}, HP: ${enemy.maxHp}, マスク: ${enemy.masks.length}個)`);
   
@@ -559,6 +575,10 @@ export function updateEnemies(dt, playerPos, getHeightAt, droppedMasks = [], sce
       targetType = 'player';
     }
     
+    // ターゲット情報を保存（ライン表示用）
+    enemy.targetType = targetType;
+    enemy.targetPos = { x: targetX, y: enemy.y, z: targetZ };
+    
     // 敵同士の戦闘
     if (targetType === 'enemy' && targetEnemy && targetDist < ENEMY_VS_ENEMY_RANGE) {
       // 攻撃実行
@@ -601,6 +621,32 @@ export function updateEnemies(dt, playerPos, getHeightAt, droppedMasks = [], sce
     // メッシュの位置を更新
     if (enemy.mesh) {
       enemy.mesh.position.set(enemy.x, enemy.y, enemy.z);
+    }
+    
+    // ターゲットラインを更新
+    if (enemy.targetLine) {
+      const positions = enemy.targetLine.geometry.attributes.position.array;
+      // 開始点（敵の位置）
+      positions[0] = enemy.x;
+      positions[1] = enemy.y + 1.5;
+      positions[2] = enemy.z;
+      // 終了点（ターゲットの位置）
+      positions[3] = enemy.targetPos.x;
+      positions[4] = enemy.targetPos.y + 1;
+      positions[5] = enemy.targetPos.z;
+      enemy.targetLine.geometry.attributes.position.needsUpdate = true;
+      
+      // ターゲットタイプに応じて色を変更
+      if (enemy.targetType === 'player') {
+        enemy.targetLine.material.color.setHex(0xff0000); // 赤: プレイヤー狙い
+        enemy.targetLine.material.opacity = 0.6;
+      } else if (enemy.targetType === 'mask') {
+        enemy.targetLine.material.color.setHex(0xffff00); // 黄: マスク狙い
+        enemy.targetLine.material.opacity = 0.4;
+      } else if (enemy.targetType === 'enemy') {
+        enemy.targetLine.material.color.setHex(0xff8800); // オレンジ: 敵狙い
+        enemy.targetLine.material.opacity = 0.5;
+      }
     }
     
     // 体力ゲージを更新
@@ -673,6 +719,13 @@ export function removeEnemy(scene, enemy) {
         }
       }
     });
+  }
+  
+  // ターゲットラインを削除
+  if (enemy.targetLine) {
+    scene.remove(enemy.targetLine);
+    enemy.targetLine.geometry.dispose();
+    enemy.targetLine.material.dispose();
   }
 }
 

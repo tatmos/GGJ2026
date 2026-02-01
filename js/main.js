@@ -404,11 +404,8 @@ function handleDefeat() {
   gameState.paused = true;
   playSoundDefeat();
   
-  // 引き継ぐマスク数 = 転生回数（次の転生で+1されるので現在値+1）
-  const maskCountToKeep = Math.min(
-    gameState.reincarnation + 1,
-    gameState.maskInventory.masks.length
-  );
+  // 全マスクを引き継ぐ
+  const maskCountToKeep = gameState.maskInventory.masks.length;
   
   showDefeatDialog(
     gameState.survivalSec,
@@ -428,10 +425,11 @@ function reincarnate(maskCountToKeep) {
   // 転生回数を増やす
   gameState.reincarnation++;
   
-  // マスクを一部引き継ぎ（レベルが高い順に保持）
-  const sortedMasks = [...gameState.maskInventory.masks].sort((a, b) => b.level - a.level);
-  gameState.maskInventory.masks = sortedMasks.slice(0, maskCountToKeep);
+  // マスクを全て引き継ぎ（転生の特典）
+  // マスクインベントリはそのまま保持
   gameState.masks = getMasksForDisplay(gameState.maskInventory);
+  
+  addCombatLog(`${gameState.maskInventory.masks.length}個のマスクを引き継いで転生！`, 'mask');
   
   // パラメータをリセット
   Object.assign(gameState, INITIAL_PARAMS);
@@ -743,45 +741,8 @@ function animate() {
   if (keys.a) yaw += turnSpeed * dt;
   if (keys.d) yaw -= turnSpeed * dt;
 
-  // 近くの敵へのソフトロックオン（敵方向にカメラを引っ張る）
-  const aliveEnemies = getAliveEnemies();
-  if (aliveEnemies.length > 0) {
-    // 最も近い敵を探す
-    let closestEnemy = null;
-    let closestDistSq = Infinity;
-    const lockOnRange = 30; // ロックオン有効範囲
-    
-    for (const enemy of aliveEnemies) {
-      const dx = enemy.mesh.position.x - camera.position.x;
-      const dz = enemy.mesh.position.z - camera.position.z;
-      const distSq = dx * dx + dz * dz;
-      if (distSq < closestDistSq && distSq < lockOnRange * lockOnRange) {
-        closestDistSq = distSq;
-        closestEnemy = enemy;
-      }
-    }
-    
-    if (closestEnemy) {
-      // 敵への方向を計算
-      const dx = closestEnemy.mesh.position.x - camera.position.x;
-      const dz = closestEnemy.mesh.position.z - camera.position.z;
-      const targetYaw = Math.atan2(-dx, -dz);
-      
-      // yawと目標の差を計算
-      let yawToEnemy = targetYaw - yaw;
-      while (yawToEnemy > Math.PI) yawToEnemy -= 2 * Math.PI;
-      while (yawToEnemy < -Math.PI) yawToEnemy += 2 * Math.PI;
-      
-      // 距離が近いほど強くロックオン（最大で0.5の強さ）
-      const dist = Math.sqrt(closestDistSq);
-      const lockOnStrength = Math.max(0, 1 - dist / lockOnRange) * 0.5;
-      
-      // プレイヤーが旋回操作していない時だけロックオン
-      if (!keys.a && !keys.d) {
-        yaw += yawToEnemy * lockOnStrength * dt * 2;
-      }
-    }
-  }
+  // 敵へのソフトロックオンは無効化（酔いの原因になるため）
+  // カメラは完全にプレイヤー操作のみで動く
 
   // カメラロール（傾き）の計算
   const maxRoll = Math.PI / 8; // 最大22.5度傾く
