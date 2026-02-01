@@ -912,3 +912,185 @@ canvas { display: block; }
   border-radius: 2px;
   transition: width 0.1s ease;
 }
+
+/* ============================================
+   円形レーダー
+   ============================================ */
+.radar {
+  position: fixed;
+  bottom: 100px;
+  left: 24px;
+  width: 150px;
+  height: 150px;
+  pointer-events: none;
+  z-index: 30;
+}
+
+.radar-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(0, 20, 0, 0.7);
+  border: 2px solid rgba(100, 255, 100, 0.5);
+  overflow: hidden;
+}
+
+.radar-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(100, 255, 100, 0.2);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.radar-ring-outer {
+  width: 100%;
+  height: 100%;
+}
+
+.radar-ring-mid {
+  width: 66%;
+  height: 66%;
+}
+
+.radar-ring-inner {
+  width: 33%;
+  height: 33%;
+}
+
+.radar-cross {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.radar-cross::before,
+.radar-cross::after {
+  content: '';
+  position: absolute;
+  background: rgba(100, 255, 100, 0.15);
+}
+
+.radar-cross::before {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.radar-cross::after {
+  width: 100%;
+  height: 1px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.radar-north {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 200, 100, 0.9);
+  font-size: 10px;
+  font-weight: bold;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.radar-player {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(100, 200, 255, 1);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(100, 200, 255, 0.8);
+  z-index: 2;
+}
+
+.radar-player::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 8px solid rgba(100, 200, 255, 1);
+  left: 50%;
+  top: -10px;
+  transform: translateX(-50%);
+}
+
+.radar-dots {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.radar-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px currentColor;
+}
+
+.radar-dot-enemy {
+  background: #ff4444;
+  color: #ff4444;
+}
+
+.radar-dot-rival {
+  background: #ff8800;
+  color: #ff8800;
+  width: 10px;
+  height: 10px;
+  animation: radar-rival-pulse 1s ease-in-out infinite;
+}
+
+.radar-dot-mask {
+  width: 5px;
+  height: 5px;
+  animation: radar-mask-pulse 1.5s ease-in-out infinite;
+}
+
+.radar-dot-food {
+  width: 4px;
+  height: 4px;
+  opacity: 0.6;
+}
+
+.radar-dot-equipment {
+  width: 5px;
+  height: 5px;
+  border-radius: 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+@keyframes radar-rival-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.3); }
+}
+
+@keyframes radar-mask-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.radar-range {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  font-size: 9px;
+  color: rgba(100, 255, 100, 0.7);
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+}

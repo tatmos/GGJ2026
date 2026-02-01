@@ -1005,3 +1005,130 @@ function createEquipmentItemElement(item, isBag) {
   
   return itemEl;
 }
+
+// ============================================================
+// 円形レーダー
+// ============================================================
+
+/** レーダーの設定 */
+const RADAR_CONFIG = {
+  /** レーダーの半径（CSS上のピクセル） */
+  radius: 75,
+  /** レーダーの表示範囲（メートル） */
+  range: 80,
+  /** 最大ドット数 */
+  maxDots: 50,
+};
+
+/**
+ * 円形レーダーを更新
+ * @param {Object} playerPos プレイヤーの位置 { x, y, z }
+ * @param {number} yaw プレイヤーの向き（ラジアン）
+ * @param {Array} enemies 敵の配列
+ * @param {Array} droppedMasks ドロップマスクの配列
+ * @param {Array} foods 食べ物の配列（オプション）
+ * @param {Array} equipments 装備の配列（オプション）
+ * @param {Object} rival ライバル（オプション）
+ */
+export function updateRadar(playerPos, yaw, enemies = [], droppedMasks = [], foods = [], equipments = [], rival = null) {
+  const dotsContainer = document.getElementById('radarDots');
+  const rangeEl = document.getElementById('radarRange');
+  if (!dotsContainer) return;
+  
+  // ドットをクリア
+  dotsContainer.innerHTML = '';
+  
+  const { radius, range, maxDots } = RADAR_CONFIG;
+  let dotCount = 0;
+  
+  /**
+   * ワールド座標をレーダー座標に変換
+   */
+  function worldToRadar(targetX, targetZ) {
+    // プレイヤーからの相対位置
+    const dx = targetX - playerPos.x;
+    const dz = targetZ - playerPos.z;
+    
+    // プレイヤーの向きを考慮して回転（北を上にする）
+    const rotatedX = dx * Math.cos(-yaw) - dz * Math.sin(-yaw);
+    const rotatedZ = dx * Math.sin(-yaw) + dz * Math.cos(-yaw);
+    
+    // 距離
+    const dist = Math.sqrt(dx * dx + dz * dz);
+    
+    // 範囲内に収める
+    let normalizedDist = dist / range;
+    if (normalizedDist > 1) normalizedDist = 1;
+    
+    // レーダー座標（中心が0,0）
+    const angle = Math.atan2(rotatedX, -rotatedZ);
+    const radarX = Math.sin(angle) * normalizedDist * radius;
+    const radarY = -Math.cos(angle) * normalizedDist * radius;
+    
+    return {
+      x: radius + radarX,
+      y: radius + radarY,
+      dist,
+      outOfRange: dist > range,
+    };
+  }
+  
+  /**
+   * ドットを追加
+   */
+  function addDot(x, y, className, color = null, outOfRange = false) {
+    if (dotCount >= maxDots) return;
+    dotCount++;
+    
+    const dot = document.createElement('div');
+    dot.className = `radar-dot ${className}`;
+    dot.style.left = `${x}px`;
+    dot.style.top = `${y}px`;
+    if (color) {
+      dot.style.background = color;
+      dot.style.color = color;
+    }
+    if (outOfRange) {
+      dot.style.opacity = '0.5';
+    }
+    dotsContainer.appendChild(dot);
+  }
+  
+  // ライバルを表示（最優先）
+  if (rival && rival.isAlive) {
+    const pos = worldToRadar(rival.x, rival.z);
+    addDot(pos.x, pos.y, 'radar-dot-rival', null, pos.outOfRange);
+  }
+  
+  // 敵を表示
+  for (const enemy of enemies) {
+    if (!enemy.isAlive) continue;
+    if (rival && enemy === rival) continue; // ライバルは別表示済み
+    
+    const pos = worldToRadar(enemy.x, enemy.z);
+    addDot(pos.x, pos.y, 'radar-dot-enemy', null, pos.outOfRange);
+  }
+  
+  // マスクを表示
+  for (const mask of droppedMasks) {
+    if (mask.collected) continue;
+    
+    const pos = worldToRadar(mask.x, mask.z);
+    const color = `#${mask.color.toString(16).padStart(6, '0')}`;
+    addDot(pos.x, pos.y, 'radar-dot-mask', color, pos.outOfRange);
+  }
+  
+  // 装備を表示（オプション）
+  for (const equip of equipments) {
+    if (equip.collected) continue;
+    
+    const pos = worldToRadar(equip.x, equip.z);
+    const color = `#${equip.color.toString(16).padStart(6, '0')}`;
+    addDot(pos.x, pos.y, 'radar-dot-equipment', color, pos.outOfRange);
+  }
+  
+  // 範囲表示を更新
+  if (rangeEl) {
+    rangeEl.textContent = `${range}m`;
+  }
+}

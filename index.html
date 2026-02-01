@@ -91,6 +91,19 @@
     <div class="survival-milestone" id="survivalMilestone">次の成長選択まで 5:00</div>
   </div>
   <div class="boundary-warning" id="boundaryWarning">⚠ 街の外に出ています ⚠</div>
+  <!-- 円形レーダー -->
+  <div class="radar" id="radar" aria-hidden="true">
+    <div class="radar-bg">
+      <div class="radar-ring radar-ring-outer"></div>
+      <div class="radar-ring radar-ring-mid"></div>
+      <div class="radar-ring radar-ring-inner"></div>
+      <div class="radar-cross"></div>
+      <div class="radar-north">N</div>
+    </div>
+    <div class="radar-player"></div>
+    <div class="radar-dots" id="radarDots"></div>
+    <div class="radar-range" id="radarRange">50m</div>
+  </div>
   <div class="pos-meter" aria-hidden="true">
     <div class="label">POS (XYZ)</div>
     <div class="row"><span>X: <span id="posX">0</span></span><span>Y: <span id="posY">0</span></span><span>Z: <span id="posZ">0</span></span></div>

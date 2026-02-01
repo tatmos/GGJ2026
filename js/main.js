@@ -75,6 +75,7 @@ import {
   updateBuffQueue,
   updateMaskSensor,
   updateEnemyGuide,
+  updateRadar,
   updateBossPanel,
   showItemPopup,
   showEquipmentPopup,
@@ -1124,6 +1125,17 @@ function animate() {
   const baseSearchRange = 30;
   const effectiveSearchRange = (baseSearchRange + gameState.search * 5) * equipEffects.detection;
   updateEnemyGuide(gameState.enemies, camera.position, yaw, effectiveSearchRange);
+  
+  // 円形レーダーを更新
+  updateRadar(
+    camera.position,
+    yaw,
+    getAliveEnemies(),
+    droppedMasksForSensor,
+    [], // foods（オプション）
+    getEquipments().filter(e => !e.collected),
+    gameState.rival
+  );
   if (gameState.bossHp != null) {
     updateBossPanel(gameState.bossHp, gameState.bossHpMax, gameState.bossMaskCount);
   } else {
