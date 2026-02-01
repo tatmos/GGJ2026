@@ -129,7 +129,13 @@ import {
   playSoundDefeat,
   playSoundReincarnate,
   playSoundMaskDrop,
-  playSoundEnemyPickupMask
+  playSoundEnemyPickupMask,
+  playSoundAttackHit,
+  playSoundCriticalHit,
+  startAfterburner,
+  stopAfterburner,
+  startRetroThrust,
+  stopRetroThrust
 } from './sound.js';
 import {
   updateParticles,
@@ -171,6 +177,10 @@ function renderMinimap() {
   minimapCamera.position.x = camera.position.x;
   minimapCamera.position.z = camera.position.z;
   minimapCamera.lookAt(camera.position.x, 0, camera.position.z);
+  
+  // プレイヤーの向きに合わせてカメラのup方向を設定
+  // yawが0のとき北（-Z）が前方、レーダーでは前方が上になるように
+  minimapCamera.up.set(Math.sin(yaw), 0, -Math.cos(yaw));
   
   // 霧を一時的に無効化
   const originalFog = scene.fog;
@@ -649,9 +659,15 @@ document.addEventListener('keydown', (e) => {
     return;
   }
   const k = e.key.toLowerCase();
-  if (k === 'w') keys.w = true;
+  if (k === 'w') {
+    if (!keys.w) startAfterburner(); // 押下開始時にサウンド開始
+    keys.w = true;
+  }
   if (k === 'a') keys.a = true;
-  if (k === 's') keys.s = true;
+  if (k === 's') {
+    if (!keys.s) startRetroThrust(); // 押下開始時にサウンド開始
+    keys.s = true;
+  }
   if (k === 'd') keys.d = true;
   if (k === 'q') keys.q = true;
   if (k === 'e') keys.e = true;
@@ -659,9 +675,15 @@ document.addEventListener('keydown', (e) => {
 });
 document.addEventListener('keyup', (e) => {
   const k = e.key.toLowerCase();
-  if (k === 'w') keys.w = false;
+  if (k === 'w') {
+    keys.w = false;
+    stopAfterburner(); // キーリリース時にサウンド停止
+  }
   if (k === 'a') keys.a = false;
-  if (k === 's') keys.s = false;
+  if (k === 's') {
+    keys.s = false;
+    stopRetroThrust(); // キーリリース時にサウンド停止
+  }
   if (k === 'd') keys.d = false;
   if (k === 'q') keys.q = false;
   if (k === 'e') keys.e = false;
@@ -792,12 +814,22 @@ function animate() {
     energy = Math.max(0, energy - energyCostPerSec * dt);
     recoveryCooldown = effectiveRecoveryCooldownSec;
     hoverGraceElapsed = 0;
+    // エネルギーが尽きたらサウンド停止
+    if (energy <= 0) stopAfterburner();
+  } else if (keys.w && energy <= 0) {
+    // エネルギー切れでW押下中はサウンド停止
+    stopAfterburner();
   }
   if (keys.s && energy > 0) {
     speedMultiplier = 0.5;
     energy = Math.max(0, energy - energyCostPerSec * dt);
     recoveryCooldown = effectiveRecoveryCooldownSec;
     hoverGraceElapsed = 0;
+    // エネルギーが尽きたらサウンド停止
+    if (energy <= 0) stopRetroThrust();
+  } else if (keys.s && energy <= 0) {
+    // エネルギー切れでS押下中はサウンド停止
+    stopRetroThrust();
   }
   // 回復クールダウン（装備効果で短縮）
   const effectiveRecoveryCooldownReduction = 1 / equipEffects.recoveryCooldown; // 値が低いほど早く回復
@@ -1198,7 +1230,14 @@ function animate() {
   };
   const attackResult = playerAttack(dt, camera.position, playerStats, getAliveEnemies(), scene);
   if (attackResult.attacked && attackResult.target) {
-    playSoundAttack();
+    // ダメージに応じたサウンド
+    if (attackResult.damage >= 15) {
+      playSoundCriticalHit(); // 大ダメージ
+    } else if (attackResult.damage >= 8) {
+      playSoundAttackHit(); // 良いヒット
+    } else {
+      playSoundAttack(); // 通常攻撃
+    }
     spawnAttackHitEffect(scene, attackResult.target.x, attackResult.target.y + 1.5, attackResult.target.z);
     const target = attackResult.target;
     const targetName = target.masks[0]?.nameJa || '敵';
