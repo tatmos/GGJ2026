@@ -216,3 +216,55 @@ export function createEnemyHealthBar(id) {
     bar.style.width = pct + '%';
   } };
 }
+
+/** アイテム取得時のポップアップ表示 */
+let itemPopupEl = null;
+let itemPopupTimeout = null;
+
+export function showItemPopup(name, nameJa, cuisine, typeId) {
+  if (!itemPopupEl) {
+    itemPopupEl = document.createElement('div');
+    itemPopupEl.id = 'itemPopup';
+    itemPopupEl.style.cssText = `
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.85);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      text-align: center;
+      z-index: 200;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    `;
+    document.body.appendChild(itemPopupEl);
+  }
+
+  // 表示名を決定（日本語名優先）
+  const displayName = nameJa || name || '???';
+  const cuisineText = cuisine ? `【${cuisine}】` : '';
+  
+  // 食べ物タイプに応じた色
+  const typeColors = {
+    energy: '#fbbf24',
+    speedUp: '#22c55e',
+    recoveryCooldownShort: '#3b82f6'
+  };
+  const typeColor = typeColors[typeId] || '#fff';
+
+  itemPopupEl.innerHTML = `
+    <div style="font-size:20px;font-weight:bold;color:${typeColor};margin-bottom:4px;">${displayName}</div>
+    ${cuisineText ? `<div style="font-size:14px;color:#aaa;">${cuisineText}</div>` : ''}
+  `;
+  itemPopupEl.style.opacity = '1';
+  itemPopupEl.style.display = 'block';
+
+  // 一定時間後にフェードアウト
+  if (itemPopupTimeout) clearTimeout(itemPopupTimeout);
+  itemPopupTimeout = setTimeout(() => {
+    if (itemPopupEl) itemPopupEl.style.opacity = '0';
+  }, 2000);
+}

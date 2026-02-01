@@ -1,0 +1,4401 @@
+{
+  "version": "1.0",
+  "source": "OpenStreetMap (Overpass API)",
+  "center": {
+    "lat": 35.6963,
+    "lng": 139.7832
+  },
+  "radius_m": 500,
+  "count": 257,
+  "shops": [
+    {
+      "osm_id": 10269667475,
+      "name": "Axis",
+      "name_en": null,
+      "category": "bar",
+      "lat": 35.6992437,
+      "lng": 139.7863164,
+      "tags": {
+        "amenity": "bar",
+        "level": "0",
+        "name": "Axis"
+      }
+    },
+    {
+      "osm_id": 651691697,
+      "name": "BROS TOKYO",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.694942,
+      "lng": 139.7783366,
+      "tags": {
+        "amenity": "restaurant",
+        "building": "yes",
+        "name": "BROS TOKYO",
+        "source": "GSI/KIBAN 2500;NARO",
+        "source_ref": "http://wiki.osm.org/wiki/GSI_KIBAN"
+      }
+    },
+    {
+      "osm_id": 5173139162,
+      "name": "Bistro Ichigo",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6974863,
+      "lng": 139.7855014,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "Bistro Ichigo",
+        "name:ja": "ビストロいちご"
+      }
+    },
+    {
+      "osm_id": 5581526538,
+      "name": "Bois de Boulogne",
+      "name_en": null,
+      "category": "bakery",
+      "lat": 35.6994509,
+      "lng": 139.7806149,
+      "tags": {
+        "level": "0",
+        "name": "Bois de Boulogne",
+        "name:ja": "ボワ・ド・ブローニュ",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 12861834701,
+      "name": "Bouquet",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.692158,
+      "lng": 139.7840571,
+      "tags": {
+        "amenity": "cafe",
+        "contact:instagram": "__bouquet___",
+        "cuisine": "breakfast;coffee_shop",
+        "name": "Bouquet",
+        "opening_hours": "We-Su 08:00-19:00"
+      }
+    },
+    {
+      "osm_id": 11232811948,
+      "name": "Bridge",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.6947512,
+      "lng": 139.7839469,
+      "tags": {
+        "air_conditioning": "yes",
+        "amenity": "cafe",
+        "diet:vegetarian": "yes",
+        "indoor_seating": "yes",
+        "name": "Bridge",
+        "outdoor_seating": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes"
+      }
+    },
+    {
+      "osm_id": 5185288586,
+      "name": "CAFE BY PREGO",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.698032,
+      "lng": 139.7839719,
+      "tags": {
+        "amenity": "cafe",
+        "level": "0",
+        "name": "CAFE BY PREGO",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5637244256,
+      "name": "COFFEE HIRO",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.7003715,
+      "lng": 139.785144,
+      "tags": {
+        "amenity": "cafe",
+        "level": "0",
+        "name": "COFFEE HIRO",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5185152691,
+      "name": "Cafe de Leo",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.697635,
+      "lng": 139.7837915,
+      "tags": {
+        "amenity": "cafe",
+        "cuisine": "coffee_shop",
+        "level": "0",
+        "name": "Cafe de Leo"
+      }
+    },
+    {
+      "osm_id": 5185152679,
+      "name": "Cafe 梅の木",
+      "name_en": "Cafe Umenoki",
+      "category": "cafe",
+      "lat": 35.6975075,
+      "lng": 139.7839565,
+      "tags": {
+        "amenity": "cafe",
+        "breakfast": "yes",
+        "level": "0",
+        "name": "Cafe 梅の木",
+        "name:en": "Cafe Umenoki",
+        "note": "ガード下店舗",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 7944867263,
+      "name": "Cameleon",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6969368,
+      "lng": 139.7836339,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "french",
+        "name": "Cameleon",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 4000345858,
+      "name": "CoCo壱番屋",
+      "name_en": "CoCo ICHIBANYA",
+      "category": "restaurant",
+      "lat": 35.6941576,
+      "lng": 139.7832419,
+      "tags": {
+        "amenity": "restaurant",
+        "brand": "CoCo壱番屋",
+        "brand:en": "CoCo ICHIBANYA",
+        "brand:ja": "CoCo壱番屋",
+        "brand:wikidata": "Q5986105",
+        "brand:wikipedia": "en:Ichibanya",
+        "cuisine": "curry;japanese",
+        "name": "CoCo壱番屋",
+        "name:en": "CoCo ICHIBANYA",
+        "name:ja": "CoCo壱番屋",
+        "name:ja-Hira": "CoCoいちばんや",
+        "operator": "CoCo壱番屋",
+        "short_name": "ココイチ",
+        "short_name:en": "CoCoICHI",
+        "short_name:ja": "ココイチ",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 11809112542,
+      "name": "Dotcom Coffee",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.6997486,
+      "lng": 139.7819691,
+      "tags": {
+        "amenity": "cafe",
+        "changing_table": "yes",
+        "changing_table:count": "1",
+        "changing_table:location": "unisex_toilet",
+        "indoor_seating": "yes",
+        "level": "0",
+        "name": "Dotcom Coffee",
+        "outdoor_seating": "yes",
+        "smoking": "no",
+        "takeaway": "yes",
+        "toilets": "yes",
+        "toilets:access": "customers",
+        "toilets:disposal": "flush",
+        "toilets:handwashing": "yes",
+        "toilets:paper_supplied": "yes",
+        "toilets:position": "seated",
+        "toilets:wheelchair": "no",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "osm_id": 10587971360,
+      "name": "Egoland Tokyo",
+      "name_en": null,
+      "category": "bar",
+      "lat": 35.6975001,
+      "lng": 139.7793631,
+      "tags": {
+        "addr:block_number": "7",
+        "addr:city": "千代田区",
+        "addr:housenumber": "3",
+        "addr:neighbourhood": "4丁目",
+        "addr:postcode": "101-0025",
+        "addr:province": "東京都",
+        "addr:quarter": "神田佐久間町",
+        "addr:suburb": "千代田区",
+        "amenity": "bar",
+        "check_date": "2025-12-24",
+        "name": "Egoland Tokyo",
+        "opening_hours": "Mo-Su 08:00-24:00",
+        "toilets": "yes"
+      }
+    },
+    {
+      "osm_id": 9810194169,
+      "name": "Gagna",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6970134,
+      "lng": 139.7847027,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "indian",
+        "name": "Gagna"
+      }
+    },
+    {
+      "osm_id": 11002514630,
+      "name": "Gentil",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6988793,
+      "lng": 139.7849388,
+      "tags": {
+        "addr:block_number": "5",
+        "addr:city": "台東区",
+        "addr:housenumber": "3",
+        "addr:neighbourhood": "2",
+        "addr:postcode": "111-0053",
+        "addr:province": "東京都",
+        "addr:quarter": "浅草橋",
+        "amenity": "restaurant",
+        "contact:twitter": "b_gentil",
+        "cuisine": "alsatian;french",
+        "delivery": "no",
+        "level": "0",
+        "name": "Gentil",
+        "name:ja": "ジョンティ",
+        "opening_hours": "Mo-Fr 11:30-14:45,18:00-23:00; Sa,Su,PH 12:00-15:45,18:00-22:30; We,Tu[3] off",
+        "opening_hours:kitchen": "Mo-Fr 11:30-14:00,18:00-21:30; Sa,Su,PH 12:00-15:00,18:00-21:00; We,Tu[3] off",
+        "outdoor_seating": "no",
+        "phone": "+81-3-5829-9971",
+        "reservation": "yes",
+        "smoking": "no",
+        "takeaway": "yes",
+        "website": "http://www.b-gentil.com",
+        "wheelchair": "limited"
+      }
+    },
+    {
+      "osm_id": 5737856599,
+      "name": "Good Vibes",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6992683,
+      "lng": 139.7805616,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "Good Vibes"
+      }
+    },
+    {
+      "osm_id": 5755440571,
+      "name": "Gracia",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6997478,
+      "lng": 139.7860932,
+      "tags": {
+        "amenity": "restaurant",
+        "level": "0",
+        "lunch": "yes",
+        "name": "Gracia"
+      }
+    },
+    {
+      "osm_id": 9768872811,
+      "name": "H & B",
+      "name_en": null,
+      "category": "bakery",
+      "lat": 35.6979184,
+      "lng": 139.7853678,
+      "tags": {
+        "name": "H & B",
+        "shop": "bakery"
+      }
+    },
+    {
+      "osm_id": 5174571976,
+      "name": "HONEST",
+      "name_en": null,
+      "category": "bar",
+      "lat": 35.697428,
+      "lng": 139.7860667,
+      "tags": {
+        "amenity": "bar",
+        "level": "0",
+        "name": "HONEST"
+      }
+    },
+    {
+      "osm_id": 1590215989,
+      "name": "IL Mercato",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6989583,
+      "lng": 139.7840014,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "italian",
+        "name": "IL Mercato",
+        "source": "survey, bing"
+      }
+    },
+    {
+      "osm_id": 9810202535,
+      "name": "Kyu Coffee House",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.6972854,
+      "lng": 139.7865598,
+      "tags": {
+        "amenity": "cafe",
+        "indoor_seating": "yes",
+        "name": "Kyu Coffee House",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 9785762521,
+      "name": "L'ivresse",
+      "name_en": null,
+      "category": "bar",
+      "lat": 35.6983031,
+      "lng": 139.7856718,
+      "tags": {
+        "amenity": "bar",
+        "level": "1",
+        "name": "L'ivresse"
+      }
+    },
+    {
+      "osm_id": 7944813069,
+      "name": "MEIMEI",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6971928,
+      "lng": 139.7844634,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "chinese",
+        "name": "MEIMEI",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 6235126571,
+      "name": "Moon Bar",
+      "name_en": null,
+      "category": "bar",
+      "lat": 35.697814,
+      "lng": 139.7852716,
+      "tags": {
+        "amenity": "bar",
+        "name": "Moon Bar"
+      }
+    },
+    {
+      "osm_id": 5581509357,
+      "name": "PATATI-PATATA",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6997043,
+      "lng": 139.7806922,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "italian",
+        "level": "0",
+        "name": "PATATI-PATATA",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5939628099,
+      "name": "PRONTO",
+      "name_en": "PRONTO",
+      "category": "cafe",
+      "lat": 35.6924933,
+      "lng": 139.7847126,
+      "tags": {
+        "amenity": "cafe",
+        "brand": "PRONTO",
+        "brand:en": "PRONTO",
+        "brand:ja": "プロント",
+        "brand:wikidata": "Q11336224",
+        "cuisine": "coffee_shop",
+        "name": "PRONTO",
+        "name:en": "PRONTO",
+        "name:ja": "プロント",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 7057652336,
+      "name": "Peppino",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.7005573,
+      "lng": 139.7849833,
+      "tags": {
+        "amenity": "cafe",
+        "level": "0",
+        "name": "Peppino",
+        "source": "survey",
+        "start_date": "2019",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 2292272190,
+      "name": "Phayao",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.697185,
+      "lng": 139.785149,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "thai",
+        "indoor_seating": "yes",
+        "name": "Phayao",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 7718907904,
+      "name": "Pho Viet Quan",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6988998,
+      "lng": 139.7848124,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "vietnamese",
+        "lunch": "yes",
+        "name": "Pho Viet Quan",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 5173102466,
+      "name": "Pizzeria Buono Buono",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6984785,
+      "lng": 139.7848208,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "italian",
+        "level": "0.5",
+        "name": "Pizzeria Buono Buono",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 4992239589,
+      "name": "SQUARE Cafe",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.6945482,
+      "lng": 139.7854907,
+      "tags": {
+        "amenity": "cafe",
+        "level": "0",
+        "name": "SQUARE Cafe"
+      }
+    },
+    {
+      "osm_id": 6418740635,
+      "name": "Smile Thailand",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6975833,
+      "lng": 139.7842233,
+      "tags": {
+        "amenity": "restaurant",
+        "check_date": "2024-04-19",
+        "cuisine": "thai;ramen",
+        "diet:vegetarian": "yes",
+        "level": "0",
+        "name": "Smile Thailand",
+        "outdoor_seating": "yes",
+        "source": "survey",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "osm_id": 4992239569,
+      "name": "Soaltee Dining",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6945179,
+      "lng": 139.7857306,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "Soaltee Dining"
+      }
+    },
+    {
+      "osm_id": 5584464474,
+      "name": "Streamer Coffee Company",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.6964901,
+      "lng": 139.7803248,
+      "tags": {
+        "amenity": "cafe",
+        "brand": "Streamer Coffee Company",
+        "brand:wikidata": "Q110397553",
+        "cuisine": "coffee_shop",
+        "level": "0",
+        "name": "Streamer Coffee Company",
+        "source": "survey",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 5649302896,
+      "name": "THE HERBS & SPICES",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.698797,
+      "lng": 139.7801431,
+      "tags": {
+        "amenity": "restaurant",
+        "contact:phone": "+81 3 3865 6151",
+        "lunch": "yes",
+        "name": "THE HERBS & SPICES"
+      }
+    },
+    {
+      "osm_id": 5185152683,
+      "name": "TOKYO MELONPAN",
+      "name_en": null,
+      "category": "bakery",
+      "lat": 35.6976388,
+      "lng": 139.7836044,
+      "tags": {
+        "level": "0",
+        "name": "TOKYO MELONPAN",
+        "shop": "bakery",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5641940331,
+      "name": "Tea Room SMELL",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.697674,
+      "lng": 139.7831961,
+      "tags": {
+        "amenity": "cafe",
+        "name": "Tea Room SMELL",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 7836231317,
+      "name": "Verde Regalo",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6971607,
+      "lng": 139.7812735,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "italian",
+        "level": "0",
+        "name": "Verde Regalo"
+      }
+    },
+    {
+      "osm_id": 2292335088,
+      "name": "YOIYA",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.697954,
+      "lng": 139.785252,
+      "tags": {
+        "amenity": "pub",
+        "name": "YOIYA"
+      }
+    },
+    {
+      "osm_id": 5158268464,
+      "name": "foredor",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.6987241,
+      "lng": 139.7844835,
+      "tags": {
+        "amenity": "cafe",
+        "level": "0",
+        "name": "foredor",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 7037526336,
+      "name": "humo",
+      "name_en": null,
+      "category": "bar",
+      "lat": 35.6978152,
+      "lng": 139.7852891,
+      "tags": {
+        "amenity": "bar",
+        "name": "humo",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 4987382571,
+      "name": "miniピアゴ",
+      "name_en": "mini Piago",
+      "category": "convenience",
+      "lat": 35.6943906,
+      "lng": 139.7867637,
+      "tags": {
+        "brand": "miniピアゴ",
+        "brand:en": "mini Piago",
+        "brand:ja": "miniピアゴ",
+        "brand:wikidata": "Q11188499",
+        "brand:wikipedia": "ja:Miniピアゴ",
+        "name": "miniピアゴ",
+        "name:en": "mini Piago",
+        "name:ja": "miniピアゴ",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 5433556946,
+      "name": "obi",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.6919847,
+      "lng": 139.7820733,
+      "tags": {
+        "amenity": "cafe",
+        "name": "obi",
+        "outdoor_seating": "yes"
+      }
+    },
+    {
+      "osm_id": 9785762522,
+      "name": "uchinomi-dining so",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6982863,
+      "lng": 139.785655,
+      "tags": {
+        "amenity": "pub",
+        "level": "1",
+        "name": "uchinomi-dining so"
+      }
+    },
+    {
+      "osm_id": 9812382515,
+      "name": "あらいばる",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6974966,
+      "lng": 139.7853707,
+      "tags": {
+        "amenity": "restaurant",
+        "level": "1;2",
+        "name": "あらいばる"
+      }
+    },
+    {
+      "osm_id": 5174378437,
+      "name": "いきなり！ステーキ",
+      "name_en": "Ikinari Steak",
+      "category": "restaurant",
+      "lat": 35.6968884,
+      "lng": 139.7862893,
+      "tags": {
+        "amenity": "restaurant",
+        "brand": "いきなり！ステーキ",
+        "brand:en": "Ikinari Steak",
+        "brand:ja": "いきなり！ステーキ",
+        "brand:wikidata": "Q21652405",
+        "brand:wikipedia": "ja:いきなり!ステーキ",
+        "cuisine": "steak_house",
+        "indoor_seating": "yes",
+        "level": "1",
+        "name": "いきなり！ステーキ",
+        "name:en": "Ikinari Steak",
+        "name:ja": "いきなり！ステーキ",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 5174378439,
+      "name": "うどんが呼んでいる",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6969722,
+      "lng": 139.7863276,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "noodle",
+        "indoor_seating": "yes",
+        "name": "うどんが呼んでいる",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 5643018437,
+      "name": "お弁当きやり",
+      "name_en": null,
+      "category": "fast_food",
+      "lat": 35.6982688,
+      "lng": 139.7850461,
+      "tags": {
+        "amenity": "fast_food",
+        "name": "お弁当きやり",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5173935181,
+      "name": "かつや",
+      "name_en": "Katsuya",
+      "category": "fast_food",
+      "lat": 35.6971106,
+      "lng": 139.7864261,
+      "tags": {
+        "amenity": "fast_food",
+        "brand": "かつや",
+        "brand:en": "Katsuya",
+        "brand:ja": "かつや",
+        "brand:wikidata": "Q2855257",
+        "brand:wikipedia": "ja:かつや",
+        "cuisine": "fried_food",
+        "level": "0",
+        "name": "かつや",
+        "name:en": "Katsuya",
+        "name:ja": "かつや",
+        "name:ko": "카쯔야",
+        "name:zh": "吉豚屋",
+        "outdoor_seating": "no",
+        "source": "survey",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 5702439778,
+      "name": "からあげ家 奥州いわい",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6989918,
+      "lng": 139.7805249,
+      "tags": {
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "からあげ家 奥州いわい"
+      }
+    },
+    {
+      "osm_id": 7037620061,
+      "name": "がブリチキン",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6977676,
+      "lng": 139.7858505,
+      "tags": {
+        "amenity": "pub",
+        "level": "0",
+        "name": "がブリチキン",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 6235126988,
+      "name": "くうかい",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6976384,
+      "lng": 139.7850363,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "くうかい"
+      }
+    },
+    {
+      "osm_id": 5550466620,
+      "name": "ごえん",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6976303,
+      "lng": 139.7836541,
+      "tags": {
+        "amenity": "pub",
+        "level": "0",
+        "name": "ごえん",
+        "smoking": "yes"
+      }
+    },
+    {
+      "osm_id": 9785683556,
+      "name": "ごっつり",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6974953,
+      "lng": 139.7841332,
+      "tags": {
+        "amenity": "pub",
+        "name": "ごっつり",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 7835111330,
+      "name": "さんほれ",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6975998,
+      "lng": 139.7779837,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "さんほれ",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 10269667481,
+      "name": "しま",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6990097,
+      "lng": 139.7861871,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "しま"
+      }
+    },
+    {
+      "osm_id": 7057951850,
+      "name": "しゃにむに",
+      "name_en": "Syanimuni",
+      "category": "pub",
+      "lat": 35.6974789,
+      "lng": 139.7843416,
+      "tags": {
+        "amenity": "pub",
+        "cuisine": "japanese;soba",
+        "level": "0;1",
+        "name": "しゃにむに",
+        "name:en": "Syanimuni",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5174556093,
+      "name": "すき家",
+      "name_en": "Sukiya",
+      "category": "fast_food",
+      "lat": 35.6978424,
+      "lng": 139.7869062,
+      "tags": {
+        "amenity": "fast_food",
+        "brand": "すき家",
+        "brand:en": "Sukiya",
+        "brand:ja": "すき家",
+        "brand:wikidata": "Q6137375",
+        "brand:wikipedia": "ja:すき家",
+        "cuisine": "beef_bowl",
+        "name": "すき家",
+        "name:en": "Sukiya",
+        "name:ja": "すき家",
+        "name:ja-Hira": "すきや",
+        "name:ja-Latn": "Sukiya",
+        "name:ja_rm": "Sukiya",
+        "operator": "すき家本部",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 9234146626,
+      "name": "ずく箱",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6974468,
+      "lng": 139.7780124,
+      "tags": {
+        "amenity": "pub",
+        "name": "ずく箱"
+      }
+    },
+    {
+      "osm_id": 7037767128,
+      "name": "そば八",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6981212,
+      "lng": 139.7862446,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "そば八",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 9212264202,
+      "name": "そば処 春日",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6962138,
+      "lng": 139.7787474,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "そば処 春日"
+      }
+    },
+    {
+      "osm_id": 4209297989,
+      "name": "たいこ茶屋",
+      "name_en": "Taiko Chaya",
+      "category": "cafe",
+      "lat": 35.6955048,
+      "lng": 139.7822684,
+      "tags": {
+        "addr:city": "中央区",
+        "addr:floor": "B1F",
+        "addr:housename": "セントピアビル",
+        "addr:housenumber": "2",
+        "addr:neighbourhood": "日本橋馬喰町二丁目",
+        "addr:province": "東京都",
+        "amenity": "cafe",
+        "cuisine": "seafood;japanese;fish;sushi",
+        "indoor_seating": "yes",
+        "level": "-1",
+        "name": "たいこ茶屋",
+        "name:en": "Taiko Chaya",
+        "opening_hours": "Mo-Su 11:30-14:00, 17:00-23:00",
+        "outdoor_seating": "no",
+        "phone": "+81 3-3639-8670",
+        "website": "https://www.taikochaya.jp/"
+      }
+    },
+    {
+      "osm_id": 5573770399,
+      "name": "たのや",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6973382,
+      "lng": 139.7833443,
+      "tags": {
+        "amenity": "restaurant",
+        "contact:phone": "+81 3 3861 4690",
+        "cuisine": "japanese",
+        "cuisine:ja": "ふぐ",
+        "indoor_seating": "yes",
+        "name": "たのや",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 2292271763,
+      "name": "ていんがーら",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.696869,
+      "lng": 139.784654,
+      "tags": {
+        "amenity": "pub",
+        "cuisine": "japanese",
+        "name": "ていんがーら",
+        "name:ru": "Трактир с японской кухней"
+      }
+    },
+    {
+      "osm_id": 6240948460,
+      "name": "とんかつ はしや",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6923353,
+      "lng": 139.7818366,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "japanese",
+        "level": "0",
+        "name": "とんかつ はしや",
+        "smoking": "no",
+        "takeaway": "yes",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "osm_id": 5158268498,
+      "name": "とんかつスエヒロ",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6986832,
+      "lng": 139.7848061,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "japanese",
+        "level": "0",
+        "name": "とんかつスエヒロ",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5182882158,
+      "name": "とんかつ藤芳",
+      "name_en": "Tonkatsu Fujiyoshu",
+      "category": "restaurant",
+      "lat": 35.6971726,
+      "lng": 139.7840966,
+      "tags": {
+        "amenity": "restaurant",
+        "branch": "駅前店",
+        "cuisine": "tonkatsu;japanese",
+        "name": "とんかつ藤芳",
+        "name:en": "Tonkatsu Fujiyoshu"
+      }
+    },
+    {
+      "osm_id": 5533731220,
+      "name": "なかや",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6993612,
+      "lng": 139.7843206,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine:ja": "うなぎ",
+        "name": "なかや"
+      }
+    },
+    {
+      "osm_id": 2292258041,
+      "name": "なか卯",
+      "name_en": "Nakau",
+      "category": "fast_food",
+      "lat": 35.6972007,
+      "lng": 139.7798076,
+      "tags": {
+        "amenity": "fast_food",
+        "branch": "秋葉原昭和通り口店",
+        "brand": "なか卯",
+        "brand:en": "Nakau",
+        "brand:ja": "なか卯",
+        "brand:wikidata": "Q11274132",
+        "brand:wikipedia": "ja:なか卯",
+        "cuisine": "udon",
+        "name": "なか卯",
+        "name:en": "Nakau",
+        "name:ja": "なか卯",
+        "name:ja_rm": "Nakau",
+        "opening_hours": "24/7",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 5665757888,
+      "name": "にぎり屋 八べゑ",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6986001,
+      "lng": 139.778592,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "にぎり屋 八べゑ",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 4674362089,
+      "name": "はしや",
+      "name_en": "Hashiya",
+      "category": "restaurant",
+      "lat": 35.6933752,
+      "lng": 139.7795959,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "はしや",
+        "name:en": "Hashiya",
+        "name:ja": "はしや"
+      }
+    },
+    {
+      "osm_id": 4989824693,
+      "name": "はなび",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6954945,
+      "lng": 139.7814195,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "noodle;udon",
+        "name": "はなび",
+        "outdoor_seating": "yes"
+      }
+    },
+    {
+      "osm_id": 5460950831,
+      "name": "ひよっ子",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6977245,
+      "lng": 139.7838239,
+      "tags": {
+        "amenity": "pub",
+        "contact:phone": "+81 3 3861 8993",
+        "cuisine": "chicken",
+        "name": "ひよっ子",
+        "opening_hours": "17:00-23:00",
+        "reservation": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 9785762523,
+      "name": "びんてじ",
+      "name_en": null,
+      "category": "bar",
+      "lat": 35.6982857,
+      "lng": 139.7857214,
+      "tags": {
+        "amenity": "bar",
+        "name": "びんてじ",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 9785762525,
+      "name": "ふたみ食堂",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6982721,
+      "lng": 139.7857455,
+      "tags": {
+        "amenity": "restaurant",
+        "level": "-1",
+        "name": "ふたみ食堂"
+      }
+    },
+    {
+      "osm_id": 4992239615,
+      "name": "ほのぼの亭",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6948576,
+      "lng": 139.7836348,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "japanese",
+        "name": "ほのぼの亭",
+        "takeaway": "only"
+      }
+    },
+    {
+      "osm_id": 9684185916,
+      "name": "まいばすけっと",
+      "name_en": "My Basket",
+      "category": "supermarket",
+      "lat": 35.698113,
+      "lng": 139.7836796,
+      "tags": {
+        "brand": "まいばすけっと",
+        "brand:en": "My Basket",
+        "brand:ja": "まいばすけっと",
+        "brand:wikidata": "Q11278154",
+        "level": "0",
+        "name": "まいばすけっと",
+        "name:en": "My Basket",
+        "name:ja": "まいばすけっと",
+        "name:ja-Hira": "まいばすけっと",
+        "name:ja-Latn": "Maibasuketto",
+        "shop": "supermarket",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 13347677101,
+      "name": "まいばすけっと",
+      "name_en": "My Basket",
+      "category": "supermarket",
+      "lat": 35.6968321,
+      "lng": 139.7832226,
+      "tags": {
+        "name": "まいばすけっと",
+        "name:en": "My Basket",
+        "opening_hours": "Mo-Su 07:00-23:00",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "osm_id": 6346251285,
+      "name": "まいばすけっと（イオン）",
+      "name_en": "MyBasket (AEON)",
+      "category": "supermarket",
+      "lat": 35.6980079,
+      "lng": 139.7786798,
+      "tags": {
+        "brand": "イオン",
+        "brand:en": "AEON",
+        "brand:ja": "イオン",
+        "brand:wikidata": "Q11285951",
+        "brand:wikipedia": "ja:イオン (店舗ブランド)",
+        "name": "まいばすけっと（イオン）",
+        "name:en": "MyBasket (AEON)",
+        "name:ja": "まいばすけった（イオン）",
+        "opening_hours": "Mo-Su 07:00-23:59",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "osm_id": 5692002866,
+      "name": "みなと亭",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6985226,
+      "lng": 139.7821996,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "chinese",
+        "name": "みなと亭",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 6235126579,
+      "name": "みらい",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6978144,
+      "lng": 139.7852369,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "みらい"
+      }
+    },
+    {
+      "osm_id": 4989824692,
+      "name": "むさし乃",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6955726,
+      "lng": 139.7803713,
+      "tags": {
+        "amenity": "pub",
+        "name": "むさし乃"
+      }
+    },
+    {
+      "osm_id": 582907925,
+      "name": "めんや らきち",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.7000666,
+      "lng": 139.7832808,
+      "tags": {
+        "addr:block_number": "1",
+        "addr:housenumber": "32",
+        "addr:neighbourhood": "5丁目",
+        "addr:quarter": "浅草橋",
+        "amenity": "restaurant",
+        "building": "yes",
+        "name": "めんや らきち",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5174384327,
+      "name": "もつ蔵",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6969456,
+      "lng": 139.7862833,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "name": "もつ蔵",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 9762732912,
+      "name": "やきとん三吉",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.697616,
+      "lng": 139.7852191,
+      "tags": {
+        "amenity": "pub",
+        "name": "やきとん三吉"
+      }
+    },
+    {
+      "osm_id": 9768872809,
+      "name": "よいや",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6979248,
+      "lng": 139.7854344,
+      "tags": {
+        "amenity": "pub",
+        "name": "よいや"
+      }
+    },
+    {
+      "osm_id": 5643876750,
+      "name": "ろく月",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6988913,
+      "lng": 139.7853056,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "noodle",
+        "level": "0",
+        "name": "ろく月",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 1590215999,
+      "name": "アカス",
+      "name_en": "Aakash",
+      "category": "restaurant",
+      "lat": 35.6989947,
+      "lng": 139.7838348,
+      "tags": {
+        "amenity": "restaurant",
+        "contact:fax": "+81 3-3864-1110",
+        "contact:phone": "+81 3-3864-1110",
+        "cuisine": "indian",
+        "level": "0;1",
+        "lunch": "11:00-16:30",
+        "name": "アカス",
+        "name:en": "Aakash",
+        "opening_hours": "Mo-Su 11:00-23:00",
+        "reservation": "yes",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 10281842827,
+      "name": "アカネコ",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6981205,
+      "lng": 139.7876385,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "アカネコ",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 7579950620,
+      "name": "アンチョビ",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6985905,
+      "lng": 139.7788411,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "アンチョビ"
+      }
+    },
+    {
+      "osm_id": 5174556106,
+      "name": "インターネットコミックカフェ",
+      "name_en": "Jiyu Kukan",
+      "category": "cafe",
+      "lat": 35.6976954,
+      "lng": 139.7860801,
+      "tags": {
+        "amenity": "cafe",
+        "indoor_seating": "yes",
+        "internet_access": "terminal",
+        "level": "3",
+        "name": "インターネットコミックカフェ",
+        "name:en": "Jiyu Kukan",
+        "opening_hours": "24/7",
+        "outdoor_seating": "no",
+        "website": "https://jiqoo.jp"
+      }
+    },
+    {
+      "osm_id": 9762732911,
+      "name": "エゴイストプラス",
+      "name_en": null,
+      "category": "bar",
+      "lat": 35.6976577,
+      "lng": 139.7852273,
+      "tags": {
+        "amenity": "bar",
+        "indoor_seating": "yes",
+        "name": "エゴイストプラス",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 9785762520,
+      "name": "エレガンテ",
+      "name_en": null,
+      "category": "bar",
+      "lat": 35.6982944,
+      "lng": 139.7857348,
+      "tags": {
+        "amenity": "bar",
+        "level": "2",
+        "name": "エレガンテ"
+      }
+    },
+    {
+      "osm_id": 12511423101,
+      "name": "カフェ 摩天楼珈琲 シェアリングコーヒーショップ 日本橋",
+      "name_en": "Matenrou Coffee",
+      "category": "cafe",
+      "lat": 35.6931548,
+      "lng": 139.7829295,
+      "tags": {
+        "amenity": "cafe",
+        "contact:instagram": "matenrou_coffee",
+        "cuisine": "coffee_shop;japanese",
+        "name": "カフェ 摩天楼珈琲 シェアリングコーヒーショップ 日本橋",
+        "name:en": "Matenrou Coffee",
+        "opening_hours": "Sa-Su 10:00-17:00; Tu-Fr 09:00-17:00; Mo 07:00-14:00"
+      }
+    },
+    {
+      "osm_id": 3663934350,
+      "name": "カフェ・ベローチェ",
+      "name_en": "CAFE VELOCE",
+      "category": "cafe",
+      "lat": 35.697777,
+      "lng": 139.7844349,
+      "tags": {
+        "addr:block_number": "22",
+        "addr:city": "台東区",
+        "addr:floor": "1F",
+        "addr:housename": "ヒューリック浅草橋ビル",
+        "addr:housenumber": "16",
+        "addr:neighbourhood": "浅草橋一丁目",
+        "addr:postcode": "111-0053",
+        "addr:province": "東京都",
+        "amenity": "cafe",
+        "branch": "浅草橋駅西口店",
+        "brand": "カフェ・ベローチェ",
+        "brand:en": "CAFFÈ VELOCE",
+        "brand:ja": "カフェ・ベローチェ",
+        "brand:wikidata": "Q11294597",
+        "brand:wikipedia": "ja:カフェ・ベローチェ",
+        "cuisine": "coffee_shop",
+        "internet_access": "wlan",
+        "internet_access:fee": "no",
+        "level": "0",
+        "name": "カフェ・ベローチェ",
+        "name:en": "CAFE VELOCE",
+        "name:ja": "カフェ・ベローチェ",
+        "name:ja_rm": "Kafe Berōche",
+        "opening_hours": "Mo-Su 07:00-23:00",
+        "operator": "シャノアール",
+        "payment:cash": "yes",
+        "payment:iD": "yes",
+        "payment:icsf": "yes",
+        "payment:paypay": "yes",
+        "phone": "+81 3-5809-2203",
+        "smoking": "no",
+        "source": "(URL) 2015",
+        "takeaway": "yes",
+        "website": "https://chatnoir-company.com/chatnoir/html/brand/brand_veloce.html"
+      }
+    },
+    {
+      "osm_id": 3663939645,
+      "name": "カフェ・ベローチェ",
+      "name_en": "CAFE VELOCE",
+      "category": "cafe",
+      "lat": 35.6977506,
+      "lng": 139.7868144,
+      "tags": {
+        "addr:block_number": "20",
+        "addr:city": "台東区",
+        "addr:housenumber": "5",
+        "addr:neighbourhood": "柳橋一丁目",
+        "addr:postcode": "111-0052",
+        "addr:province": "東京都",
+        "amenity": "cafe",
+        "branch": "浅草橋店",
+        "brand": "カフェ・ベローチェ",
+        "brand:en": "CAFFÈ VELOCE",
+        "brand:ja": "カフェ・ベローチェ",
+        "brand:wikidata": "Q11294597",
+        "brand:wikipedia": "ja:カフェ・ベローチェ",
+        "capacity": "110",
+        "cuisine": "coffee_shop",
+        "name": "カフェ・ベローチェ",
+        "name:en": "CAFE VELOCE",
+        "name:ja": "カフェ・ベローチェ",
+        "name:ja_rm": "Kafe Berōche",
+        "opening_hours": "Mo-Su 07:00-22:00",
+        "operator": "シャノアール",
+        "phone": "+81 3-5687-1452",
+        "smoking": "separated",
+        "source": "(URL) 2015",
+        "takeaway": "yes",
+        "website": "https://chatnoir-company.com/chatnoir/html/brand/brand_veloce.html"
+      }
+    },
+    {
+      "osm_id": 7835151812,
+      "name": "カルディ",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.6976018,
+      "lng": 139.7803013,
+      "tags": {
+        "amenity": "cafe",
+        "name": "カルディ"
+      }
+    },
+    {
+      "osm_id": 5593558638,
+      "name": "キッチンレタス",
+      "name_en": "Kitchen Lettuce",
+      "category": "fast_food",
+      "lat": 35.6992044,
+      "lng": 139.7813474,
+      "tags": {
+        "amenity": "fast_food",
+        "level": "0",
+        "name": "キッチンレタス",
+        "name:en": "Kitchen Lettuce",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 6235492422,
+      "name": "ギリシャ家庭料理 フィリ",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6996027,
+      "lng": 139.7849477,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "greek",
+        "level": "0",
+        "name": "ギリシャ家庭料理 フィリ",
+        "source": "survey",
+        "takeaway:covid19": "yes"
+      }
+    },
+    {
+      "osm_id": 5173930107,
+      "name": "コメダ珈琲店",
+      "name_en": "Komeda's Coffee",
+      "category": "cafe",
+      "lat": 35.697507,
+      "lng": 139.7867212,
+      "tags": {
+        "amenity": "cafe",
+        "brand": "コメダ珈琲店",
+        "brand:en": "KOMEDA'S Coffee",
+        "brand:ja": "コメダ珈琲店",
+        "brand:wikidata": "Q11302679",
+        "brand:wikipedia": "ja:コメダ",
+        "cuisine": "coffee_shop",
+        "indoor_seating": "yes",
+        "level": "0;1",
+        "name": "コメダ珈琲店",
+        "name:en": "Komeda's Coffee",
+        "name:ja": "コメダ珈琲店",
+        "outdoor_seating": "no",
+        "source": "survey",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 1590216000,
+      "name": "コーヒーの店 杉",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.6985283,
+      "lng": 139.784817,
+      "tags": {
+        "amenity": "cafe",
+        "level": "0",
+        "name": "コーヒーの店 杉",
+        "source": "survey, bing"
+      }
+    },
+    {
+      "osm_id": 5185152681,
+      "name": "サッポロラーメン天竜",
+      "name_en": "Sapporo Ramen Tenryu",
+      "category": "restaurant",
+      "lat": 35.6976448,
+      "lng": 139.7835521,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "noodle",
+        "level": "0",
+        "name": "サッポロラーメン天竜",
+        "name:en": "Sapporo Ramen Tenryu"
+      }
+    },
+    {
+      "osm_id": 2192227247,
+      "name": "サンマルクカフェ",
+      "name_en": "Saint Marc Cafe",
+      "category": "cafe",
+      "lat": 35.697933,
+      "lng": 139.786428,
+      "tags": {
+        "addr:block_number": "30",
+        "addr:city": "台東区",
+        "addr:housename": "玉木ビル",
+        "addr:housenumber": "12",
+        "addr:neighbourhood": "浅草橋一丁目",
+        "addr:postcode": "111-0053",
+        "addr:province": "東京都",
+        "alt_name:en": "Saint Marc Café",
+        "amenity": "cafe",
+        "branch": "浅草橋東口店",
+        "brand": "サンマルクカフェ",
+        "brand:en": "ST.MARC CAFÉ",
+        "brand:ja": "サンマルクカフェ",
+        "brand:wikidata": "Q11305988",
+        "brand:wikipedia": "ja:サンマルクホールディングス",
+        "cuisine": "coffee_shop",
+        "level": "0",
+        "name": "サンマルクカフェ",
+        "name:en": "Saint Marc Cafe",
+        "name:ja": "サンマルクカフェ",
+        "name:ja_rm": "Sanmaruku Kafe",
+        "opening_hours": "Mo-Su 07:00-23:00",
+        "operator": "サンマルクカフェ",
+        "phone": "+81 3-5822-7309",
+        "source": "survey; (URL) 2015",
+        "takeaway": "yes",
+        "website": "http://www.saint-marc-hd.com/cafe/"
+      }
+    },
+    {
+      "osm_id": 1590216001,
+      "name": "ジョンティ",
+      "name_en": "Gentil",
+      "category": "restaurant",
+      "lat": 35.6988866,
+      "lng": 139.7848814,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "french",
+        "name": "ジョンティ",
+        "name:en": "Gentil",
+        "source": "survey, bing"
+      }
+    },
+    {
+      "osm_id": 10044534617,
+      "name": "ストーン",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.697142,
+      "lng": 139.7854579,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "curry",
+        "name": "ストーン"
+      }
+    },
+    {
+      "osm_id": 5907541309,
+      "name": "スペイン食堂 EL PEQUENA",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6980434,
+      "lng": 139.7839444,
+      "tags": {
+        "amenity": "pub",
+        "name": "スペイン食堂 EL PEQUENA",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5173102446,
+      "name": "スリーエフ",
+      "name_en": "Three F",
+      "category": "convenience",
+      "lat": 35.697764,
+      "lng": 139.7843246,
+      "tags": {
+        "branch": "浅草橋店店",
+        "brand": "スリーエフ",
+        "brand:en": "Three F",
+        "brand:ja": "スリーエフ",
+        "brand:wikidata": "Q11313419",
+        "brand:wikipedia": "ja:スリーエフ",
+        "level": "0",
+        "name": "スリーエフ",
+        "name:en": "Three F",
+        "name:ja": "スリーエフ",
+        "name:ja-Hira": "すりーえふ",
+        "name:ja-Latn": "Surīefu",
+        "name:ja_rm": "Surīefu",
+        "operator": "スリーエフ",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 1925677649,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.6985474,
+      "lng": 139.7873672,
+      "tags": {
+        "addr:block_number": "6",
+        "addr:city": "台東区",
+        "addr:housenumber": "2",
+        "addr:neighbourhood": "柳橋二丁目",
+        "addr:postcode": "111-0052",
+        "addr:province": "東京都",
+        "atm": "yes",
+        "branch": "台東柳橋2丁目",
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "internet_access": "wlan",
+        "level": "0",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "name:ja_rm": "Sebun Irebun",
+        "name:ko": "세븐일레븐",
+        "official_name:en": "Seven-Eleven",
+        "opening_hours": "24/7",
+        "operator": "セブンイレブン・ジャパン",
+        "phone": "+81-3-5820-3620",
+        "shop": "convenience",
+        "source": "Bing 2010;(URL)",
+        "website": "https://www.sej.co.jp/"
+      }
+    },
+    {
+      "osm_id": 2012214876,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.6940456,
+      "lng": 139.7830512,
+      "tags": {
+        "addr:block_number": "10",
+        "addr:city": "中央区",
+        "addr:housenumber": "11",
+        "addr:neighbourhood": "日本橋馬喰町一丁目",
+        "addr:postcode": "103-0002",
+        "addr:province": "東京都",
+        "atm": "yes",
+        "branch": "日本橋馬喰町",
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "internet_access": "wlan",
+        "level": "0",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "name:ja_rm": "Sebun Irebun",
+        "name:ko": "세븐일레븐",
+        "official_name:en": "Seven-Eleven",
+        "opening_hours": "24/7",
+        "operator": "セブンイレブン・ジャパン",
+        "phone": "+81 3-5641-2877",
+        "shop": "convenience",
+        "source": "(URL) 2015",
+        "website": "https://www.sej.co.jp/",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "osm_id": 3652475125,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.697483,
+      "lng": 139.78566,
+      "tags": {
+        "addr:block_number": "19",
+        "addr:city": "台東区",
+        "addr:housenumber": "1",
+        "addr:neighbourhood": "浅草橋一丁目",
+        "addr:postcode": "111-0053",
+        "addr:province": "東京都",
+        "atm": "yes",
+        "branch": "浅草橋駅東口",
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "contact:phone": "+81 3-5820-5339",
+        "internet_access": "wlan",
+        "level": "0",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "name:ja_rm": "Sebun Irebun",
+        "name:ko": "세븐일레븐",
+        "official_name:en": "Seven-Eleven",
+        "opening_hours": "24/7",
+        "operator": "セブンイレブン・ジャパン",
+        "shop": "convenience",
+        "source": "(URL) 2015",
+        "website": "https://www.sej.co.jp/"
+      }
+    },
+    {
+      "osm_id": 3750497457,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.6983294,
+      "lng": 139.7800196,
+      "tags": {
+        "addr:block_number": "16",
+        "addr:city": "千代田区",
+        "addr:neighbourhood": "神田佐久間町四丁目",
+        "addr:postcode": "101-0025",
+        "addr:province": "東京都",
+        "atm": "yes",
+        "branch": "神田佐久間町",
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "internet_access": "wlan",
+        "level": "0",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "name:ja_rm": "Sebun Irebun",
+        "name:ko": "세븐일레븐",
+        "note": "Need to check if this exists. Do not remember seeing this.",
+        "official_name:en": "Seven-Eleven",
+        "opening_hours": "24/7",
+        "operator": "セブンイレブン・ジャパン",
+        "phone": "+81 3-3866-3929",
+        "shop": "convenience",
+        "source": "(URL) 2015",
+        "website": "https://www.sej.co.jp/"
+      }
+    },
+    {
+      "osm_id": 3750527697,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.6979645,
+      "lng": 139.7834375,
+      "tags": {
+        "addr:block_number": "24",
+        "addr:city": "台東区",
+        "addr:housenumber": "10",
+        "addr:neighbourhood": "浅草橋一丁目",
+        "addr:postcode": "111-0053",
+        "addr:province": "東京都",
+        "atm": "yes",
+        "branch": "浅草橋駅西口",
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "internet_access": "wlan",
+        "level": "0",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "name:ja_rm": "Sebun Irebun",
+        "name:ko": "세븐일레븐",
+        "official_name:en": "Seven-Eleven",
+        "opening_hours": "24/7",
+        "operator": "セブンイレブン・ジャパン",
+        "phone": "+81 3-3865-6625",
+        "shop": "convenience",
+        "source": "(URL) 2015",
+        "website": "https://www.sej.co.jp/"
+      }
+    },
+    {
+      "osm_id": 3758377125,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.6954737,
+      "lng": 139.784757,
+      "tags": {
+        "addr:block_number": "6",
+        "addr:city": "中央区",
+        "addr:housenumber": "14",
+        "addr:neighbourhood": "日本橋馬喰町二丁目",
+        "addr:postcode": "103-0002",
+        "addr:province": "東京都",
+        "atm": "yes",
+        "branch": "日本橋馬喰町2丁目",
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "internet_access": "wlan",
+        "level": "0",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "name:ja_rm": "Sebun Irebun",
+        "name:ko": "세븐일레븐",
+        "official_name:en": "Seven-Eleven",
+        "opening_hours": "24/7",
+        "operator": "セブンイレブン・ジャパン",
+        "phone": "+81 3-3669-0711",
+        "shop": "convenience",
+        "source": "(URL) 2015",
+        "website": "https://www.sej.co.jp/"
+      }
+    },
+    {
+      "osm_id": 3758428874,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.6922065,
+      "lng": 139.7846576,
+      "tags": {
+        "addr:block_number": "11",
+        "addr:city": "中央区",
+        "addr:housenumber": "9",
+        "addr:neighbourhood": "東日本橋三丁目",
+        "addr:postcode": "103-0004",
+        "addr:province": "東京都",
+        "atm": "yes",
+        "branch": "東日本橋駅前",
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "internet_access": "wlan",
+        "level": "0",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "name:ja_rm": "Sebun Irebun",
+        "name:ko": "세븐일레븐",
+        "official_name:en": "Seven-Eleven",
+        "opening_hours": "24/7",
+        "operator": "セブンイレブン・ジャパン",
+        "phone": "+81 3-5640-5657",
+        "shop": "convenience",
+        "source": "(URL) 2015",
+        "website": "https://www.sej.co.jp/"
+      }
+    },
+    {
+      "osm_id": 4987379751,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.6956856,
+      "lng": 139.7796029,
+      "tags": {
+        "branch": "東神田２丁目店",
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "internet_access": "wlan",
+        "level": "0",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "official_name:en": "Seven-Eleven",
+        "phone": "+81 3 3865 3050",
+        "shop": "convenience",
+        "website": "https://www.sej.co.jp/"
+      }
+    },
+    {
+      "osm_id": 4987382586,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.6945626,
+      "lng": 139.7849393,
+      "tags": {
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "internet_access": "wlan",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "official_name:en": "Seven-Eleven",
+        "shop": "convenience",
+        "website": "https://www.sej.co.jp/"
+      }
+    },
+    {
+      "osm_id": 7719090620,
+      "name": "セブン-イレブン",
+      "name_en": "7-Eleven",
+      "category": "convenience",
+      "lat": 35.6984499,
+      "lng": 139.7863032,
+      "tags": {
+        "brand": "7-ELEVEN",
+        "brand:en": "7-ELEVEN",
+        "brand:ja": "セブン-イレブン",
+        "brand:wikidata": "Q259340",
+        "brand:wikipedia": "en:7-Eleven",
+        "level": "0",
+        "name": "セブン-イレブン",
+        "name:en": "7-Eleven",
+        "name:ja": "セブン-イレブン",
+        "name:ja-Hira": "せぶん-いれぶん",
+        "name:ja-Latn": "Sebun-Irebun",
+        "official_name:en": "Seven-Eleven",
+        "operator": "セブン-イレブン・ジャパン",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 7037767129,
+      "name": "タイ屋台 555",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6981583,
+      "lng": 139.7862725,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "thai",
+        "name": "タイ屋台 555",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5210429942,
+      "name": "タイ料理 ガパオ",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.7000294,
+      "lng": 139.7807237,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "タイ料理 ガパオ",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5706868650,
+      "name": "タカカラ",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6983644,
+      "lng": 139.7783525,
+      "tags": {
+        "amenity": "pub",
+        "name": "タカカラ",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 9785762526,
+      "name": "テンテコマイ",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6982754,
+      "lng": 139.785665,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine:ja": "大阪串カツ",
+        "level": "-1",
+        "name": "テンテコマイ"
+      }
+    },
+    {
+      "osm_id": 4674416190,
+      "name": "デニーズ",
+      "name_en": "Denny's",
+      "category": "restaurant",
+      "lat": 35.6927202,
+      "lng": 139.781264,
+      "tags": {
+        "amenity": "restaurant",
+        "brand": "デニーズ",
+        "brand:en": "Denny's",
+        "brand:ja": "デニーズ",
+        "brand:wikidata": "Q11320661",
+        "brand:wikipedia": "ja:デニーズ (日本)",
+        "cuisine": "western;japanese",
+        "name": "デニーズ",
+        "name:en": "Denny's",
+        "name:ja": "デニーズ"
+      }
+    },
+    {
+      "osm_id": 3639102802,
+      "name": "ドトールコーヒーショップ",
+      "name_en": "Doutor Coffee Shop",
+      "category": "cafe",
+      "lat": 35.6969209,
+      "lng": 139.7857538,
+      "tags": {
+        "addr:block_number": "9",
+        "addr:city": "台東区",
+        "addr:housenumber": "13",
+        "addr:neighbourhood": "浅草橋一丁目",
+        "addr:province": "東京都",
+        "amenity": "cafe",
+        "branch": "浅草橋南店",
+        "brand": "ドトール",
+        "brand:en": "DOUTOR",
+        "brand:ja": "ドトール",
+        "brand:wikidata": "Q11322732",
+        "brand:wikipedia": "ja:ドトールコーヒーショップ",
+        "contact:phone": "+81 3-3862-4406",
+        "cuisine": "coffee_shop",
+        "internet_access": "no",
+        "name": "ドトールコーヒーショップ",
+        "name:en": "Doutor Coffee Shop",
+        "name:ja": "ドトールコーヒーショップ",
+        "name:ja_rm": "Dotōru Kōhī Shoppu",
+        "opening_hours": "Mo-Fr 06:45-22:00; Sa 07:00-21:00; Su,PH 07:00-20:00",
+        "operator": "ドトールコーヒー",
+        "operator:wikidata": "Q11322732",
+        "operator:wikipedia": "ja:ドトールコーヒーショップ",
+        "short_name": "DCS",
+        "smoking": "separated",
+        "source": "(URL) 2015",
+        "takeaway": "yes",
+        "website": "https://www.doutor.co.jp/dcs/"
+      }
+    },
+    {
+      "osm_id": 5641913676,
+      "name": "ニラカナ",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6973144,
+      "lng": 139.7831271,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "level": "1",
+        "name": "ニラカナ",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5174556101,
+      "name": "バーガーキング",
+      "name_en": "Burger King",
+      "category": "fast_food",
+      "lat": 35.69791,
+      "lng": 139.7863108,
+      "tags": {
+        "amenity": "fast_food",
+        "brand": "バーガーキング",
+        "brand:en": "Burger King",
+        "brand:ja": "バーガーキング",
+        "brand:wikidata": "Q177054",
+        "brand:wikipedia": "en:Burger King",
+        "capacity": "108",
+        "cuisine": "burger",
+        "level": "0;1",
+        "name": "バーガーキング",
+        "name:en": "Burger King",
+        "name:ja": "バーガーキング",
+        "name:ja-Hira": "ばーがーきんぐ",
+        "name:ja-Latn": "Bāgā Kingu",
+        "name:ja_rm": "Bāgā Kingu",
+        "opening_hours": "Mo-Su 07:00-22:00",
+        "operator": "バーガーキング・ジャパン",
+        "smoking": "separated",
+        "source": "survey",
+        "takeaway": "yes",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "osm_id": 5188045516,
+      "name": "ファイン",
+      "name_en": null,
+      "category": "cafe",
+      "lat": 35.7003046,
+      "lng": 139.7848212,
+      "tags": {
+        "amenity": "cafe",
+        "name": "ファイン"
+      }
+    },
+    {
+      "osm_id": 1590216015,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.6990605,
+      "lng": 139.7831443,
+      "tags": {
+        "addr:block_number": "8",
+        "addr:city": "台東区",
+        "addr:housenumber": "3",
+        "addr:neighbourhood": "2丁目",
+        "addr:postcode": "111-0053",
+        "addr:province": "東京都",
+        "addr:quarter": "浅草橋",
+        "addr:suburb": "台東区",
+        "branch": "浅草橋二丁目店",
+        "brand": "FamilyMart",
+        "brand:en": "FamilyMart",
+        "brand:ja": "ファミリーマート",
+        "brand:wikidata": "Q11247682",
+        "brand:wikipedia": "ja:ファミリーマート",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "name:ja-Hira": "ふぁみりーまーと",
+        "name:ja-Latn": "Famirī Māto",
+        "opening_hours": "24/7",
+        "operator": "株式会社ファミリーマート",
+        "shop": "convenience",
+        "source": "survey, bing"
+      }
+    },
+    {
+      "osm_id": 2283943988,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.6932978,
+      "lng": 139.7848314,
+      "tags": {
+        "brand": "FamilyMart",
+        "brand:en": "FamilyMart",
+        "brand:ja": "ファミリーマート",
+        "brand:wikidata": "Q11247682",
+        "brand:wikipedia": "ja:ファミリーマート",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 2283943989,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.693832,
+      "lng": 139.7853528,
+      "tags": {
+        "brand": "FamilyMart",
+        "brand:en": "FamilyMart",
+        "brand:ja": "ファミリーマート",
+        "brand:wikidata": "Q11247682",
+        "brand:wikipedia": "ja:ファミリーマート",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 2292257215,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.6974509,
+      "lng": 139.7798149,
+      "tags": {
+        "branch": "神田佐久間町店",
+        "brand": "FamilyMart",
+        "brand:en": "FamilyMart",
+        "brand:ja": "ファミリーマート",
+        "brand:wikidata": "Q11247682",
+        "brand:wikipedia": "ja:ファミリーマート (企業)",
+        "level": "0",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "name:ja_rm": "Famirī Mato",
+        "payment:cash": "yes",
+        "payment:cryptocurrencies": "no",
+        "payment:visa": "yes",
+        "payment:visa_debit": "yes",
+        "phone": "+81 3 5825 7659",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 2292262116,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.6976939,
+      "lng": 139.782977,
+      "tags": {
+        "brand": "FamilyMart",
+        "brand:en": "FamilyMart",
+        "brand:ja": "ファミリーマート",
+        "brand:wikidata": "Q11247682",
+        "brand:wikipedia": "ja:ファミリーマート",
+        "level": "0",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "name:ja_rm": "Famirī Mato",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 3396652569,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.6955814,
+      "lng": 139.7808315,
+      "tags": {
+        "brand": "FamilyMart",
+        "brand:en": "FamilyMart",
+        "brand:ja": "ファミリーマート",
+        "brand:wikidata": "Q11247682",
+        "brand:wikipedia": "ja:ファミリーマート",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 6542034085,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.6928526,
+      "lng": 139.782144,
+      "tags": {
+        "brand": "FamilyMart",
+        "brand:en": "FamilyMart",
+        "brand:ja": "ファミリーマート",
+        "brand:wikidata": "Q11247682",
+        "brand:wikipedia": "ja:ファミリーマート",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 9665642681,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.6962163,
+      "lng": 139.7858881,
+      "tags": {
+        "brand": "FamilyMart",
+        "brand:en": "FamilyMart",
+        "brand:ja": "ファミリーマート",
+        "brand:wikidata": "Q11247682",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 9810204641,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.6980106,
+      "lng": 139.786958,
+      "tags": {
+        "brand": "FamilyMart",
+        "brand:en": "FamilyMart",
+        "brand:ja": "ファミリーマート",
+        "brand:wikidata": "Q11247682",
+        "brand:wikipedia": "en:FamilyMart",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 13228717629,
+      "name": "ファミリーマート",
+      "name_en": "FamilyMart",
+      "category": "convenience",
+      "lat": 35.697774,
+      "lng": 139.7862206,
+      "tags": {
+        "brand": "FamilyMart",
+        "check_date": "2025-09",
+        "level": "0",
+        "name": "ファミリーマート",
+        "name:en": "FamilyMart",
+        "name:ja": "ファミリーマート",
+        "name:ja-Hira": "ふぁみりーまーと",
+        "name:ja-Latn": "Famirī Māto",
+        "operator": "ファミリーマート",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 2192222805,
+      "name": "フレッシュネスバーガー",
+      "name_en": "Freshness Burger",
+      "category": "fast_food",
+      "lat": 35.697919,
+      "lng": 139.786894,
+      "tags": {
+        "amenity": "fast_food",
+        "brand": "フレッシュネスバーガー",
+        "brand:en": "Freshness Burger",
+        "brand:ja": "フレッシュネスバーガー",
+        "brand:wikidata": "Q5503087",
+        "brand:wikipedia": "ja:フレッシュネスバーガー",
+        "cuisine": "burger",
+        "name": "フレッシュネスバーガー",
+        "name:en": "Freshness Burger",
+        "name:ja": "フレッシュネスバーガー",
+        "source": "survey",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 11212469657,
+      "name": "ベア",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6957493,
+      "lng": 139.7827993,
+      "tags": {
+        "amenity": "restaurant",
+        "indoor_seating": "yes",
+        "name": "ベア",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 11212368249,
+      "name": "ポアル館",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6972458,
+      "lng": 139.7839424,
+      "tags": {
+        "amenity": "pub",
+        "name": "ポアル館",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 11999980069,
+      "name": "ポキボウルクラブトウキョウ",
+      "name_en": "POKE BOWL CLUB TOKYO",
+      "category": "restaurant",
+      "lat": 35.6924565,
+      "lng": 139.7830687,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "breakfast;japanese;pancake",
+        "diet:vegan": "yes",
+        "diet:vegetarian": "yes",
+        "name": "ポキボウルクラブトウキョウ",
+        "name:en": "POKE BOWL CLUB TOKYO",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "osm_id": 2283944054,
+      "name": "マルマンストア",
+      "name_en": "Maruman Store",
+      "category": "supermarket",
+      "lat": 35.6925938,
+      "lng": 139.7816706,
+      "tags": {
+        "name": "マルマンストア",
+        "name:en": "Maruman Store",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "osm_id": 1590215994,
+      "name": "ミニストップ",
+      "name_en": "Ministop",
+      "category": "convenience",
+      "lat": 35.6982601,
+      "lng": 139.7847927,
+      "tags": {
+        "branch": "浅草橋1丁目店",
+        "brand": "MINISTOP",
+        "brand:en": "MINISTOP",
+        "brand:ja": "ミニストップ",
+        "brand:wikidata": "Q1038929",
+        "brand:wikipedia": "ja:ミニストップ",
+        "level": "0",
+        "name": "ミニストップ",
+        "name:en": "Ministop",
+        "name:ja": "ミニストップ",
+        "name:ja-Hira": "みにすとっぷ",
+        "name:ja-Latn": "Mini Sutoppu",
+        "name:ja_rm": "Mini Sutoppu",
+        "name:ko": "미니스톱",
+        "opening_hours": "24/7",
+        "shop": "convenience",
+        "source": "survey, bing",
+        "website": "https://www.ministop.co.jp/"
+      }
+    },
+    {
+      "osm_id": 2283944073,
+      "name": "ミニストップ",
+      "name_en": "Ministop",
+      "category": "convenience",
+      "lat": 35.6929195,
+      "lng": 139.7815632,
+      "tags": {
+        "brand": "MINISTOP",
+        "brand:en": "MINISTOP",
+        "brand:ja": "ミニストップ",
+        "brand:wikidata": "Q1038929",
+        "brand:wikipedia": "ja:ミニストップ",
+        "name": "ミニストップ",
+        "name:en": "Ministop",
+        "name:ja": "ミニストップ",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 4987379752,
+      "name": "ミニストップ",
+      "name_en": "Ministop",
+      "category": "convenience",
+      "lat": 35.6954329,
+      "lng": 139.7827787,
+      "tags": {
+        "brand": "MINISTOP",
+        "brand:en": "MINISTOP",
+        "brand:ja": "ミニストップ",
+        "brand:wikidata": "Q1038929",
+        "brand:wikipedia": "ja:ミニストップ",
+        "level": "0",
+        "name": "ミニストップ",
+        "name:en": "Ministop",
+        "name:ja": "ミニストップ",
+        "name:ja-Hira": "みにすとっぷ",
+        "name:ja-Latn": "Mini Sutoppu",
+        "name:ja_rm": "Mini Sutoppu",
+        "name:ko": "미니스톱",
+        "shop": "convenience",
+        "website": "https://www.ministop.co.jp/"
+      }
+    },
+    {
+      "osm_id": 5300700313,
+      "name": "ヤマゴヤ",
+      "name_en": "Yamagoya",
+      "category": "cafe",
+      "lat": 35.6988835,
+      "lng": 139.7826126,
+      "tags": {
+        "amenity": "cafe",
+        "name": "ヤマゴヤ",
+        "name:en": "Yamagoya"
+      }
+    },
+    {
+      "osm_id": 160439006,
+      "name": "ライフ",
+      "name_en": "Life",
+      "category": "supermarket",
+      "lat": 35.6998565,
+      "lng": 139.78018,
+      "tags": {
+        "addr:block_number": "2",
+        "addr:quarter": "神田和泉町",
+        "branch": "神田和泉町店",
+        "brand": "ライフ",
+        "brand:en": "Life",
+        "brand:ja": "ライフ",
+        "brand:wikidata": "Q11346476",
+        "brand:wikipedia": "ja:ライフコーポレーション",
+        "building": "retail",
+        "building:levels": "3",
+        "name": "ライフ",
+        "name:en": "Life",
+        "name:ja": "ライフ",
+        "opening_hours": "09:30-24:00",
+        "shop": "supermarket",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 9682997511,
+      "name": "ラムちゃん",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6975665,
+      "lng": 139.7826964,
+      "tags": {
+        "amenity": "pub",
+        "name": "ラムちゃん",
+        "payment:cash": "yes",
+        "payment:paypay": "yes",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5175739096,
+      "name": "ラーメン桜坊",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6989171,
+      "lng": 139.7821013,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "noodle",
+        "level": "0",
+        "name": "ラーメン桜坊"
+      }
+    },
+    {
+      "osm_id": 2292269427,
+      "name": "ローソン",
+      "name_en": "Lawson",
+      "category": "convenience",
+      "lat": 35.6969646,
+      "lng": 139.7834847,
+      "tags": {
+        "brand": "LAWSON",
+        "brand:en": "LAWSON",
+        "brand:ja": "ローソン",
+        "brand:wikidata": "Q1557223",
+        "brand:wikipedia": "ja:ローソン",
+        "name": "ローソン",
+        "name:en": "Lawson",
+        "name:ja": "ローソン",
+        "name:ja_rm": "Rōson",
+        "name:ko": "로손",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 3396652568,
+      "name": "ローソン",
+      "name_en": "Lawson",
+      "category": "convenience",
+      "lat": 35.695686,
+      "lng": 139.7778487,
+      "tags": {
+        "branch": "岩本町三丁目店",
+        "brand": "LAWSON",
+        "brand:en": "LAWSON",
+        "brand:ja": "ローソン",
+        "brand:wikidata": "Q1557223",
+        "brand:wikipedia": "ja:ローソン",
+        "name": "ローソン",
+        "name:en": "Lawson",
+        "name:ja": "ローソン",
+        "name:ko": "로손",
+        "opening_hours": "24/7",
+        "phone": "+81 3 3861 7210",
+        "shop": "convenience"
+      }
+    },
+    {
+      "osm_id": 10281842828,
+      "name": "一心酒場",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6981058,
+      "lng": 139.7876705,
+      "tags": {
+        "amenity": "pub",
+        "name": "一心酒場"
+      }
+    },
+    {
+      "osm_id": 5573770405,
+      "name": "万花衣",
+      "name_en": null,
+      "category": "fast_food",
+      "lat": 35.6976878,
+      "lng": 139.7834133,
+      "tags": {
+        "amenity": "fast_food",
+        "branch": "浅草橋1丁目店",
+        "name": "万花衣",
+        "note": "お弁当",
+        "source": "survey",
+        "takeaway": "only"
+      }
+    },
+    {
+      "osm_id": 5575025459,
+      "name": "万花衣",
+      "name_en": null,
+      "category": "fast_food",
+      "lat": 35.6955384,
+      "lng": 139.7810577,
+      "tags": {
+        "amenity": "fast_food",
+        "level": "0",
+        "name": "万花衣",
+        "note": "お弁当",
+        "source": "survey",
+        "takeaway": "only"
+      }
+    },
+    {
+      "osm_id": 5581509361,
+      "name": "万花衣",
+      "name_en": null,
+      "category": "fast_food",
+      "lat": 35.6997664,
+      "lng": 139.7806849,
+      "tags": {
+        "amenity": "fast_food",
+        "branch": "浅草橋5丁目店",
+        "level": "0",
+        "name": "万花衣",
+        "note": "お弁当",
+        "source": "survey",
+        "takeaway": "only"
+      }
+    },
+    {
+      "osm_id": 2292275381,
+      "name": "世界の山ちゃん",
+      "name_en": "Sekaino Yamachan",
+      "category": "pub",
+      "lat": 35.6974679,
+      "lng": 139.7856365,
+      "tags": {
+        "amenity": "pub",
+        "branch": "浅草橋店",
+        "check_date": "2025-09",
+        "contact:phone": "+81 3 5823 7081",
+        "name": "世界の山ちゃん",
+        "name:en": "Sekaino Yamachan",
+        "opening_hours": "Mo 17:00-24:00;Tu-Fr 00:00-00:15,17:00-24:00;Sa 00:00-00:15,17:00-23:15;Su 17:00-23:15"
+      }
+    },
+    {
+      "osm_id": 5179173787,
+      "name": "中華そば 幸貴",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6974187,
+      "lng": 139.7845277,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "中華そば 幸貴",
+        "note": "ガード下店舗",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 2292271912,
+      "name": "中華料理 龍",
+      "name_en": "Ryu Chinese Restaurant",
+      "category": "restaurant",
+      "lat": 35.697102,
+      "lng": 139.785638,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "chinese",
+        "indoor_seating": "yes",
+        "name": "中華料理 龍",
+        "name:en": "Ryu Chinese Restaurant",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 5181912976,
+      "name": "串焼き 合",
+      "name_en": "Kushiyaki Go",
+      "category": "pub",
+      "lat": 35.6972864,
+      "lng": 139.7842857,
+      "tags": {
+        "amenity": "pub",
+        "name": "串焼き 合",
+        "name:en": "Kushiyaki Go"
+      }
+    },
+    {
+      "osm_id": 9768872813,
+      "name": "串焼き本舗",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6975634,
+      "lng": 139.7853644,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "name": "串焼き本舗",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 5755406425,
+      "name": "串竹",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6995905,
+      "lng": 139.7854289,
+      "tags": {
+        "amenity": "pub",
+        "name": "串竹",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 9768872807,
+      "name": "丸一酒場",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6976589,
+      "lng": 139.7853579,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "name": "丸一酒場",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 5185152690,
+      "name": "亀ちゃん",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6976263,
+      "lng": 139.7837412,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine:ja": "新潟タレカツ",
+        "delivery": "yes",
+        "name": "亀ちゃん"
+      }
+    },
+    {
+      "osm_id": 4956843762,
+      "name": "伊勢屋",
+      "name_en": null,
+      "category": "confectionery",
+      "lat": 35.698849,
+      "lng": 139.7831074,
+      "tags": {
+        "name": "伊勢屋",
+        "shop": "confectionery"
+      }
+    },
+    {
+      "osm_id": 7836352292,
+      "name": "俵屋",
+      "name_en": null,
+      "category": "fast_food",
+      "lat": 35.6972521,
+      "lng": 139.7802651,
+      "tags": {
+        "amenity": "fast_food",
+        "name": "俵屋",
+        "source": "survey",
+        "takeaway": "only"
+      }
+    },
+    {
+      "osm_id": 5173139179,
+      "name": "元気寿司",
+      "name_en": "Genki Sushi",
+      "category": "fast_food",
+      "lat": 35.6974956,
+      "lng": 139.7853834,
+      "tags": {
+        "amenity": "fast_food",
+        "brand": "元気寿司",
+        "brand:en": "Genki Sushi",
+        "brand:ja": "元気寿司",
+        "brand:wikidata": "Q5533323",
+        "contact:phone": "+81 3 3863 4177",
+        "cuisine": "sushi",
+        "level": "0",
+        "name": "元気寿司",
+        "name:en": "Genki Sushi",
+        "name:ja": "元気寿司",
+        "name:ru": "Суши когда был в Sketch",
+        "outdoor_seating": "no",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 5653878032,
+      "name": "克賢",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6996713,
+      "lng": 139.7811971,
+      "tags": {
+        "amenity": "pub",
+        "name": "克賢",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5573580200,
+      "name": "六和園",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.7000224,
+      "lng": 139.7835664,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "chinese",
+        "name": "六和園",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 2292270865,
+      "name": "加賀屋",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.697243,
+      "lng": 139.783914,
+      "tags": {
+        "amenity": "pub",
+        "name": "加賀屋"
+      }
+    },
+    {
+      "osm_id": 4674525890,
+      "name": "北出食堂",
+      "name_en": "Kitade Shokudo",
+      "category": "restaurant",
+      "lat": 35.6935312,
+      "lng": 139.7790342,
+      "tags": {
+        "addr:block_number": "13",
+        "addr:city": "千代田区",
+        "addr:housenumber": "5",
+        "addr:neighbourhood": "岩本町一丁目",
+        "addr:postcode": "101-0032",
+        "addr:province": "東京都",
+        "amenity": "restaurant",
+        "cuisine": "mexican;seafood",
+        "name": "北出食堂",
+        "name:en": "Kitade Shokudo",
+        "name:ja": "北出食堂",
+        "opening_hours": "Sa-Su 11:30-15:00, 17:30-22:00; We-Fr 11:30-14:30, 17:30-22:00",
+        "website": "https://www.kitadeshokudo.com/"
+      }
+    },
+    {
+      "osm_id": 5174556104,
+      "name": "北海道",
+      "name_en": "Hokkaido",
+      "category": "pub",
+      "lat": 35.6976998,
+      "lng": 139.7861096,
+      "tags": {
+        "amenity": "pub",
+        "contact:phone": "+81 3 5822 0075",
+        "cuisine": "seafood",
+        "level": "6;7",
+        "name": "北海道",
+        "name:en": "Hokkaido"
+      }
+    },
+    {
+      "osm_id": 9253203298,
+      "name": "匠",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6974413,
+      "lng": 139.7786304,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "匠"
+      }
+    },
+    {
+      "osm_id": 4674510492,
+      "name": "千吉",
+      "name_en": "Senkichi",
+      "category": "restaurant",
+      "lat": 35.6926924,
+      "lng": 139.7818387,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "千吉",
+        "name:en": "Senkichi",
+        "name:ja": "千吉"
+      }
+    },
+    {
+      "osm_id": 5174556105,
+      "name": "博多満月",
+      "name_en": "Hakata Mangetsu",
+      "category": "pub",
+      "lat": 35.6976638,
+      "lng": 139.7861257,
+      "tags": {
+        "amenity": "pub",
+        "contact:phone": "+81 3 5822 5101",
+        "cuisine": "regional",
+        "level": "4",
+        "name": "博多満月",
+        "name:en": "Hakata Mangetsu"
+      }
+    },
+    {
+      "osm_id": 5573770394,
+      "name": "古月",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6972886,
+      "lng": 139.7833742,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "name": "古月",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5641940329,
+      "name": "吉源",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6976909,
+      "lng": 139.7836054,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "吉源",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 2283944071,
+      "name": "吉野家",
+      "name_en": "Yoshinoya",
+      "category": "fast_food",
+      "lat": 35.6927045,
+      "lng": 139.78185,
+      "tags": {
+        "amenity": "fast_food",
+        "brand": "吉野家",
+        "brand:en": "Yoshinoya",
+        "brand:ja": "吉野家",
+        "brand:wikidata": "Q776272",
+        "brand:wikipedia": "ja:吉野家",
+        "brand:zh": "吉野家",
+        "brand:zh-Hans": "吉野家",
+        "brand:zh-Hant": "吉野家",
+        "cuisine": "beef_bowl",
+        "name": "吉野家",
+        "name:en": "Yoshinoya",
+        "name:ja": "吉野家",
+        "name:ja_rm": "Yoshinoya",
+        "name:zh": "吉野家",
+        "name:zh-Hans": "吉野家",
+        "name:zh-Hant": "吉野家",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 4992239618,
+      "name": "味仙",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6950323,
+      "lng": 139.7815821,
+      "tags": {
+        "amenity": "restaurant",
+        "indoor_seating": "yes",
+        "name": "味仙",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 1590216016,
+      "name": "味加久",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6988853,
+      "lng": 139.7848449,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "japanese",
+        "name": "味加久",
+        "source": "survey, bing"
+      }
+    },
+    {
+      "osm_id": 4953838923,
+      "name": "和食 食楽",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6996861,
+      "lng": 139.78474,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "japanese",
+        "name": "和食 食楽",
+        "smoking": "no"
+      }
+    },
+    {
+      "osm_id": 6278396365,
+      "name": "品香苑",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6944444,
+      "lng": 139.7854575,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "chinese",
+        "level": "0;1",
+        "name": "品香苑",
+        "wheelchair": "limited"
+      }
+    },
+    {
+      "osm_id": 5181912990,
+      "name": "土佐料理げんさん",
+      "name_en": "Tosa ryori Gensan",
+      "category": "pub",
+      "lat": 35.6972478,
+      "lng": 139.7848128,
+      "tags": {
+        "amenity": "pub",
+        "cuisine": "japanese;regional",
+        "level": "-1",
+        "name": "土佐料理げんさん",
+        "name:en": "Tosa ryori Gensan"
+      }
+    },
+    {
+      "osm_id": 7721162928,
+      "name": "夢矢",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6990263,
+      "lng": 139.7868214,
+      "tags": {
+        "amenity": "pub",
+        "level": "0",
+        "name": "夢矢",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 10281678004,
+      "name": "大吉",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6978269,
+      "lng": 139.788284,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "大吉"
+      }
+    },
+    {
+      "osm_id": 4788544966,
+      "name": "大戸屋",
+      "name_en": "Ootoya",
+      "category": "restaurant",
+      "lat": 35.6988375,
+      "lng": 139.7870005,
+      "tags": {
+        "amenity": "restaurant",
+        "brand": "大戸屋",
+        "brand:en": "Ootoya",
+        "brand:ja": "大戸屋",
+        "brand:wikidata": "Q11435522",
+        "brand:wikipedia": "ja:大戸屋ホールディングス",
+        "brand:zh": "大戶屋",
+        "cuisine": "japanese",
+        "name": "大戸屋",
+        "name:en": "Ootoya",
+        "name:ja": "大戸屋",
+        "name:zh": "大戶屋"
+      }
+    },
+    {
+      "osm_id": 7037784504,
+      "name": "大樹",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6982493,
+      "lng": 139.7861329,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "大樹",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5573770400,
+      "name": "天ぷら三定",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6973514,
+      "lng": 139.7832369,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "japanese",
+        "indoor_seating": "yes",
+        "name": "天ぷら三定",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5173128803,
+      "name": "季節料理いろは",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6975005,
+      "lng": 139.785307,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "japanese",
+        "level": "1",
+        "name": "季節料理いろは",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5581686312,
+      "name": "安兵衛",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6995638,
+      "lng": 139.7841436,
+      "tags": {
+        "amenity": "pub",
+        "level": "0",
+        "name": "安兵衛",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5533733825,
+      "name": "寿し政",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6996399,
+      "lng": 139.7841059,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "寿し政",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 7057951848,
+      "name": "小池寿司",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.697488,
+      "lng": 139.7842507,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "sushi",
+        "name": "小池寿司",
+        "source": "survey",
+        "start_date": "2019"
+      }
+    },
+    {
+      "osm_id": 5573770391,
+      "name": "居酒屋あいちゃん",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.697218,
+      "lng": 139.7833654,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "name": "居酒屋あいちゃん",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5182895107,
+      "name": "居酒屋弥三郎",
+      "name_en": "Izakaya Yasaburo",
+      "category": "pub",
+      "lat": 35.6973164,
+      "lng": 139.7841033,
+      "tags": {
+        "amenity": "pub",
+        "level": "0",
+        "name": "居酒屋弥三郎",
+        "name:en": "Izakaya Yasaburo",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5173128805,
+      "name": "山海料理 みちのく",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6975772,
+      "lng": 139.7850455,
+      "tags": {
+        "amenity": "pub",
+        "name": "山海料理 みちのく"
+      }
+    },
+    {
+      "osm_id": 5174556099,
+      "name": "巡りや",
+      "name_en": "Meguriya",
+      "category": "pub",
+      "lat": 35.6979361,
+      "lng": 139.786288,
+      "tags": {
+        "amenity": "pub",
+        "level": "-1",
+        "name": "巡りや",
+        "name:en": "Meguriya",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 4989824691,
+      "name": "慶太郎",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6955963,
+      "lng": 139.7802277,
+      "tags": {
+        "amenity": "pub",
+        "name": "慶太郎"
+      }
+    },
+    {
+      "osm_id": 591023058,
+      "name": "新橋やきとん",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6975131,
+      "lng": 139.7833438,
+      "tags": {
+        "addr:block_number": "14",
+        "addr:housenumber": "7",
+        "addr:neighbourhood": "1丁目",
+        "addr:quarter": "浅草橋",
+        "amenity": "pub",
+        "building": "yes",
+        "building:levels": "2",
+        "indoor_seating": "yes",
+        "name": "新橋やきとん",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5641913692,
+      "name": "日乃屋カレー",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.697452,
+      "lng": 139.7835267,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "日乃屋カレー"
+      }
+    },
+    {
+      "osm_id": 5648972216,
+      "name": "日本亭",
+      "name_en": null,
+      "category": "fast_food",
+      "lat": 35.6986077,
+      "lng": 139.7827985,
+      "tags": {
+        "amenity": "fast_food",
+        "branch": "浅草橋店駅前営業所",
+        "level": "0",
+        "name": "日本亭",
+        "source": "survey",
+        "takeaway": "only"
+      }
+    },
+    {
+      "osm_id": 5460950829,
+      "name": "日本焼肉党",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6973296,
+      "lng": 139.7837577,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "name": "日本焼肉党",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 5174378438,
+      "name": "日高屋",
+      "name_en": "Hidakaya",
+      "category": "fast_food",
+      "lat": 35.6968818,
+      "lng": 139.7863141,
+      "tags": {
+        "amenity": "fast_food",
+        "brand": "日高屋",
+        "brand:en": "Hidakaya",
+        "brand:ja": "日高屋",
+        "brand:wikidata": "Q11326050",
+        "brand:wikipedia": "ja:ハイデイ日高",
+        "cuisine": "noodle",
+        "indoor_seating": "yes",
+        "name": "日高屋",
+        "name:en": "Hidakaya",
+        "name:ja": "日高屋",
+        "outdoor_seating": "no",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 5573770393,
+      "name": "明よし",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6972629,
+      "lng": 139.7833696,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "level": "1",
+        "name": "明よし",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 13228717626,
+      "name": "朝天門",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6977955,
+      "lng": 139.7861803,
+      "tags": {
+        "amenity": "restaurant",
+        "level": "-1",
+        "name": "朝天門"
+      }
+    },
+    {
+      "osm_id": 2292268023,
+      "name": "村さ来",
+      "name_en": "Murasaki",
+      "category": "pub",
+      "lat": 35.6973415,
+      "lng": 139.7831469,
+      "tags": {
+        "amenity": "pub",
+        "brand": "村さ来",
+        "contact:phone": "+81 3 3862 1866",
+        "indoor_seating": "yes",
+        "level": "0",
+        "name": "村さ来",
+        "name:en": "Murasaki",
+        "name:ja": "村さ来",
+        "name:ja_rm": "Murasaki",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 5185152685,
+      "name": "来々軒",
+      "name_en": "Rairai-ken",
+      "category": "restaurant",
+      "lat": 35.697629,
+      "lng": 139.7837057,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "chinese",
+        "level": "0",
+        "name": "来々軒",
+        "name:en": "Rairai-ken",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 3652476225,
+      "name": "東京MEAT酒場",
+      "name_en": "Tokyo MEAT Sakaba",
+      "category": "pub",
+      "lat": 35.697484,
+      "lng": 139.7854573,
+      "tags": {
+        "amenity": "pub",
+        "level": "0;1",
+        "name": "東京MEAT酒場",
+        "name:en": "Tokyo MEAT Sakaba",
+        "outdoor_seating": "yes"
+      }
+    },
+    {
+      "osm_id": 4992239580,
+      "name": "東海飯店",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.694536,
+      "lng": 139.7856393,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "東海飯店"
+      }
+    },
+    {
+      "osm_id": 3838666160,
+      "name": "松屋",
+      "name_en": "Matsuya",
+      "category": "fast_food",
+      "lat": 35.6970181,
+      "lng": 139.7863527,
+      "tags": {
+        "addr:block_number": "13",
+        "addr:city": "台東区",
+        "addr:floor": "1F",
+        "addr:housename": "村井ビル",
+        "addr:housenumber": "4",
+        "addr:neighbourhood": "柳橋一丁目",
+        "addr:province": "東京都",
+        "air_conditioning": "yes",
+        "amenity": "fast_food",
+        "branch": "浅草橋店",
+        "brand": "松屋",
+        "brand:en": "Matsuya",
+        "brand:ja": "松屋",
+        "brand:wikidata": "Q848773",
+        "brand:wikipedia": "ja:松屋フーズ",
+        "brand:zh": "松屋",
+        "capacity": "21",
+        "cuisine": "beef_bowl",
+        "cuisine:ja": "牛丼",
+        "drive_through": "no",
+        "indoor_seating": "yes",
+        "level": "0;1",
+        "name": "松屋",
+        "name:en": "Matsuya",
+        "name:ja": "松屋",
+        "name:ja_rm": "Matsuya",
+        "name:zh": "松屋",
+        "official_name": "松屋フーズ",
+        "official_name:en": "Matsuya Foods",
+        "official_name:ja": "松屋フーズ",
+        "opening_hours": "24/7",
+        "operator": "松屋フーズ",
+        "operator:en": "Matsuya Foods",
+        "operator:ja": "松屋フーズ",
+        "outdoor_seating": "no",
+        "payment:cash": "yes",
+        "payment:icsf": "yes",
+        "phone": "+81-3-5822-5141",
+        "ref": "169",
+        "smoking": "no",
+        "source": "survey, 2015-11-21; receipt",
+        "takeaway": "yes",
+        "toilets": "yes",
+        "toilets:wheelchair": "no",
+        "wheelchair": "no",
+        "wheelchair:description": "入口の外と中に段差1段ずつあり。カウンター15席は固定椅子、テーブル6席は可動椅子。トイレ入口に段差あり。"
+      }
+    },
+    {
+      "osm_id": 4674525889,
+      "name": "松屋",
+      "name_en": "Matsuya",
+      "category": "fast_food",
+      "lat": 35.6925865,
+      "lng": 139.7820639,
+      "tags": {
+        "amenity": "fast_food",
+        "brand": "松屋",
+        "brand:en": "Matsuya",
+        "brand:ja": "松屋",
+        "brand:wikidata": "Q848773",
+        "brand:wikipedia": "ja:松屋フーズ",
+        "brand:zh": "松屋",
+        "cuisine": "beef_bowl",
+        "name": "松屋",
+        "name:en": "Matsuya",
+        "name:ja": "松屋",
+        "name:zh": "松屋",
+        "official_name": "松屋フーズ",
+        "official_name:en": "Matsuya Foods",
+        "official_name:ja": "松屋フーズ",
+        "operator": "松屋フーズ",
+        "operator:en": "Matsuya Foods",
+        "operator:ja": "松屋フーズ",
+        "takeaway": "yes"
+      }
+    },
+    {
+      "osm_id": 1083264659,
+      "name": "柳橋 小松屋",
+      "name_en": "Yanagibashi Komatsuya",
+      "category": "restaurant",
+      "lat": 35.6953783,
+      "lng": 139.7874044,
+      "tags": {
+        "amenity": "restaurant",
+        "building": "yes",
+        "contact:email": "shopmaster@tsukudani.net",
+        "contact:fax": "+81-3-5687-2018",
+        "contact:instagram": "komatsuya2783",
+        "contact:phone": "+81-3-3851-2783",
+        "contact:twitter": "@komatsuya2783",
+        "contact:youtube": "https://www.youtube.com/user/tsukudanikomatsuya/",
+        "indoor_seating": "yes",
+        "name": "柳橋 小松屋",
+        "name:en": "Yanagibashi Komatsuya",
+        "name:fr": "Yanagibashi Komatsuya",
+        "name:ja-Hira": "やなぎばしこまつや",
+        "name:ja-Latn": "Yanagibashi Komatsuya",
+        "opening_hours": "Mo-Fr 09:30-18:00; Sa 09:30-17:00; Su,PH off",
+        "outdoor_seating": "no",
+        "shop": "food",
+        "website": "https://www.tsukudani.net/",
+        "website:en": "https://www.souvenirtokyo.com/"
+      }
+    },
+    {
+      "osm_id": 5181887879,
+      "name": "桃源郷",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6975402,
+      "lng": 139.7848161,
+      "tags": {
+        "amenity": "pub",
+        "capacity": "60",
+        "level": "1;2",
+        "name": "桃源郷"
+      }
+    },
+    {
+      "osm_id": 5681984303,
+      "name": "権兵衛",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6985463,
+      "lng": 139.7804722,
+      "tags": {
+        "amenity": "pub",
+        "name": "権兵衛",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5681220063,
+      "name": "正味飯店",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.698204,
+      "lng": 139.7806285,
+      "tags": {
+        "amenity": "restaurant",
+        "contact:phone": "+81 3 3851 9708",
+        "cuisine": "chinese",
+        "lunch": "yes",
+        "name": "正味飯店"
+      }
+    },
+    {
+      "osm_id": 5173128802,
+      "name": "気まぐれキッチンISHIBASHI",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6975059,
+      "lng": 139.7852889,
+      "tags": {
+        "amenity": "restaurant",
+        "level": "-1",
+        "name": "気まぐれキッチンISHIBASHI"
+      }
+    },
+    {
+      "osm_id": 5173139163,
+      "name": "浅草家",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.697464,
+      "lng": 139.7855645,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "ramen",
+        "cuisine:ja": "横浜家系ラーメン",
+        "level": "0",
+        "name": "浅草家",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 9785683557,
+      "name": "浅草橋双麺",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6974904,
+      "lng": 139.7841888,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "ramen",
+        "level": "0",
+        "name": "浅草橋双麺"
+      }
+    },
+    {
+      "osm_id": 5643018444,
+      "name": "浅草橋焼餃子",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6982008,
+      "lng": 139.7852527,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "chinese",
+        "name": "浅草橋焼餃子",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 7037736465,
+      "name": "満る賀",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6978479,
+      "lng": 139.7860774,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "soba;noodle;japanese",
+        "name": "満る賀"
+      }
+    },
+    {
+      "osm_id": 5174556107,
+      "name": "焼肉 ごち苑。",
+      "name_en": "Yakiniku Gochien",
+      "category": "restaurant",
+      "lat": 35.6976845,
+      "lng": 139.7861217,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "barbecue",
+        "level": "2",
+        "name": "焼肉 ごち苑。",
+        "name:en": "Yakiniku Gochien"
+      }
+    },
+    {
+      "osm_id": 5173043603,
+      "name": "珈琲 葦",
+      "name_en": "Coffee Ashi",
+      "category": "cafe",
+      "lat": 35.6993204,
+      "lng": 139.7846049,
+      "tags": {
+        "amenity": "cafe",
+        "level": "0",
+        "name": "珈琲 葦",
+        "name:en": "Coffee Ashi",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5581511673,
+      "name": "珍香苑",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6990529,
+      "lng": 139.7805275,
+      "tags": {
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "珍香苑",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5524133692,
+      "name": "生姜キング",
+      "name_en": "King of Ginger",
+      "category": "restaurant",
+      "lat": 35.6982956,
+      "lng": 139.7834534,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine:ja": "生姜焼",
+        "level": "0",
+        "name": "生姜キング",
+        "name:en": "King of Ginger",
+        "name:ja-Hira": "しょうがきんぐ",
+        "payment:cash": "yes",
+        "payment:credit_cards": "no"
+      }
+    },
+    {
+      "osm_id": 10281842832,
+      "name": "百そば",
+      "name_en": null,
+      "category": "fast_food",
+      "lat": 35.6981391,
+      "lng": 139.7875944,
+      "tags": {
+        "amenity": "fast_food",
+        "name": "百そば"
+      }
+    },
+    {
+      "osm_id": 5182882165,
+      "name": "相撲料理ちゃんこ成山",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6970006,
+      "lng": 139.7839075,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "japanese",
+        "name": "相撲料理ちゃんこ成山"
+      }
+    },
+    {
+      "osm_id": 5703364421,
+      "name": "福篭",
+      "name_en": "fukurou",
+      "category": "fast_food",
+      "lat": 35.6968595,
+      "lng": 139.7865934,
+      "tags": {
+        "amenity": "fast_food",
+        "cuisine": "noodle",
+        "indoor_seating": "yes",
+        "name": "福篭",
+        "name:en": "fukurou",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 10269667488,
+      "name": "竹や",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6985623,
+      "lng": 139.7854713,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "竹や",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 9762732909,
+      "name": "竹山",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6975704,
+      "lng": 139.7852182,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "name": "竹山",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 2265854373,
+      "name": "肉のハナマサ",
+      "name_en": null,
+      "category": "supermarket",
+      "lat": 35.6966338,
+      "lng": 139.7839822,
+      "tags": {
+        "level": "0",
+        "name": "肉のハナマサ",
+        "name:ja": "肉のハナマサ",
+        "name:ja_rm": "Niku no Hanamasa",
+        "opening_hours": "24/7",
+        "shop": "supermarket"
+      }
+    },
+    {
+      "osm_id": 5173139161,
+      "name": "肉食堂 優",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6974689,
+      "lng": 139.7855048,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "steak_house",
+        "name": "肉食堂 優"
+      }
+    },
+    {
+      "osm_id": 6249214824,
+      "name": "菜香縁",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6979072,
+      "lng": 139.7799691,
+      "tags": {
+        "amenity": "restaurant",
+        "level": "0",
+        "name": "菜香縁",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 6229436451,
+      "name": "華味",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6978341,
+      "lng": 139.7861843,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "chinese",
+        "level": "-1",
+        "name": "華味",
+        "opening_hours": "Mo-Su 11:00-23:00",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "osm_id": 4950866700,
+      "name": "蘭氏食苑",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6998526,
+      "lng": 139.7848004,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "chinese",
+        "name": "蘭氏食苑"
+      }
+    },
+    {
+      "osm_id": 5173139159,
+      "name": "街のハンバーグ屋さん",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6974351,
+      "lng": 139.7859406,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "burger",
+        "indoor_seating": "yes",
+        "level": "0",
+        "name": "街のハンバーグ屋さん",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 9173867489,
+      "name": "西口やきとん",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6980324,
+      "lng": 139.7825353,
+      "tags": {
+        "addr:block_number": "10",
+        "addr:city": "台東区",
+        "addr:housenumber": "2",
+        "addr:neighbourhood": "4丁目",
+        "addr:quarter": "浅草橋",
+        "amenity": "pub",
+        "brewery": "yes",
+        "name": "西口やきとん"
+      }
+    },
+    {
+      "osm_id": 9785683558,
+      "name": "赤文字",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6974672,
+      "lng": 139.7844349,
+      "tags": {
+        "amenity": "pub",
+        "level": "1",
+        "name": "赤文字"
+      }
+    },
+    {
+      "osm_id": 4674409991,
+      "name": "跳馬らーめん",
+      "name_en": "Choba Ramen",
+      "category": "restaurant",
+      "lat": 35.6925093,
+      "lng": 139.7802533,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "跳馬らーめん",
+        "name:en": "Choba Ramen",
+        "name:ja": "跳馬らーめん"
+      }
+    },
+    {
+      "osm_id": 9812383319,
+      "name": "酒肴肉寿司",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6974979,
+      "lng": 139.785293,
+      "tags": {
+        "amenity": "pub",
+        "level": "0",
+        "name": "酒肴肉寿司"
+      }
+    },
+    {
+      "osm_id": 5573770392,
+      "name": "酔つ馬",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6972307,
+      "lng": 139.7833696,
+      "tags": {
+        "amenity": "pub",
+        "cuisine:ja": "馬肉",
+        "indoor_seating": "yes",
+        "name": "酔つ馬",
+        "outdoor_seating": "no",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 11212368237,
+      "name": "醸ス",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6972353,
+      "lng": 139.783347,
+      "tags": {
+        "amenity": "pub",
+        "name": "醸ス"
+      }
+    },
+    {
+      "osm_id": 7037526331,
+      "name": "金太楼",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6977665,
+      "lng": 139.7853995,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "sushi",
+        "level": "0",
+        "name": "金太楼",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 7721162914,
+      "name": "鉄板焼 Tamaya",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6992542,
+      "lng": 139.7869557,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "鉄板焼 Tamaya"
+      }
+    },
+    {
+      "osm_id": 5173067371,
+      "name": "鉄板焼 夕煙",
+      "name_en": "Yu-keburi",
+      "category": "restaurant",
+      "lat": 35.6986677,
+      "lng": 139.7849214,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "barbecue",
+        "name": "鉄板焼 夕煙",
+        "name:en": "Yu-keburi"
+      }
+    },
+    {
+      "osm_id": 9785762524,
+      "name": "鉢の木",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.698289,
+      "lng": 139.7856771,
+      "tags": {
+        "amenity": "pub",
+        "level": "0",
+        "name": "鉢の木"
+      }
+    },
+    {
+      "osm_id": 7579950617,
+      "name": "銀座にしかわ",
+      "name_en": null,
+      "category": "bakery",
+      "lat": 35.6985981,
+      "lng": 139.7787881,
+      "tags": {
+        "name": "銀座にしかわ",
+        "shop": "bakery"
+      }
+    },
+    {
+      "osm_id": 9253203301,
+      "name": "青島食堂",
+      "name_en": null,
+      "category": "fast_food",
+      "lat": 35.6974411,
+      "lng": 139.7788319,
+      "tags": {
+        "amenity": "fast_food",
+        "cuisine": "ramen;noodle",
+        "name": "青島食堂"
+      }
+    },
+    {
+      "osm_id": 4636615589,
+      "name": "風林",
+      "name_en": "Furin",
+      "category": "restaurant",
+      "lat": 35.6930501,
+      "lng": 139.7795015,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "風林",
+        "name:en": "Furin",
+        "name:ja": "風林"
+      }
+    },
+    {
+      "osm_id": 5182895100,
+      "name": "飯蔵",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6973197,
+      "lng": 139.7838247,
+      "tags": {
+        "amenity": "pub",
+        "level": "0;1",
+        "lunch": "11:30-14:00",
+        "name": "飯蔵",
+        "opening_hours": "11:30-23:00",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 591023059,
+      "name": "餃子の王将",
+      "name_en": "Gyoza no Ohsho",
+      "category": "restaurant",
+      "lat": 35.6975293,
+      "lng": 139.783144,
+      "tags": {
+        "amenity": "restaurant",
+        "brand": "餃子の王将",
+        "brand:en": "Gyoza no Ohsho",
+        "brand:ja": "餃子の王将",
+        "brand:wikidata": "Q11666805",
+        "brand:wikipedia": "en:Gyoza no Ohsho",
+        "building": "yes",
+        "cuisine": "chinese;gyoza",
+        "indoor_seating": "yes",
+        "name": "餃子の王将",
+        "name:en": "Gyoza no Ohsho",
+        "name:ja": "餃子の王将",
+        "name:ja_rm": "Gyoza No Ohsho",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 4342034191,
+      "name": "饗 くろ㐂",
+      "name_en": "Motenashi Kuroki",
+      "category": "fast_food",
+      "lat": 35.6988473,
+      "lng": 139.7801517,
+      "tags": {
+        "amenity": "fast_food",
+        "cuisine": "noodle;ramen",
+        "level": "0",
+        "name": "饗 くろ㐂",
+        "name:en": "Motenashi Kuroki"
+      }
+    },
+    {
+      "osm_id": 5174378436,
+      "name": "魚まみれ",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6969401,
+      "lng": 139.7863021,
+      "tags": {
+        "amenity": "pub",
+        "cuisine": "japanese;seafood",
+        "indoor_seating": "yes",
+        "name": "魚まみれ",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 5174384328,
+      "name": "魚三蔵",
+      "name_en": null,
+      "category": "pub",
+      "lat": 35.6969287,
+      "lng": 139.7863242,
+      "tags": {
+        "amenity": "pub",
+        "indoor_seating": "yes",
+        "name": "魚三蔵",
+        "outdoor_seating": "no"
+      }
+    },
+    {
+      "osm_id": 5174556088,
+      "name": "魚鮮水産",
+      "name_en": "Gyosen Suisan",
+      "category": "pub",
+      "lat": 35.6976268,
+      "lng": 139.7867366,
+      "tags": {
+        "amenity": "pub",
+        "cuisine": "seafood;japanese",
+        "indoor_seating": "yes",
+        "level": "-1",
+        "name": "魚鮮水産",
+        "name:en": "Gyosen Suisan",
+        "name:ja": "魚鮮水産 浅草橋久月店",
+        "outdoor_seating": "no",
+        "source": "survey;https://www.chimney.co.jp/cgi-bin/shopsearch/shopinfo.cgi?equal5=168"
+      }
+    },
+    {
+      "osm_id": 4788544968,
+      "name": "鮒佐",
+      "name_en": "Funasa",
+      "category": "deli",
+      "lat": 35.6988979,
+      "lng": 139.7870498,
+      "tags": {
+        "name": "鮒佐",
+        "name:en": "Funasa",
+        "shop": "deli"
+      }
+    },
+    {
+      "osm_id": 5173043602,
+      "name": "鳥勝",
+      "name_en": "Torikatsu",
+      "category": "pub",
+      "lat": 35.6993193,
+      "lng": 139.784566,
+      "tags": {
+        "amenity": "pub",
+        "level": "0",
+        "name": "鳥勝",
+        "name:en": "Torikatsu",
+        "source": "survey"
+      }
+    },
+    {
+      "osm_id": 5174556098,
+      "name": "鳥良商店",
+      "name_en": "Toriyoshi Shouten",
+      "category": "pub",
+      "lat": 35.6980276,
+      "lng": 139.7863993,
+      "tags": {
+        "amenity": "pub",
+        "cuisine": "chicken",
+        "level": "0",
+        "name": "鳥良商店",
+        "name:en": "Toriyoshi Shouten",
+        "opening_hours": "Mo-Su 11:00-05:00",
+        "smoking": "yes",
+        "wheelchair": "no"
+      }
+    },
+    {
+      "osm_id": 1138559735,
+      "name": "麺やまるとも",
+      "name_en": null,
+      "category": "restaurant",
+      "lat": 35.6975168,
+      "lng": 139.7829392,
+      "tags": {
+        "amenity": "restaurant",
+        "cuisine": "ramen",
+        "cuisine:ja": "ラーメン",
+        "description": "つけ麺",
+        "name": "麺やまるとも"
+      }
+    },
+    {
+      "osm_id": 5649302907,
+      "name": "麺屋のろし",
+      "name_en": "Noroshi",
+      "category": "restaurant",
+      "lat": 35.6987498,
+      "lng": 139.7801305,
+      "tags": {
+        "amenity": "restaurant",
+        "name": "麺屋のろし",
+        "name:en": "Noroshi",
+        "note": "子ども食堂実施"
+      }
+    }
+  ]
+}

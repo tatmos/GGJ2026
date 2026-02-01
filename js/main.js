@@ -14,6 +14,7 @@ import {
   getFoods,
   addFood,
   updateFoodHeights,
+  loadFoodSpawnsFromJson,
   collectRadius,
   energyPerFood
 } from './food.js';
@@ -52,7 +53,8 @@ import {
   updateMaskList,
   updateBuffQueue,
   updateEnemyGuide,
-  updateBossPanel
+  updateBossPanel,
+  showItemPopup
 } from './ui.js';
 
 const { scene, camera, renderer, ground, checkerTexProximity, cityRoot } = createScene();
@@ -71,11 +73,76 @@ tryLoadPLATEAU(scene, cityRoot, {
   updateFoodHeights: onUpdateFoodHeights
 });
 
-for (let i = 0; i < 60; i++) {
-  const x = (Math.random() - 0.5) * 200;
-  const z = (Math.random() - 0.5) * 200;
-  addFood(scene, x, z);
-}
+// 食べ物の配置: JSONがあればそこから、なければランダム配置
+(async () => {
+  const count = await loadFoodSpawnsFromJson(scene);
+  if (count === 0) {
+    console.log('[Food] JSONが見つからないため、ランダム配置を使用');
+    for (let i = 0; i < 60; i++) {
+      const x = (Math.random() - 0.5) * 200;
+      const z = (Math.random() - 0.5) * 200;
+      addFood(scene, x, z);
+    }
+  }
+  onUpdateFoodHeights();
+})();
+
+// transform.json の対応点を表示（デバッグ用）
+(async () => {
+  try {
+    const response = await fetch('data/transform.json');
+    if (!response.ok) return;
+    const data = await response.json();
+    const points = data.reference_points || [];
+    console.log('[Debug] transform.json 対応点:', points);
+
+    for (const p of points) {
+      // 赤いビーム（光の筋）
+      const beamGeo = new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, 1, 0)
+      ]);
+      const beamMat = new THREE.LineBasicMaterial({
+        color: 0xff0000,
+        transparent: true,
+        opacity: 0.9,
+        depthTest: true,
+        depthWrite: false
+      });
+      const beam = new THREE.Line(beamGeo, beamMat);
+      beam.scale.y = 150;
+      beam.position.set(p.gameX, 0, p.gameZ);
+      scene.add(beam);
+
+      // 名前ラベル（スプライト）
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 128;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = 'rgba(0,0,0,0.7)';
+      ctx.fillRect(0, 0, 512, 128);
+      ctx.fillStyle = '#ff4444';
+      ctx.font = 'bold 48px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(p.name, 256, 40);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '32px monospace';
+      ctx.fillText(`(${p.gameX}, ${p.gameZ})`, 256, 90);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      const spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
+      const sprite = new THREE.Sprite(spriteMat);
+      sprite.scale.set(40, 10, 1);
+      sprite.position.set(p.gameX, 80, p.gameZ);
+      scene.add(sprite);
+
+      console.log(`[Debug] 対応点マーカー: ${p.name} @ (${p.gameX}, ${p.gameZ})`);
+    }
+  } catch (e) {
+    console.warn('[Debug] transform.json の読み込みエラー:', e);
+  }
+})();
 
 let yaw = 0;
 let speedMultiplier = 1;
@@ -165,7 +232,139 @@ if (debugWorldCheckerCheckbox) {
   });
 }
 
+// ============================================================
+// 俯瞰カメラモード（マッピング用）
+// ============================================================
+let birdEyeMode = false;
+let birdEyeHeight = 300;
+let birdEyeX = 0;
+let birdEyeZ = 0;
+const birdEyeMoveSpeed = 100;
+const birdEyeZoomSpeed = 50;
+/** 登録済みの対応点リスト */
+const referencePoints = [];
+/** クリック位置のゲーム座標（十字線の中心） */
+let birdEyeClickX = 0;
+let birdEyeClickZ = 0;
+
+const birdEyeCheckbox = document.getElementById('birdEyeCheckbox');
+const birdEyeControls = document.getElementById('birdEyeControls');
+const birdEyeCrosshair = document.getElementById('birdEyeCrosshair');
+const birdEyeCoordEl = document.getElementById('birdEyeCoord');
+const refPointLatInput = document.getElementById('refPointLat');
+const refPointLngInput = document.getElementById('refPointLng');
+const refPointNameInput = document.getElementById('refPointName');
+const addRefPointBtn = document.getElementById('addRefPointBtn');
+const exportRefPointsBtn = document.getElementById('exportRefPointsBtn');
+const refPointListEl = document.getElementById('refPointList');
+
+function updateBirdEyeCoordDisplay() {
+  if (birdEyeCoordEl) {
+    birdEyeCoordEl.textContent = `X: ${birdEyeClickX.toFixed(1)}, Z: ${birdEyeClickZ.toFixed(1)}`;
+  }
+}
+
+function updateRefPointListDisplay() {
+  if (!refPointListEl) return;
+  if (referencePoints.length === 0) {
+    refPointListEl.innerHTML = '<div style="color:#888;">対応点なし</div>';
+    return;
+  }
+  refPointListEl.innerHTML = referencePoints.map((p, i) =>
+    `<div style="margin-bottom:2px;">${i + 1}. ${p.name} (${p.lat}, ${p.lng}) → (${p.gameX}, ${p.gameZ})</div>`
+  ).join('');
+}
+
+function setBirdEyeMode(on) {
+  birdEyeMode = on;
+  if (birdEyeControls) birdEyeControls.style.display = on ? 'block' : 'none';
+  if (birdEyeCrosshair) birdEyeCrosshair.style.display = on ? 'block' : 'none';
+  if (birdEyeCoordEl) birdEyeCoordEl.style.display = on ? 'block' : 'none';
+  if (on) {
+    // 現在のカメラ位置を俯瞰の中心に
+    birdEyeX = camera.position.x;
+    birdEyeZ = camera.position.z;
+    birdEyeClickX = birdEyeX;
+    birdEyeClickZ = birdEyeZ;
+    updateBirdEyeCoordDisplay();
+    updateRefPointListDisplay();
+  }
+}
+
+if (birdEyeCheckbox) {
+  birdEyeCheckbox.addEventListener('change', (e) => {
+    setBirdEyeMode(e.target.checked);
+  });
+}
+
+if (addRefPointBtn) {
+  addRefPointBtn.addEventListener('click', () => {
+    const lat = parseFloat(refPointLatInput?.value);
+    const lng = parseFloat(refPointLngInput?.value);
+    const name = refPointNameInput?.value?.trim() || `Point ${referencePoints.length + 1}`;
+    if (isNaN(lat) || isNaN(lng)) {
+      alert('緯度・経度を入力してください');
+      return;
+    }
+    referencePoints.push({
+      name,
+      lat,
+      lng,
+      gameX: Math.round(birdEyeClickX * 100) / 100,
+      gameZ: Math.round(birdEyeClickZ * 100) / 100
+    });
+    console.log('[RefPoint] 登録:', referencePoints[referencePoints.length - 1]);
+    updateRefPointListDisplay();
+    // 入力欄をクリア
+    if (refPointLatInput) refPointLatInput.value = '';
+    if (refPointLngInput) refPointLngInput.value = '';
+    if (refPointNameInput) refPointNameInput.value = '';
+  });
+}
+
+if (exportRefPointsBtn) {
+  exportRefPointsBtn.addEventListener('click', () => {
+    if (referencePoints.length === 0) {
+      alert('対応点がありません');
+      return;
+    }
+    const json = JSON.stringify(referencePoints, null, 2);
+    console.log('[RefPoints] JSON:\n' + json);
+    // クリップボードにコピー
+    navigator.clipboard.writeText(json).then(() => {
+      alert('対応点JSONをクリップボードにコピーしました（コンソールにも出力）');
+    }).catch(() => {
+      alert('クリップボードへのコピーに失敗しました。コンソールを確認してください');
+    });
+  });
+}
+
+// 俯瞰モード時のクリックで座標取得
+renderer.domElement.addEventListener('click', (e) => {
+  if (!birdEyeMode) return;
+  // 画面中心の座標を使用（十字線の位置）
+  // クリック位置ではなく、カメラ直下の座標を使う
+  birdEyeClickX = birdEyeX;
+  birdEyeClickZ = birdEyeZ;
+  updateBirdEyeCoordDisplay();
+});
+
 document.addEventListener('keydown', (e) => {
+  // 俯瞰モード時は矢印キーで移動、+/-でズーム
+  if (birdEyeMode) {
+    const moveAmount = birdEyeMoveSpeed * 0.1;
+    if (e.key === 'ArrowUp') { birdEyeZ -= moveAmount; e.preventDefault(); }
+    if (e.key === 'ArrowDown') { birdEyeZ += moveAmount; e.preventDefault(); }
+    if (e.key === 'ArrowLeft') { birdEyeX -= moveAmount; e.preventDefault(); }
+    if (e.key === 'ArrowRight') { birdEyeX += moveAmount; e.preventDefault(); }
+    if (e.key === '+' || e.key === '=') { birdEyeHeight = Math.max(50, birdEyeHeight - birdEyeZoomSpeed); e.preventDefault(); }
+    if (e.key === '-' || e.key === '_') { birdEyeHeight = Math.min(800, birdEyeHeight + birdEyeZoomSpeed); e.preventDefault(); }
+    // 十字線の座標も更新
+    birdEyeClickX = birdEyeX;
+    birdEyeClickZ = birdEyeZ;
+    updateBirdEyeCoordDisplay();
+    return;
+  }
   const k = e.key.toLowerCase();
   if (k === 'w') keys.w = true;
   if (k === 'a') keys.a = true;
@@ -188,6 +387,18 @@ document.addEventListener('keyup', (e) => {
 function animate() {
   requestAnimationFrame(animate);
   const dt = Math.min(clock.getDelta(), 0.1);
+
+  // 俯瞰カメラモード
+  if (birdEyeMode) {
+    camera.position.set(birdEyeX, birdEyeHeight, birdEyeZ);
+    camera.rotation.order = 'YXZ';
+    camera.rotation.x = -Math.PI / 2; // 真下を向く
+    camera.rotation.y = 0;
+    camera.rotation.z = 0;
+    proximity.updateProximityMaterials();
+    renderer.render(scene, camera);
+    return;
+  }
 
   tickBuffQueue(gameState, dt);
   const effectiveRecoveryCooldownSec = recoveryCooldownSec * getRecoveryCooldownScaleFromBuff(gameState.activeBuff);
@@ -261,6 +472,8 @@ function animate() {
       if (instant && instant.effect === 'energy') {
         energy = Math.min(100, energy + (instant.value ?? energyPerFood));
       }
+      // お店の名前と料理ジャンルを表示
+      showItemPopup(f.name, f.nameJa, f.cuisine, f.typeId);
     }
   });
 

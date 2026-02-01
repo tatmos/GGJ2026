@@ -48,8 +48,11 @@ export function getFoods() {
  * @param {number} x
  * @param {number} z
  * @param {string} [typeId] 未指定ならランダム（energy / speedUp / recoveryCooldownShort）
+ * @param {string} [name] お店の名前（デバッグ・表示用）
+ * @param {string} [nameJa] 日本語名
+ * @param {string} [cuisine] 料理ジャンル
  */
-export function addFood(scene, x, z, typeId) {
+export function addFood(scene, x, z, typeId, name, nameJa, cuisine) {
   const id = typeId ?? randomFoodTypeId();
   const color = FOOD_COLORS[id] ?? FOOD_COLORS.energy;
   const beamColor = FOOD_BEAM_COLORS[id] ?? FOOD_BEAM_COLORS.energy;
@@ -73,18 +76,56 @@ export function addFood(scene, x, z, typeId) {
   beam.position.set(x, 0, z);
   beam.visible = false;
   scene.add(beam);
-  foods.push({ mesh, beam, x, z, collected: false, typeId: id });
+  foods.push({
+    mesh, beam, x, z, collected: false, typeId: id,
+    name: name || '',
+    nameJa: nameJa || '',
+    cuisine: cuisine || ''
+  });
 }
+
+/** 食べ物の最低高度（プレイヤーのminHeightと同じにする） */
+const MIN_FOOD_HEIGHT = 26;
 
 export function updateFoodHeights(getHeightAt) {
   foods.forEach((f) => {
     if (f.collected) return;
     const h = getHeightAt(f.x, f.z);
-    const y = h + 0.5;
+    // 最低高度を MIN_FOOD_HEIGHT 以上にする
+    const baseY = Math.max(h, MIN_FOOD_HEIGHT);
+    const y = baseY + 0.5;
     f.mesh.position.y = y;
     if (f.beam) {
-      f.beam.position.set(f.x, h, f.z);
+      f.beam.position.set(f.x, baseY, f.z);
       f.beam.visible = true;
     }
   });
 }
+
+/**
+ * food_spawns.json を読み込んで食べ物を配置する。
+ * @param {THREE.Scene} scene
+ * @param {string} jsonPath JSONファイルのパス（デフォルト: 'data/food_spawns.json'）
+ * @returns {Promise<number>} 配置した食べ物の数
+ */
+export async function loadFoodSpawnsFromJson(scene, jsonPath = 'data/food_spawns.json') {
+  try {
+    const response = await fetch(jsonPath);
+    if (!response.ok) {
+      console.warn(`[Food] ${jsonPath} の読み込みに失敗: ${response.status}`);
+      return 0;
+    }
+    const data = await response.json();
+    const spawns = data.spawns || [];
+    console.log(`[Food] ${jsonPath} から ${spawns.length} 件のスポーン情報を読み込み`);
+
+    for (const spawn of spawns) {
+      addFood(scene, spawn.gameX, spawn.gameZ, spawn.foodTypeId, spawn.name, spawn.nameJa, spawn.cuisine);
+    }
+    return spawns.length;
+  } catch (e) {
+    console.warn(`[Food] ${jsonPath} の読み込みエラー:`, e);
+    return 0;
+  }
+}
+

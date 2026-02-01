@@ -95,8 +95,31 @@
       <label><input type="checkbox" id="debugCheckerCheckbox" checked /> 近接時の市松模様（オフで負荷軽減）</label>
       <span id="debugCheckerState" class="debug-state" aria-hidden="true"></span>
       <label><input type="checkbox" id="debugWorldCheckerCheckbox" checked /> 市松をワールド座標で表示（UVが無いモデル用）</label>
+      <hr style="margin:8px 0;border-color:#555"/>
+      <label><input type="checkbox" id="birdEyeCheckbox" /> 俯瞰カメラモード（マッピング用）</label>
+      <div id="birdEyeControls" style="display:none;margin-top:8px;">
+        <div style="font-size:11px;color:#aaa;margin-bottom:4px;">クリックで対応点を登録。矢印キーで移動、+/-でズーム</div>
+        <div style="margin-bottom:4px;">
+          <span style="font-size:11px;">緯度:</span>
+          <input type="text" id="refPointLat" placeholder="35.6963" style="width:80px;font-size:11px;"/>
+          <span style="font-size:11px;margin-left:4px;">経度:</span>
+          <input type="text" id="refPointLng" placeholder="139.7832" style="width:80px;font-size:11px;"/>
+        </div>
+        <div style="margin-bottom:4px;">
+          <span style="font-size:11px;">名前:</span>
+          <input type="text" id="refPointName" placeholder="浅草橋駅" style="width:120px;font-size:11px;"/>
+        </div>
+        <button id="addRefPointBtn" style="font-size:11px;padding:2px 8px;">対応点を登録</button>
+        <button id="exportRefPointsBtn" style="font-size:11px;padding:2px 8px;margin-left:4px;">JSON出力</button>
+        <div id="refPointList" style="margin-top:8px;font-size:11px;max-height:120px;overflow-y:auto;"></div>
+      </div>
     </div>
   </div>
+  <div id="birdEyeCrosshair" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:100;">
+    <div style="width:20px;height:2px;background:#ff0;position:absolute;left:-10px;top:-1px;"></div>
+    <div style="width:2px;height:20px;background:#ff0;position:absolute;left:-1px;top:-10px;"></div>
+  </div>
+  <div id="birdEyeCoord" style="display:none;position:fixed;top:50%;left:calc(50% + 20px);transform:translateY(-50%);color:#ff0;font-size:14px;font-family:monospace;pointer-events:none;z-index:100;text-shadow:1px 1px 2px #000;"></div>
   <p class="hint">W: 加速+上昇　S: 減速+下降　A/D: 旋回　Q/E: 上下　何もしないと約1秒で自動下降（26mまで）　食べ物で回復</p>
 
   <script type="importmap">
