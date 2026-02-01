@@ -227,9 +227,15 @@ function onUpdateFoodHeights() {
   updateFoodHeights(getHeightAt);
 }
 
+// ローディング完了時にポーズ解除
+const onLoadingComplete = () => {
+  hideLoading();
+  gameState.paused = false;
+};
+
 tryLoadPLATEAU(scene, cityRoot, {
   updateLoadProgress,
-  hideLoading,
+  hideLoading: onLoadingComplete,
   camera,
   updateFoodHeights: onUpdateFoodHeights
 });
@@ -335,6 +341,8 @@ const gameState = {
   /** 生存時間（秒）。毎フレーム dt を加算。転生時に 0 にリセット。5分／15分トリガーの基準。 */
   survivalSec: 0,
   reincarnation: 0,
+  /** ゲームポーズ状態（ダイアログ表示中、ローディング中など） */
+  paused: true, // 初期状態はポーズ（ローディング完了まで）
   /** 時間倍速（デバッグ用） */
   timeScale: 30,
   attack: 10,
@@ -470,6 +478,110 @@ function reincarnate(maskCountToKeep) {
   gameState.paused = false;
   
   addCombatLog(`転生回数 ${gameState.reincarnation} で再開！`, 'mask');
+  
+  // 3Dタイトル表示
+  show3DTitle();
+}
+
+/**
+ * 3D空間にタイトルを表示（輪廻転生時）
+ */
+let titleMesh = null;
+function show3DTitle() {
+  // 既存のタイトルがあれば削除
+  if (titleMesh) {
+    scene.remove(titleMesh);
+    if (titleMesh.material.map) titleMesh.material.map.dispose();
+    titleMesh.material.dispose();
+    titleMesh.geometry.dispose();
+    titleMesh = null;
+  }
+  
+  // キャンバスでテキストを描画
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = 1024;
+  canvas.height = 256;
+  
+  // 透明背景
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // テキスト描画
+  ctx.font = 'bold 120px "Hiragino Kaku Gothic ProN", "Noto Sans JP", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  
+  // グロー効果
+  ctx.shadowColor = 'rgba(136, 204, 255, 0.8)';
+  ctx.shadowBlur = 30;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText('3D街中ラン', canvas.width / 2, canvas.height / 2);
+  
+  // もう一度描画して発光を強める
+  ctx.shadowBlur = 15;
+  ctx.fillText('3D街中ラン', canvas.width / 2, canvas.height / 2);
+  
+  // テクスチャ作成
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.needsUpdate = true;
+  
+  // メッシュ作成（カメラの前方に配置）
+  const geometry = new THREE.PlaneGeometry(40, 10);
+  const material = new THREE.MeshBasicMaterial({
+    map: texture,
+    transparent: true,
+    opacity: 0,
+    side: THREE.DoubleSide,
+    depthTest: false,
+  });
+  
+  titleMesh = new THREE.Mesh(geometry, material);
+  titleMesh.renderOrder = 999; // 最前面
+  scene.add(titleMesh);
+  
+  // フェードイン・フェードアウトアニメーション
+  let elapsed = 0;
+  const fadeInDuration = 0.8;
+  const holdDuration = 1.5;
+  const fadeOutDuration = 1.0;
+  const totalDuration = fadeInDuration + holdDuration + fadeOutDuration;
+  
+  function animateTitle() {
+    if (!titleMesh) return;
+    
+    elapsed += 1 / 60; // 約60FPS想定
+    
+    // カメラの前方に配置
+    const forward = new THREE.Vector3(0, 0, -1).applyQuaternion(camera.quaternion);
+    titleMesh.position.copy(camera.position).add(forward.multiplyScalar(25));
+    titleMesh.position.y += 3; // 少し上に
+    titleMesh.quaternion.copy(camera.quaternion);
+    
+    // 不透明度アニメーション
+    if (elapsed < fadeInDuration) {
+      // フェードイン
+      titleMesh.material.opacity = elapsed / fadeInDuration;
+    } else if (elapsed < fadeInDuration + holdDuration) {
+      // ホールド
+      titleMesh.material.opacity = 1;
+    } else if (elapsed < totalDuration) {
+      // フェードアウト
+      const fadeProgress = (elapsed - fadeInDuration - holdDuration) / fadeOutDuration;
+      titleMesh.material.opacity = 1 - fadeProgress;
+    } else {
+      // 終了
+      scene.remove(titleMesh);
+      if (titleMesh.material.map) titleMesh.material.map.dispose();
+      titleMesh.material.dispose();
+      titleMesh.geometry.dispose();
+      titleMesh = null;
+      return;
+    }
+    
+    requestAnimationFrame(animateTitle);
+  }
+  
+  animateTitle();
 }
 
 const debugFpsEl = document.getElementById('debugFps');
@@ -507,12 +619,14 @@ const creditsCloseBtn = document.getElementById('creditsCloseBtn');
 
 if (creditsBtn && creditsDialog) {
   creditsBtn.addEventListener('click', () => {
+    gameState.paused = true;
     creditsDialog.showModal();
   });
 }
 if (creditsCloseBtn && creditsDialog) {
   creditsCloseBtn.addEventListener('click', () => {
     creditsDialog.close();
+    gameState.paused = false;
   });
 }
 // ダイアログ外クリックで閉じる
@@ -520,7 +634,12 @@ if (creditsDialog) {
   creditsDialog.addEventListener('click', (e) => {
     if (e.target === creditsDialog) {
       creditsDialog.close();
+      gameState.paused = false;
     }
+  });
+  // ESCキーで閉じた場合もポーズ解除
+  creditsDialog.addEventListener('close', () => {
+    gameState.paused = false;
   });
 }
 

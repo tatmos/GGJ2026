@@ -119,7 +119,7 @@ Blenderでオブジェクトに回転（例: X 90°）がついたままエク�
 
 ## License
 
-This game was created for **[Global Game Jam 2026](https://globalgamejam.org/)**.
+This game was created for **[Global Game Jam 2026](https://globalgamejam.org/games/2026/3djiezhongran-8)**.
 
 ### Game License
 
