@@ -54,7 +54,7 @@ canvas { display: block; }
 .survival-display {
   position: fixed;
   top: 16px;
-  left: 50%;
+  left: calc(50% + 120px);
   transform: translateX(-50%);
   text-align: center;
   pointer-events: none;
@@ -621,14 +621,16 @@ canvas { display: block; }
 /* mask panel */
 .mask-panel {
   position: fixed;
-  bottom: 160px;
-  left: 24px;
-  padding: 8px 10px;
-  background: rgba(0,0,0,0.4);
-  border: 1px solid rgba(255,255,255,0.25);
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.3);
   border-radius: 8px;
   pointer-events: none;
   z-index: 10;
+  max-width: 400px;
 }
 .mask-panel .mask-header {
   font-size: 11px;
@@ -653,7 +655,7 @@ canvas { display: block; }
 /* buff panel */
 .buff-panel {
   position: fixed;
-  bottom: 220px;
+  bottom: 280px;
   left: 24px;
   padding: 8px 10px;
   background: rgba(0,0,0,0.4);
@@ -1116,4 +1118,87 @@ canvas { display: block; }
   font-size: 9px;
   color: rgba(100, 255, 100, 0.7);
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.8);
+}
+
+/* 敵ラベル */
+.enemy-labels-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+  overflow: hidden;
+}
+
+.enemy-label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  transition: opacity 0.15s;
+}
+
+.enemy-label-name {
+  font-size: 11px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 0 4px rgba(0,0,0,0.9), 0 0 8px currentColor;
+  white-space: nowrap;
+  margin-bottom: 2px;
+}
+
+.enemy-label-hp-bar {
+  width: 60px;
+  height: 6px;
+  background: rgba(0,0,0,0.6);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.enemy-label-hp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #44ff44, #88ff88);
+  border-radius: 2px;
+  transition: width 0.1s;
+}
+
+.enemy-label-hp-fill.hp-mid {
+  background: linear-gradient(90deg, #ffff44, #ffff88);
+}
+
+.enemy-label-hp-fill.hp-low {
+  background: linear-gradient(90deg, #ff4444, #ff8888);
+}
+
+.enemy-label-masks {
+  display: flex;
+  gap: 2px;
+  margin-top: 2px;
+}
+
+.enemy-label-mask {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.5);
+  box-shadow: 0 0 4px currentColor;
+}
+
+.enemy-label-distance {
+  font-size: 9px;
+  color: rgba(255,255,255,0.8);
+  text-shadow: 0 0 3px rgba(0,0,0,0.9);
+  margin-top: 1px;
+}
+
+.enemy-label-speed {
+  font-size: 9px;
+  color: #ff8844;
+  font-weight: bold;
+  text-shadow: 0 0 3px rgba(0,0,0,0.9);
 }

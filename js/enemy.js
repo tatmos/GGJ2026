@@ -83,6 +83,15 @@ export class Enemy {
     // 移動
     this.velocity = new THREE.Vector3();
     this.targetY = this.y;
+    
+    // 接近通知済みフラグ
+    this.approachNotified = false;
+    
+    // 戦闘状態フラグ
+    this.inCombat = false;
+    this.halfHpNotified = false;
+    this.lowHpNotified = false;
+    this.hitCount = 0;
   }
   
   /**
@@ -189,6 +198,31 @@ function createHumanoidMesh(enemy) {
     extra.rotation.x = -Math.PI / 4;
     group.add(extra);
   }
+  
+  // 光のビーコン（上に伸びる光の線）
+  const beaconHeight = 20;
+  const beaconGeo = new THREE.CylinderGeometry(0.05, 0.15, beaconHeight, 8);
+  const beaconMat = new THREE.MeshBasicMaterial({
+    color: primaryMask?.color ?? 0xffffff,
+    transparent: true,
+    opacity: 0.6,
+  });
+  const beacon = new THREE.Mesh(beaconGeo, beaconMat);
+  beacon.position.y = 3 + beaconHeight / 2;
+  beacon.name = 'beacon';
+  group.add(beacon);
+  
+  // ビーコン上部の光球
+  const topGlowGeo = new THREE.SphereGeometry(0.3, 8, 8);
+  const topGlowMat = new THREE.MeshBasicMaterial({
+    color: primaryMask?.color ?? 0xffffff,
+    transparent: true,
+    opacity: 0.8,
+  });
+  const topGlow = new THREE.Mesh(topGlowGeo, topGlowMat);
+  topGlow.position.y = 3 + beaconHeight;
+  topGlow.name = 'beaconGlow';
+  group.add(topGlow);
   
   // 腕
   const armGeo = new THREE.CapsuleGeometry(0.12, 0.6, 4, 8);

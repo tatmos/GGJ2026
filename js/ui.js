@@ -1152,3 +1152,202 @@ export function updateRadar(playerPos, yaw, enemies = [], droppedMasks = [], foo
     rangeEl.textContent = `${range}m`;
   }
 }
+
+// ============================================================
+// 敵ラベル（3D空間上のUI）
+// ============================================================
+
+/** 敵ラベル用の要素プール */
+const enemyLabelPool = [];
+let activeEnemyLabels = 0;
+
+/**
+ * 敵ラベルを更新（3D座標をスクリーン座標に変換して表示）
+ * @param {Array} enemies 敵リスト
+ * @param {THREE.Camera} camera カメラ
+ * @param {Object} playerPos プレイヤー位置
+ * @param {Object} rival ライバル（存在すれば）
+ */
+export function updateEnemyLabels(enemies, camera, playerPos, rival = null) {
+  const container = document.getElementById('enemyLabels');
+  if (!container) return;
+  
+  // 画面サイズ
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  
+  // ラベル表示の最大距離
+  const MAX_LABEL_DISTANCE = 150;
+  
+  // 表示対象の敵をリストアップ
+  const visibleEnemies = [];
+  
+  // ライバルを先に追加（優先表示）
+  if (rival && rival.isAlive) {
+    const dx = rival.x - playerPos.x;
+    const dz = rival.z - playerPos.z;
+    const dist = Math.sqrt(dx * dx + dz * dz);
+    if (dist < MAX_LABEL_DISTANCE) {
+      visibleEnemies.push({ enemy: rival, dist, isRival: true });
+    }
+  }
+  
+  // 通常の敵
+  for (const enemy of enemies) {
+    if (!enemy.isAlive) continue;
+    if (rival && enemy === rival) continue;
+    
+    const dx = enemy.x - playerPos.x;
+    const dz = enemy.z - playerPos.z;
+    const dist = Math.sqrt(dx * dx + dz * dz);
+    
+    if (dist < MAX_LABEL_DISTANCE) {
+      visibleEnemies.push({ enemy, dist, isRival: false });
+    }
+  }
+  
+  // 距離順にソート（近い順）
+  visibleEnemies.sort((a, b) => a.dist - b.dist);
+  
+  // 最大表示数
+  const MAX_LABELS = 10;
+  const toShow = visibleEnemies.slice(0, MAX_LABELS);
+  
+  // プールから要素を確保または作成
+  while (enemyLabelPool.length < toShow.length) {
+    const label = document.createElement('div');
+    label.className = 'enemy-label';
+    label.innerHTML = `
+      <div class="enemy-label-name"></div>
+      <div class="enemy-label-hp-bar"><div class="enemy-label-hp-fill"></div></div>
+      <div class="enemy-label-masks"></div>
+      <div class="enemy-label-distance"></div>
+      <div class="enemy-label-speed"></div>
+    `;
+    label.style.display = 'none';
+    container.appendChild(label);
+    enemyLabelPool.push(label);
+  }
+  
+  // 全ラベルを非表示にリセット
+  for (let i = 0; i < enemyLabelPool.length; i++) {
+    enemyLabelPool[i].style.display = 'none';
+  }
+  
+  // 表示する敵のラベルを更新
+  for (let i = 0; i < toShow.length; i++) {
+    const { enemy, dist, isRival } = toShow[i];
+    const label = enemyLabelPool[i];
+    
+    // 3D座標をスクリーン座標に変換
+    const pos3D = { x: enemy.x, y: enemy.y + 4, z: enemy.z };
+    const screenPos = worldToScreen(pos3D, camera, width, height);
+    
+    // 画面外または背後なら非表示
+    if (!screenPos.visible) {
+      continue;
+    }
+    
+    // 位置を設定
+    label.style.left = `${screenPos.x}px`;
+    label.style.top = `${screenPos.y}px`;
+    label.style.display = 'flex';
+    
+    // 距離に応じて透明度を調整
+    const opacity = Math.max(0.3, 1 - dist / MAX_LABEL_DISTANCE);
+    label.style.opacity = opacity.toString();
+    
+    // 名前
+    const nameEl = label.querySelector('.enemy-label-name');
+    const enemyName = enemy.masks[0]?.nameJa || '敵';
+    nameEl.textContent = isRival ? `★ ${enemyName} ★` : enemyName;
+    nameEl.style.color = isRival ? '#ff4444' : `#${(enemy.masks[0]?.color ?? 0xffffff).toString(16).padStart(6, '0')}`;
+    
+    // HP
+    const hpFill = label.querySelector('.enemy-label-hp-fill');
+    const hpRatio = enemy.hp / enemy.maxHp;
+    hpFill.style.width = `${hpRatio * 100}%`;
+    hpFill.className = 'enemy-label-hp-fill';
+    if (hpRatio <= 0.25) {
+      hpFill.classList.add('hp-low');
+    } else if (hpRatio <= 0.5) {
+      hpFill.classList.add('hp-mid');
+    }
+    
+    // マスク
+    const masksEl = label.querySelector('.enemy-label-masks');
+    masksEl.innerHTML = '';
+    for (let m = 0; m < Math.min(enemy.masks.length, 8); m++) {
+      const maskDot = document.createElement('div');
+      maskDot.className = 'enemy-label-mask';
+      const maskColor = `#${enemy.masks[m].color.toString(16).padStart(6, '0')}`;
+      maskDot.style.background = maskColor;
+      maskDot.style.color = maskColor;
+      masksEl.appendChild(maskDot);
+    }
+    if (enemy.masks.length > 8) {
+      const more = document.createElement('span');
+      more.style.cssText = 'font-size:8px;color:#fff;margin-left:2px;';
+      more.textContent = `+${enemy.masks.length - 8}`;
+      masksEl.appendChild(more);
+    }
+    
+    // 距離
+    const distEl = label.querySelector('.enemy-label-distance');
+    distEl.textContent = `${Math.round(dist)}m`;
+    
+    // 速度
+    const speedEl = label.querySelector('.enemy-label-speed');
+    if (enemy.speed >= 14) {
+      speedEl.textContent = '超高速';
+      speedEl.style.color = '#ff4444';
+    } else if (enemy.speed >= 11) {
+      speedEl.textContent = '高速';
+      speedEl.style.color = '#ff8844';
+    } else if (enemy.speed <= 5) {
+      speedEl.textContent = '低速';
+      speedEl.style.color = '#88ff88';
+    } else {
+      speedEl.textContent = '';
+    }
+  }
+  
+  activeEnemyLabels = toShow.length;
+}
+
+/**
+ * 3Dワールド座標をスクリーン座標に変換
+ */
+function worldToScreen(pos, camera, width, height) {
+  // THREE.jsのVector3を使わずに計算
+  const vec = [pos.x, pos.y, pos.z, 1];
+  
+  // カメラのビュー・プロジェクション行列を適用
+  const viewProjection = camera.projectionMatrix.clone().multiply(camera.matrixWorldInverse);
+  const m = viewProjection.elements;
+  
+  // 行列×ベクトル
+  const x = m[0] * vec[0] + m[4] * vec[1] + m[8] * vec[2] + m[12] * vec[3];
+  const y = m[1] * vec[0] + m[5] * vec[1] + m[9] * vec[2] + m[13] * vec[3];
+  const w = m[3] * vec[0] + m[7] * vec[1] + m[11] * vec[2] + m[15] * vec[3];
+  
+  // 背後にある場合
+  if (w <= 0) {
+    return { x: 0, y: 0, visible: false };
+  }
+  
+  // NDCに変換
+  const ndcX = x / w;
+  const ndcY = y / w;
+  
+  // 画面外チェック
+  if (ndcX < -1.2 || ndcX > 1.2 || ndcY < -1.2 || ndcY > 1.2) {
+    return { x: 0, y: 0, visible: false };
+  }
+  
+  // スクリーン座標に変換
+  const screenX = (ndcX + 1) * 0.5 * width;
+  const screenY = (1 - ndcY) * 0.5 * height;
+  
+  return { x: screenX, y: screenY, visible: true };
+}

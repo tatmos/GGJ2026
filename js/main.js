@@ -76,6 +76,7 @@ import {
   updateMaskSensor,
   updateEnemyGuide,
   updateRadar,
+  updateEnemyLabels,
   updateBossPanel,
   showItemPopup,
   showEquipmentPopup,
@@ -130,6 +131,16 @@ import {
   playSoundMaskDrop,
   playSoundEnemyPickupMask
 } from './sound.js';
+import {
+  updateParticles,
+  spawnItemPickupEffect,
+  spawnEquipmentPickupEffect,
+  spawnMaskPickupEffect,
+  spawnAttackHitEffect,
+  spawnEnemyDefeatEffect,
+  spawnDamageEffect,
+  spawnLevelUpEffect
+} from './particles.js';
 
 const { scene, camera, renderer, ground, checkerTexProximity, cityRoot } = createScene();
 document.body.appendChild(renderer.domElement);
@@ -332,7 +343,7 @@ const gameState = {
   /** 敵スポーン用タイマー */
   enemySpawnTimer: 0,
   /** 次の敵スポーンまでの時間（秒） */
-  nextEnemySpawnSec: 30, // 最初は30秒後
+  nextEnemySpawnSec: 15, // 最初は15秒後
   /** 現在消費中バフ 1 つ（とった順に 1 つずつ消費）。null のときはキュー先頭を次に取り出す */
   activeBuff: null,
   /** 待機中のバフキュー。各要素は { typeId, durationMax } */
@@ -432,7 +443,7 @@ function reincarnate(maskCountToKeep) {
   
   // 敵スポーンタイマーをリセット
   gameState.enemySpawnTimer = 0;
-  gameState.nextEnemySpawnSec = 30;
+  gameState.nextEnemySpawnSec = 15;
   
   // エネルギーを回復
   energy = 100;
@@ -889,6 +900,7 @@ function animate() {
       // お店の名前と料理ジャンルを表示
       showItemPopup(f.name, f.nameJa, f.cuisine, f.typeId);
       playSoundItemPickup();
+      spawnItemPickupEffect(scene, f.x, f.y, f.z, f.color ?? 0xffff00);
       
       // 成長選択フラグが立っていたらダイアログを表示
       if (gameState.growthPending && !gameState.paused) {
@@ -920,6 +932,7 @@ function animate() {
             const nameJa = PARAM_NAMES_JA[paramId] || paramId;
             addCombatLog(`${nameJa} が +${value} 上昇！`, 'attack');
             playSoundGrowthComplete();
+            spawnLevelUpEffect(scene, camera.position.x, camera.position.y, camera.position.z);
           }
           gameState.paused = false;
         });
@@ -978,6 +991,7 @@ function animate() {
         // 取得ポップアップ表示
         showEquipmentPopup(e);
         playSoundEquipmentPickup();
+        spawnEquipmentPickupEffect(scene, e.x, e.y, e.z, e.color);
         console.log(`[Equipment] 取得: ${e.icon} ${e.nameJa} (${e.effect}: ${e.value > 0 ? '+' : ''}${(e.value * 100).toFixed(0)}%)`);
       } else {
         // スロットが満杯の場合（後で交換UIを追加予定）
@@ -1054,7 +1068,101 @@ function animate() {
     
     // 強さはプレイヤーより少し弱め（0.5〜0.9）
     const strength = 0.5 + Math.random() * 0.4;
-    spawnEnemy(scene, spawnX, spawnZ, strength);
+    const newEnemy = spawnEnemy(scene, spawnX, spawnZ, strength);
+    if (newEnemy) {
+      const enemyName = newEnemy.masks[0]?.nameJa || '敵';
+      
+      // 方向情報を計算
+      const dx = spawnX - camera.position.x;
+      const dz = spawnZ - camera.position.z;
+      const dist = Math.round(Math.sqrt(dx * dx + dz * dz));
+      
+      // プレイヤーの向きからの相対角度を計算（時計方向）
+      const absoluteAngle = Math.atan2(dx, -dz); // 北が0、東が90度
+      let relativeAngle = absoluteAngle - yaw;
+      while (relativeAngle > Math.PI) relativeAngle -= Math.PI * 2;
+      while (relativeAngle < -Math.PI) relativeAngle += Math.PI * 2;
+      
+      // 時計方向に変換（12時が前方）
+      let clockHour = Math.round((relativeAngle / Math.PI) * 6 + 12) % 12;
+      if (clockHour === 0) clockHour = 12;
+      
+      // 方位を計算
+      const compassDirs = ['北', '北東', '東', '南東', '南', '南西', '西', '北西'];
+      const compassIndex = Math.round((absoluteAngle + Math.PI) / (Math.PI / 4)) % 8;
+      const compass = compassDirs[compassIndex];
+      
+      // 速度判定（基本速度8、バフで上昇）
+      let speedInfo = '';
+      if (newEnemy.speed >= 14) {
+        speedInfo = ' 【超高速】';
+      } else if (newEnemy.speed >= 11) {
+        speedInfo = ' 【高速】';
+      } else if (newEnemy.speed <= 5) {
+        speedInfo = ' 【低速】';
+      }
+      
+      addCombatLog(`${enemyName} が現れた！ ${clockHour}時方向 ${compass} ${dist}m${speedInfo}`, 'damage');
+    }
+  }
+  
+  // 敵の接近チェック（30m以内で通知）と離脱チェック（50m以上で通知）
+  const APPROACH_DISTANCE = 30;
+  const DISENGAGE_DISTANCE = 50;
+  for (const enemy of getAliveEnemies()) {
+    const dx = enemy.x - camera.position.x;
+    const dz = enemy.z - camera.position.z;
+    const dist = Math.sqrt(dx * dx + dz * dz);
+    const enemyName = enemy.masks[0]?.nameJa || '敵';
+    
+    // 接近通知
+    if (!enemy.approachNotified && dist < APPROACH_DISTANCE) {
+      enemy.approachNotified = true;
+      
+      // 時計方向を計算
+      const absoluteAngle = Math.atan2(dx, -dz);
+      let relativeAngle = absoluteAngle - yaw;
+      while (relativeAngle > Math.PI) relativeAngle -= Math.PI * 2;
+      while (relativeAngle < -Math.PI) relativeAngle += Math.PI * 2;
+      let clockHour = Math.round((relativeAngle / Math.PI) * 6 + 12) % 12;
+      if (clockHour === 0) clockHour = 12;
+      
+      // 速度判定（基本速度8、バフで上昇）
+      let speedInfo = '';
+      if (enemy.speed >= 14) {
+        speedInfo = ' 【超高速】';
+      } else if (enemy.speed >= 11) {
+        speedInfo = ' 【高速】';
+      } else if (enemy.speed <= 5) {
+        speedInfo = ' 【低速】';
+      }
+      
+      // マスク数によるバフ表示
+      let buffInfo = '';
+      if (enemy.masks.length >= 5) {
+        buffInfo = ' ★強化×' + enemy.masks.length;
+      } else if (enemy.masks.length >= 3) {
+        buffInfo = ' ☆強化';
+      }
+      
+      addCombatLog(`${enemyName} が接近中！ ${clockHour}時方向 ${Math.round(dist)}m${speedInfo}${buffInfo}`, 'damage');
+    }
+    
+    // 離脱通知（管制塔風）
+    if (enemy.approachNotified && dist > DISENGAGE_DISTANCE) {
+      enemy.approachNotified = false;
+      
+      // 管制塔風メッセージ
+      const disengageMessages = [
+        `管制塔より通達。${enemyName}が離脱、距離${Math.round(dist)}m`,
+        `${enemyName}との距離が開いた。現在${Math.round(dist)}m`,
+        `脅威排除確認。${enemyName}は${Math.round(dist)}m地点`,
+        `良好、${enemyName}から離脱した`,
+        `管制塔了解。敵機${enemyName}、追跡範囲外へ`,
+      ];
+      const msg = disengageMessages[Math.floor(Math.random() * disengageMessages.length)];
+      addCombatLog(msg, 'heal');
+    }
   }
   
   // 敵の更新（ドロップマスクを渡して敵が拾えるように）
@@ -1091,9 +1199,49 @@ function animate() {
   const attackResult = playerAttack(dt, camera.position, playerStats, getAliveEnemies(), scene);
   if (attackResult.attacked && attackResult.target) {
     playSoundAttack();
-    const targetName = attackResult.target.masks[0]?.nameJa || '敵';
-    if (attackResult.target.isAlive) {
-      addCombatLog(`${targetName} に ${attackResult.damage} ダメージ！`, 'attack');
+    spawnAttackHitEffect(scene, attackResult.target.x, attackResult.target.y + 1.5, attackResult.target.z);
+    const target = attackResult.target;
+    const targetName = target.masks[0]?.nameJa || '敵';
+    
+    // 戦闘開始ログ
+    if (!target.inCombat) {
+      target.inCombat = true;
+      const battleCries = [
+        `${targetName} と交戦開始！`,
+        `${targetName} に戦いを挑む！`,
+        `${targetName} とのバトル開始！`,
+      ];
+      addCombatLog(battleCries[Math.floor(Math.random() * battleCries.length)], 'attack');
+    }
+    
+    // ヒットカウント
+    target.hitCount++;
+    
+    if (target.isAlive) {
+      // 連続ヒット実況
+      if (target.hitCount === 3) {
+        addCombatLog('連続ヒット！攻撃が冴えている！', 'attack');
+      } else if (target.hitCount === 5) {
+        addCombatLog('怒涛の5連撃！', 'attack');
+      } else if (target.hitCount === 10) {
+        addCombatLog('驚異の10連撃！！', 'attack');
+      } else if (attackResult.damage >= 15) {
+        // 大ダメージ実況
+        const bigHits = ['会心の一撃！', 'クリティカル！', '強烈な一撃！'];
+        addCombatLog(bigHits[Math.floor(Math.random() * bigHits.length)], 'attack');
+      } else {
+        addCombatLog(`${targetName} に ${attackResult.damage} ダメージ！`, 'attack');
+      }
+      
+      // HP状況実況
+      const hpRatio = target.hp / target.maxHp;
+      if (hpRatio < 0.5 && !target.halfHpNotified) {
+        target.halfHpNotified = true;
+        addCombatLog(`${targetName} を追い詰めている！`, 'attack');
+      } else if (hpRatio < 0.2 && !target.lowHpNotified) {
+        target.lowHpNotified = true;
+        addCombatLog(`あと一撃で倒せる！`, 'attack');
+      }
     }
   }
   
@@ -1102,8 +1250,24 @@ function animate() {
   if (enemyDamage > 0) {
     const previousEnergy = energy;
     energy = Math.max(0, energy - enemyDamage);
-    addCombatLog(`敵から攻撃を受けた！ ${enemyDamage} ダメージ`, 'damage');
+    
+    // 実況風ダメージログ
+    const damageMessages = [
+      `敵の攻撃がヒット！ ${enemyDamage} ダメージ！`,
+      `痛恨の一撃！ ${enemyDamage} ダメージ！`,
+      `敵の攻撃を受けた！ ${enemyDamage} ダメージ！`,
+    ];
+    addCombatLog(damageMessages[Math.floor(Math.random() * damageMessages.length)], 'damage');
+    
+    // エネルギー状況の実況
+    if (energy < 30 && previousEnergy >= 30) {
+      addCombatLog('エネルギーが危険水域！回復を急げ！', 'damage');
+    } else if (energy < 15 && previousEnergy >= 15) {
+      addCombatLog('危機的状況！このままでは...！', 'damage');
+    }
+    
     playSoundDamage();
+    spawnDamageEffect(scene, camera.position.x, camera.position.y, camera.position.z);
     
     // 大ダメージ判定（一撃で25%以上のダメージ）→ マスクを1つ落とす
     const damagePercent = enemyDamage / 100;
@@ -1143,13 +1307,32 @@ function animate() {
   const deadEnemies = cleanupDeadEnemies(scene);
   for (const enemy of deadEnemies) {
     const enemyName = enemy.masks[0]?.nameJa || '敵';
-    addCombatLog(`${enemyName} を倒した！`, 'defeat');
+    const maskCount = enemy.masks.length;
+    
+    // 撃破実況
+    const defeatMessages = [
+      `${enemyName} を撃破！`,
+      `${enemyName} を倒した！`,
+      `${enemyName} を討伐！`,
+    ];
+    addCombatLog(defeatMessages[Math.floor(Math.random() * defeatMessages.length)], 'defeat');
+    
+    // マスクドロップ実況
+    if (maskCount > 1) {
+      addCombatLog(`${maskCount}個のマスクがドロップ！`, 'mask');
+    }
+    
     playSoundEnemyDefeat();
+    const enemyColor = enemy.masks[0]?.color ?? 0xff4444;
+    spawnEnemyDefeatEffect(scene, enemy.x, enemy.y + 1.5, enemy.z, enemyColor);
     dropMasksFromEnemy(scene, enemy);
   }
   
   // マスクのアニメーション
   updateDroppedMasks(dt);
+  
+  // パーティクルの更新
+  updateParticles(dt, scene);
   
   // マスクの回収
   // マスクの実効取得範囲
@@ -1183,7 +1366,8 @@ function animate() {
     if (distSq < effectiveMaskRadius * effectiveMaskRadius) {
       collectMask(scene, mask);
       const result = addMaskToInventory(gameState.maskInventory, mask, gameState.absorb);
-      // ログ表示 & 効果音
+      // ログ表示 & 効果音 & パーティクル
+      const maskColor = mask.color ?? 0xffffff;
       if (result.isNew) {
         addCombatLog(`${mask.nameJa} を入手！`, 'mask');
         playSoundMaskPickup();
@@ -1191,6 +1375,7 @@ function animate() {
         addCombatLog(`${mask.nameJa} Lv${result.mask.level} に合成！`, 'mask');
         playSoundMaskSynth();
       }
+      spawnMaskPickupEffect(scene, mask.x, mask.y, mask.z, maskColor);
       // UI用のmasksを更新
       gameState.masks = getMasksForDisplay(gameState.maskInventory);
     }
@@ -1252,6 +1437,15 @@ function animate() {
     getEquipments().filter(e => !e.collected),
     gameState.rival
   );
+  
+  // 敵ラベル（3D空間上のUI）を更新
+  updateEnemyLabels(
+    getAliveEnemies(),
+    camera,
+    camera.position,
+    gameState.rival
+  );
+  
   if (gameState.bossHp != null) {
     updateBossPanel(gameState.bossHp, gameState.bossHpMax, gameState.bossMaskCount);
   } else {
