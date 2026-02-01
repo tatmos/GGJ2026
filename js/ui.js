@@ -323,17 +323,19 @@ export function updateMaskList(masks) {
       : (m.color || '#888');
     slot.style.backgroundColor = colorHex;
     slot.style.border = '2px solid rgba(255,255,255,0.5)';
+    slot.style.position = 'relative';
     
-    // レベル表示
-    if (m.level && m.level > 1) {
-      slot.textContent = m.level;
-      slot.style.color = '#fff';
-      slot.style.fontWeight = 'bold';
-      slot.style.fontSize = '12px';
-      slot.style.display = 'flex';
-      slot.style.alignItems = 'center';
-      slot.style.justifyContent = 'center';
-    }
+    // マスクの顔を作成（目・眉・口）
+    slot.innerHTML = `
+      <div class="mask-face">
+        <div class="mask-eye mask-eye-left"></div>
+        <div class="mask-eye mask-eye-right"></div>
+        <div class="mask-brow mask-brow-left"></div>
+        <div class="mask-brow mask-brow-right"></div>
+        <div class="mask-mouth"></div>
+      </div>
+      ${m.level && m.level > 1 ? `<span class="mask-level">${m.level}</span>` : ''}
+    `;
     
     // ツールチップ
     const effectLabel = MASK_EFFECT_LABELS[m.effect] || m.effect || '';

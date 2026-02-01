@@ -99,19 +99,64 @@ export function dropMask(scene, x, y, z, maskData) {
   mesh.rotation.x = -Math.PI / 4;
   scene.add(mesh);
   
-  // 光の柱
-  const beamGeo = new THREE.BufferGeometry().setFromPoints([
-    new THREE.Vector3(0, 0, 0),
-    new THREE.Vector3(0, 30, 0),
-  ]);
-  const beamMat = new THREE.LineBasicMaterial({
+  // 光の柱（太くて目立つ）
+  const beamHeight = 40;
+  const beamGroup = new THREE.Group();
+  beamGroup.position.set(x, y, z);
+  
+  // メインの光の柱（円柱）
+  const beamGeo = new THREE.CylinderGeometry(0.1, 0.3, beamHeight, 8);
+  const beamMat = new THREE.MeshBasicMaterial({
     color: maskData.color,
     transparent: true,
-    opacity: 0.6,
+    opacity: 0.5,
   });
-  const beam = new THREE.Line(beamGeo, beamMat);
-  beam.position.set(x, y, z);
-  scene.add(beam);
+  const beamMesh = new THREE.Mesh(beamGeo, beamMat);
+  beamMesh.position.y = beamHeight / 2;
+  beamGroup.add(beamMesh);
+  
+  // 内側の明るい柱
+  const innerBeamGeo = new THREE.CylinderGeometry(0.05, 0.15, beamHeight, 8);
+  const innerBeamMat = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.7,
+  });
+  const innerBeam = new THREE.Mesh(innerBeamGeo, innerBeamMat);
+  innerBeam.position.y = beamHeight / 2;
+  beamGroup.add(innerBeam);
+  
+  // 上部の光球
+  const glowGeo = new THREE.SphereGeometry(0.5, 8, 8);
+  const glowMat = new THREE.MeshBasicMaterial({
+    color: maskData.color,
+    transparent: true,
+    opacity: 0.8,
+  });
+  const glow = new THREE.Mesh(glowGeo, glowMat);
+  glow.position.y = beamHeight;
+  glow.name = 'beaconGlow';
+  beamGroup.add(glow);
+  
+  // 下部のリング（地面に広がる光）
+  const ringGeo = new THREE.RingGeometry(0.5, 1.5, 16);
+  const ringMat = new THREE.MeshBasicMaterial({
+    color: maskData.color,
+    transparent: true,
+    opacity: 0.4,
+    side: THREE.DoubleSide,
+  });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.1;
+  ring.name = 'groundRing';
+  beamGroup.add(ring);
+  
+  scene.add(beamGroup);
+  
+  // beam変数はグループ全体を参照（後でアニメーションに使う）
+  const beam = beamGroup;
+  beam.material = beamMat; // 互換性のため
   
   const mask = {
     id,
@@ -156,7 +201,9 @@ export function getDroppedMasks() {
 /**
  * マスクのアニメーション更新
  */
-export function updateDroppedMasks(dt) {
+export function updateDroppedMasks(dt, playerPos = null) {
+  const time = performance.now() / 1000;
+  
   for (const mask of droppedMasks) {
     if (mask.collected) continue;
     
@@ -169,6 +216,51 @@ export function updateDroppedMasks(dt) {
     if (mask.mesh) {
       mask.mesh.position.y = mask.y + 1 + Math.sin(Date.now() * 0.003) * 0.2;
     }
+    
+    // 光の柱の点滅
+    if (mask.beam) {
+      // プレイヤーとの距離に応じて点滅速度を変える
+      let blinkSpeed = 3; // デフォルト
+      let distToPlayer = 100;
+      if (playerPos) {
+        distToPlayer = Math.sqrt(
+          (playerPos.x - mask.x) ** 2 + (playerPos.z - mask.z) ** 2
+        );
+        // 近いほど速く点滅（2Hz〜8Hz）
+        blinkSpeed = Math.min(8, Math.max(2, 10 - distToPlayer / 10));
+      }
+      
+      const blink = 0.3 + 0.7 * Math.abs(Math.sin(time * blinkSpeed * Math.PI));
+      
+      // ビームグループ内の全マテリアルを点滅
+      mask.beam.traverse((child) => {
+        if (child.material && child.material.opacity !== undefined) {
+          // 元の透明度に基づいて点滅
+          if (child.name === 'beaconGlow') {
+            child.material.opacity = blink * 0.8;
+            // 光球のサイズも脈動
+            const pulse = 1 + 0.4 * Math.sin(time * blinkSpeed * Math.PI);
+            child.scale.setScalar(pulse);
+          } else if (child.name === 'groundRing') {
+            child.material.opacity = blink * 0.5;
+            // リングも脈動
+            const ringPulse = 1 + 0.3 * Math.sin(time * blinkSpeed * Math.PI);
+            child.scale.setScalar(ringPulse);
+          } else {
+            child.material.opacity = blink * 0.6;
+          }
+        }
+      });
+      
+      // マスク本体も点滅
+      if (mask.mesh && mask.mesh.children) {
+        mask.mesh.traverse((child) => {
+          if (child.material && child.material.emissiveIntensity !== undefined) {
+            child.material.emissiveIntensity = 0.3 + 0.5 * blink;
+          }
+        });
+      }
+    }
   }
 }
 
@@ -180,16 +272,34 @@ export function collectMask(scene, mask) {
   
   mask.collected = true;
   
+  // マスクメッシュを削除
   if (mask.mesh) {
     scene.remove(mask.mesh);
-    mask.mesh.geometry.dispose();
-    mask.mesh.material.dispose();
+    mask.mesh.traverse((child) => {
+      if (child.geometry) child.geometry.dispose();
+      if (child.material) {
+        if (Array.isArray(child.material)) {
+          child.material.forEach(m => m.dispose());
+        } else {
+          child.material.dispose();
+        }
+      }
+    });
   }
   
+  // 光の柱グループを削除
   if (mask.beam) {
     scene.remove(mask.beam);
-    mask.beam.geometry.dispose();
-    mask.beam.material.dispose();
+    mask.beam.traverse((child) => {
+      if (child.geometry) child.geometry.dispose();
+      if (child.material) {
+        if (Array.isArray(child.material)) {
+          child.material.forEach(m => m.dispose());
+        } else {
+          child.material.dispose();
+        }
+      }
+    });
   }
   
   console.log(`[Mask] 回収: ${mask.nameJa}`);

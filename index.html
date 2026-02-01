@@ -145,6 +145,19 @@
       <span id="debugCheckerState" class="debug-state" aria-hidden="true"></span>
       <label><input type="checkbox" id="debugWorldCheckerCheckbox" checked /> 市松をワールド座標で表示（UVが無いモデル用）</label>
       <hr style="margin:8px 0;border-color:#555"/>
+      <div style="margin:8px 0;">
+        <span style="font-size:11px;color:#aaa;">時間倍速:</span>
+        <select id="timeScaleSelect" style="font-size:11px;margin-left:4px;">
+          <option value="1">1x（通常）</option>
+          <option value="2">2x</option>
+          <option value="5">5x</option>
+          <option value="10">10x</option>
+          <option value="30">30x</option>
+          <option value="60">60x（1分=1秒）</option>
+        </select>
+        <span id="timeScaleInfo" style="font-size:10px;color:#88ff88;margin-left:8px;"></span>
+      </div>
+      <hr style="margin:8px 0;border-color:#555"/>
       <label><input type="checkbox" id="birdEyeCheckbox" /> 俯瞰カメラモード（マッピング用）</label>
       <div id="birdEyeControls" style="display:none;margin-top:8px;">
         <div style="font-size:11px;color:#aaa;margin-bottom:4px;">クリックで対応点を登録。矢印キーで移動、+/-でズーム</div>

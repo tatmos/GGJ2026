@@ -335,6 +335,8 @@ const gameState = {
   /** 生存時間（秒）。毎フレーム dt を加算。転生時に 0 にリセット。5分／15分トリガーの基準。 */
   survivalSec: 0,
   reincarnation: 0,
+  /** 時間倍速（デバッグ用） */
+  timeScale: 1,
   attack: 10,
   defense: 5,
   evasion: 5,
@@ -587,6 +589,16 @@ if (birdEyeCheckbox) {
   });
 }
 
+// 時間倍速の設定
+const timeScaleSelect = document.getElementById('timeScaleSelect');
+const timeScaleInfoEl = document.getElementById('timeScaleInfo');
+if (timeScaleSelect) {
+  timeScaleSelect.addEventListener('change', (e) => {
+    gameState.timeScale = parseFloat(e.target.value) || 1;
+    console.log(`[Debug] 時間倍速: ${gameState.timeScale}x`);
+  });
+}
+
 if (addRefPointBtn) {
   addRefPointBtn.addEventListener('click', () => {
     const lat = parseFloat(refPointLatInput?.value);
@@ -718,6 +730,14 @@ function animate() {
 
   if (document.getElementById('debugCheckbox')?.checked && debugFpsEl) {
     debugFpsEl.textContent = Math.round(1 / dt) + ' FPS';
+    
+    // 時間倍速の情報表示
+    if (timeScaleInfoEl && gameState.timeScale > 1) {
+      const realSec = gameState.survivalSec / gameState.timeScale;
+      timeScaleInfoEl.textContent = `実時間: ${Math.floor(realSec / 60)}:${String(Math.floor(realSec % 60)).padStart(2, '0')}`;
+    } else if (timeScaleInfoEl) {
+      timeScaleInfoEl.textContent = '';
+    }
   }
 
   if (keys.a) yaw += turnSpeed * dt;
@@ -1032,7 +1052,10 @@ function animate() {
     }
   });
 
-  gameState.survivalSec += dt;
+  // 時間倍速を適用したdt（ゲーム内時間用）
+  const gameDt = dt * gameState.timeScale;
+  
+  gameState.survivalSec += gameDt;
 
   // === 成長選択トリガー（5分ごと） ===
   const GROWTH_INTERVAL_SEC = 5 * 60; // 5分
@@ -1043,8 +1066,8 @@ function animate() {
     addCombatLog('成長の時が来た！アイテムを取得しよう', 'mask');
   }
 
-  // === ライバル出現（15分ごと） ===
-  gameState.rivalSpawnTimer += dt;
+  // === ライバル出現（15分ごと）（時間倍速適用） ===
+  gameState.rivalSpawnTimer += gameDt;
   if (gameState.rivalSpawnTimer >= RIVAL_SPAWN_INTERVAL_SEC && gameState.rival === null) {
     gameState.rivalSpawnTimer = 0;
     
@@ -1086,8 +1109,8 @@ function animate() {
 
   // === 敵システム ===
   
-  // 敵スポーン
-  gameState.enemySpawnTimer += dt;
+  // 敵スポーン（時間倍速適用）
+  gameState.enemySpawnTimer += gameDt;
   if (gameState.enemySpawnTimer >= gameState.nextEnemySpawnSec) {
     gameState.enemySpawnTimer = 0;
     gameState.nextEnemySpawnSec = ENEMY_CONFIG.spawnIntervalSec;
@@ -1141,23 +1164,25 @@ function animate() {
   // 敵の接近チェック（30m以内で通知）と離脱チェック（50m以上で通知）
   const APPROACH_DISTANCE = 30;
   const DISENGAGE_DISTANCE = 50;
+  const REAR_WARNING_DISTANCE = 20; // 後方警告距離
   for (const enemy of getAliveEnemies()) {
     const dx = enemy.x - camera.position.x;
     const dz = enemy.z - camera.position.z;
     const dist = Math.sqrt(dx * dx + dz * dz);
     const enemyName = enemy.masks[0]?.nameJa || '敵';
     
+    // 時計方向を計算（共通で使用）
+    const absoluteAngle = Math.atan2(dx, -dz);
+    let relativeAngle = absoluteAngle - yaw;
+    while (relativeAngle > Math.PI) relativeAngle -= Math.PI * 2;
+    while (relativeAngle < -Math.PI) relativeAngle += Math.PI * 2;
+    let clockHour = Math.round((relativeAngle / Math.PI) * 6 + 12) % 12;
+    if (clockHour === 0) clockHour = 12;
+    
     // 接近通知
     if (!enemy.approachNotified && dist < APPROACH_DISTANCE) {
       enemy.approachNotified = true;
-      
-      // 時計方向を計算
-      const absoluteAngle = Math.atan2(dx, -dz);
-      let relativeAngle = absoluteAngle - yaw;
-      while (relativeAngle > Math.PI) relativeAngle -= Math.PI * 2;
-      while (relativeAngle < -Math.PI) relativeAngle += Math.PI * 2;
-      let clockHour = Math.round((relativeAngle / Math.PI) * 6 + 12) % 12;
-      if (clockHour === 0) clockHour = 12;
+      enemy.rearWarningGiven = false; // 後方警告フラグをリセット
       
       // 速度判定（基本速度8、バフで上昇）
       let speedInfo = '';
@@ -1180,9 +1205,42 @@ function animate() {
       addCombatLog(`${enemyName} が接近中！ ${clockHour}時方向 ${Math.round(dist)}m${speedInfo}${buffInfo}`, 'damage');
     }
     
+    // 後方警告（5時〜7時方向、20m以内）
+    const isRear = (clockHour >= 5 && clockHour <= 7);
+    const isSide = (clockHour >= 3 && clockHour <= 4) || (clockHour >= 8 && clockHour <= 9);
+    
+    if (dist < REAR_WARNING_DISTANCE && enemy.approachNotified && !enemy.rearWarningGiven) {
+      if (isRear) {
+        enemy.rearWarningGiven = true;
+        const rearWarnings = [
+          `警告！後ろに気をつけろ！ ${enemyName}が${clockHour}時方向！`,
+          `背後から${enemyName}！ 回避行動を！`,
+          `${enemyName}が後方に！ ${Math.round(dist)}m！`,
+          `後方警戒！ ${enemyName}接近中！`,
+        ];
+        addCombatLog(rearWarnings[Math.floor(Math.random() * rearWarnings.length)], 'damage');
+      } else if (isSide) {
+        enemy.rearWarningGiven = true;
+        const sideWarnings = [
+          `回り込まれた！ ${enemyName}が${clockHour}時方向！`,
+          `側面に${enemyName}！ 注意！`,
+          `${enemyName}に側面を取られた！`,
+          `警告！${clockHour}時方向から${enemyName}！`,
+        ];
+        addCombatLog(sideWarnings[Math.floor(Math.random() * sideWarnings.length)], 'damage');
+      }
+    }
+    
+    // 前方に戻ったら警告フラグをリセット（11時〜1時方向）
+    const isFront = (clockHour >= 11 || clockHour <= 1);
+    if (isFront && enemy.rearWarningGiven) {
+      enemy.rearWarningGiven = false;
+    }
+    
     // 離脱通知（管制塔風）
     if (enemy.approachNotified && dist > DISENGAGE_DISTANCE) {
       enemy.approachNotified = false;
+      enemy.rearWarningGiven = false;
       
       // 管制塔風メッセージ
       const disengageMessages = [
@@ -1367,8 +1425,8 @@ function animate() {
     dropMasksFromEnemy(scene, enemy);
   }
   
-  // マスクのアニメーション
-  updateDroppedMasks(dt);
+  // マスクのアニメーション（プレイヤー位置を渡して点滅速度を調整）
+  updateDroppedMasks(dt, camera.position);
   
   // パーティクルの更新
   updateParticles(dt, scene);

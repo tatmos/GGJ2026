@@ -623,6 +623,30 @@ export function updateEnemies(dt, playerPos, getHeightAt, droppedMasks = [], sce
       
       // カメラに向ける（ビルボード効果は後で追加）
     }
+    
+    // ビーコンの点滅（距離に応じて点滅速度を変える）
+    if (enemy.mesh) {
+      const beacon = enemy.mesh.getObjectByName('beacon');
+      const beaconGlow = enemy.mesh.getObjectByName('beaconGlow');
+      if (beacon && beaconGlow) {
+        const distToPlayer = Math.sqrt(
+          (playerPos.x - enemy.x) ** 2 + (playerPos.z - enemy.z) ** 2
+        );
+        // 近いほど速く点滅（2Hz〜6Hz）
+        const blinkSpeed = Math.min(6, Math.max(2, 8 - distToPlayer / 15));
+        const time = performance.now() / 1000;
+        const blink = 0.4 + 0.6 * Math.abs(Math.sin(time * blinkSpeed * Math.PI));
+        
+        beacon.material.opacity = blink * 0.6;
+        beaconGlow.material.opacity = blink * 0.8;
+        
+        // 近いときはサイズも脈動
+        if (distToPlayer < 30) {
+          const pulse = 1 + 0.3 * Math.sin(time * blinkSpeed * Math.PI);
+          beaconGlow.scale.setScalar(pulse);
+        }
+      }
+    }
   }
   
   return { pickedUpMasks, enemyBattleResults };
