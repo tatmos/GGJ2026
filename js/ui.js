@@ -1,4 +1,60 @@
 // ============================================================
+// 成長選択ダイアログ
+// ============================================================
+
+/** 成長パラメータの定義 */
+const GROWTH_PARAMS = [
+  { id: 'attack', name: '攻撃力', icon: '⚔️', value: 2 },
+  { id: 'defense', name: '防御力', icon: '🛡️', value: 1 },
+  { id: 'evasion', name: '回避力', icon: '💨', value: 1 },
+  { id: 'pickupRange', name: '取得範囲', icon: '🧲', value: 1 },
+  { id: 'grip', name: 'グリップ', icon: '🎯', value: 0.2 },
+  { id: 'absorb', name: '吸収力', icon: '✨', value: 0.1 },
+  { id: 'search', name: '索敵', icon: '👁️', value: 2 }
+];
+
+/**
+ * 成長選択ダイアログを表示
+ * @param {number} optionCount 選択肢の数（3〜5）
+ * @param {Function} onSelect 選択時のコールバック (paramId, value) => void
+ */
+export function showGrowthDialog(optionCount, onSelect) {
+  const dialog = document.getElementById('growthDialog');
+  const optionsEl = document.getElementById('growthOptions');
+  if (!dialog || !optionsEl) return;
+  
+  // ランダムに選択肢を選ぶ
+  const shuffled = [...GROWTH_PARAMS].sort(() => Math.random() - 0.5);
+  const options = shuffled.slice(0, Math.min(optionCount, GROWTH_PARAMS.length));
+  
+  optionsEl.innerHTML = '';
+  options.forEach(param => {
+    const btn = document.createElement('div');
+    btn.className = 'growth-option';
+    btn.innerHTML = `
+      <div class="growth-option-icon">${param.icon}</div>
+      <div class="growth-option-name">${param.name}</div>
+      <div class="growth-option-value">+${param.value}</div>
+    `;
+    btn.addEventListener('click', () => {
+      hideGrowthDialog();
+      onSelect(param.id, param.value);
+    });
+    optionsEl.appendChild(btn);
+  });
+  
+  dialog.classList.remove('hidden');
+}
+
+/**
+ * 成長選択ダイアログを非表示
+ */
+export function hideGrowthDialog() {
+  const dialog = document.getElementById('growthDialog');
+  if (dialog) dialog.classList.add('hidden');
+}
+
+// ============================================================
 // 戦闘ログ
 // ============================================================
 
@@ -94,6 +150,44 @@ export function updatePosMeter(camera) {
   if (elX) elX.textContent = Math.round(camera.position.x);
   if (elY) elY.textContent = Math.round(camera.position.y);
   if (elZ) elZ.textContent = Math.round(camera.position.z);
+}
+
+/** 成長選択のインターバル（秒） */
+const GROWTH_INTERVAL_SEC = 5 * 60; // 5分
+
+/**
+ * 境界警告の表示/非表示
+ * @param {boolean} show 表示するか
+ */
+export function updateBoundaryWarning(show) {
+  const el = document.getElementById('boundaryWarning');
+  if (el) {
+    el.classList.toggle('visible', show);
+  }
+}
+
+/**
+ * 大型生存時間表示を更新
+ * @param {number} survivalSec 生存時間（秒）
+ */
+export function updateSurvivalDisplay(survivalSec) {
+  const timeEl = document.getElementById('survivalTime');
+  const milestoneEl = document.getElementById('survivalMilestone');
+  
+  if (timeEl) {
+    const m = Math.floor(survivalSec / 60);
+    const s = Math.floor(survivalSec % 60);
+    timeEl.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+  }
+  
+  if (milestoneEl) {
+    // 次の成長選択までの残り時間
+    const elapsed = survivalSec % GROWTH_INTERVAL_SEC;
+    const remaining = GROWTH_INTERVAL_SEC - elapsed;
+    const rm = Math.floor(remaining / 60);
+    const rs = Math.floor(remaining % 60);
+    milestoneEl.textContent = `次の成長選択まで ${rm}:${rs.toString().padStart(2, '0')}`;
+  }
 }
 
 /** ステータスパネル: survivalSec, reincarnation, attack, defense, evasion, pickupRange, grip, absorb, search */

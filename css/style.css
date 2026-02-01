@@ -48,6 +48,138 @@ canvas { display: block; }
   margin-left: 0;
   color: rgba(255,255,255,0.9);
   font-size: 12px;
+}
+
+/* 生存時間の大型表示 */
+.survival-display {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 15;
+}
+.survival-display .survival-time {
+  font-size: 36px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 0 20px rgba(255,200,100,0.5);
+  letter-spacing: 2px;
+}
+.survival-display .survival-milestone {
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+  margin-top: 4px;
+  background: rgba(0,0,0,0.4);
+  padding: 4px 12px;
+  border-radius: 10px;
+}
+
+/* 境界警告 */
+.boundary-warning {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(180, 0, 0, 0.9);
+  color: #fff;
+  padding: 8px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  border: 2px solid #ff4444;
+  animation: boundaryPulse 0.8s ease-in-out infinite;
+  display: none;
+  z-index: 100;
+  pointer-events: none;
+}
+.boundary-warning.visible {
+  display: block;
+}
+@keyframes boundaryPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* 成長選択ダイアログ */
+.growth-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+.growth-dialog.hidden {
+  display: none;
+}
+.growth-dialog-content {
+  background: linear-gradient(135deg, rgba(30, 30, 60, 0.95), rgba(20, 20, 40, 0.98));
+  border: 2px solid rgba(100, 150, 255, 0.5);
+  border-radius: 16px;
+  padding: 32px 48px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 60px rgba(100, 150, 255, 0.2);
+  animation: growthDialogAppear 0.3s ease-out;
+}
+@keyframes growthDialogAppear {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.growth-dialog-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 10px rgba(100, 150, 255, 0.5);
+}
+.growth-dialog-subtitle {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 24px;
+}
+.growth-dialog-options {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.growth-option {
+  background: rgba(50, 80, 120, 0.6);
+  border: 2px solid rgba(100, 150, 255, 0.4);
+  border-radius: 12px;
+  padding: 20px 24px;
+  min-width: 140px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  pointer-events: auto;
+}
+.growth-option:hover {
+  background: rgba(80, 120, 180, 0.8);
+  border-color: rgba(150, 200, 255, 0.8);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(100, 150, 255, 0.3);
+}
+.growth-option-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+.growth-option-name {
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.growth-option-value {
+  font-size: 14px;
+  color: #88ff88;
+  font-weight: bold;
   font-variant-numeric: tabular-nums;
 }
 .debug-panel .debug-menu {

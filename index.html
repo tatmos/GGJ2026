@@ -7,6 +7,14 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- 成長選択ダイアログ -->
+  <div id="growthDialog" class="growth-dialog hidden">
+    <div class="growth-dialog-content">
+      <div class="growth-dialog-title">成長選択</div>
+      <div class="growth-dialog-subtitle">パラメータを1つ選んで強化しよう</div>
+      <div class="growth-dialog-options" id="growthOptions"></div>
+    </div>
+  </div>
   <div id="loading-overlay">
     <div class="spinner"></div>
     <div class="text">Loading... / 読み込み中</div>
@@ -57,6 +65,11 @@
     <div class="boss-masks">マスク <span id="bossMaskCount">0</span></div>
   </div>
   <div class="combat-log" id="combatLog"></div>
+  <div class="survival-display" id="survivalDisplay">
+    <div class="survival-time" id="survivalTime">0:00</div>
+    <div class="survival-milestone" id="survivalMilestone">次の成長選択まで 5:00</div>
+  </div>
+  <div class="boundary-warning" id="boundaryWarning">⚠ 街の外に出ています ⚠</div>
   <div class="pos-meter" aria-hidden="true">
     <div class="label">POS (XYZ)</div>
     <div class="row"><span>X: <span id="posX">0</span></span><span>Y: <span id="posY">0</span></span><span>Z: <span id="posZ">0</span></span></div>

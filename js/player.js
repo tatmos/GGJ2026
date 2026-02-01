@@ -17,6 +17,83 @@ export const autoDescendSpeed = 8;
 
 export const keys = { w: false, a: false, s: false, d: false, q: false, e: false };
 
+// ========================================
+// 街の境界設定
+// ========================================
+
+/** 境界を超えた時の旋回速度（ラジアン/秒） */
+export const BOUNDARY_TURN_SPEED = 1.5;
+
+/** 境界の余裕（バウンディングボックスからこの距離を超えると警告開始） */
+export const BOUNDARY_MARGIN = 20;
+
+/** 境界の最大距離（これを超えると最大旋回） */
+export const BOUNDARY_MAX_MARGIN = 80;
+
+/**
+ * 角度の差を -π 〜 π の範囲で取得
+ */
+function normalizeAngle(angle) {
+  while (angle > Math.PI) angle -= 2 * Math.PI;
+  while (angle < -Math.PI) angle += 2 * Math.PI;
+  return angle;
+}
+
+/**
+ * バウンディングボックス外への距離を計算
+ * @returns {{ distance: number, isOutside: boolean }}
+ */
+function getDistanceOutsideBounds(x, z, bounds) {
+  let dx = 0, dz = 0;
+  
+  if (x < bounds.minX) dx = bounds.minX - x;
+  else if (x > bounds.maxX) dx = x - bounds.maxX;
+  
+  if (z < bounds.minZ) dz = bounds.minZ - z;
+  else if (z > bounds.maxZ) dz = z - bounds.maxZ;
+  
+  const distance = Math.sqrt(dx * dx + dz * dz);
+  return { distance, isOutside: distance > 0 };
+}
+
+/**
+ * 境界チェックと自動旋回（バウンディングボックス版）
+ * @param {number} x 現在のX座標
+ * @param {number} z 現在のZ座標
+ * @param {number} currentYaw 現在のyaw
+ * @param {number} dt デルタタイム
+ * @param {{ minX: number, maxX: number, minZ: number, maxZ: number, centerX: number, centerZ: number }} bounds バウンディングボックス
+ * @returns {{ yaw: number, outsideBoundary: boolean }} 調整後のyawと境界外フラグ
+ */
+export function checkBoundaryAndAdjustYaw(x, z, currentYaw, dt, bounds) {
+  const { distance, isOutside } = getDistanceOutsideBounds(x, z, bounds);
+  
+  // 境界内または余裕の範囲内
+  if (!isOutside || distance <= BOUNDARY_MARGIN) {
+    return { yaw: currentYaw, outsideBoundary: distance > BOUNDARY_MARGIN };
+  }
+  
+  // 街の中心への方向を計算
+  const dx = bounds.centerX - x;
+  const dz = bounds.centerZ - z;
+  const targetYaw = Math.atan2(-dx, -dz);
+  const diff = normalizeAngle(targetYaw - currentYaw);
+  
+  // 境界からの超過度合いで旋回強度を決定（0〜1）
+  const overRatio = Math.min(1, (distance - BOUNDARY_MARGIN) / (BOUNDARY_MAX_MARGIN - BOUNDARY_MARGIN));
+  const turnAmount = diff * overRatio * BOUNDARY_TURN_SPEED * dt;
+  
+  // 目標に近い場合はそのまま
+  if (Math.abs(diff) < 0.01) {
+    return { yaw: currentYaw, outsideBoundary: true };
+  }
+  
+  return { 
+    yaw: currentYaw + turnAmount, 
+    outsideBoundary: true 
+  };
+}
+
 export function resolveCollisions(camera) {
   const p = camera.position;
   if (p.y < minHeight) p.y = minHeight;

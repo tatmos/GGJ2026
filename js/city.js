@@ -13,6 +13,16 @@ let debugBoundingBoxMesh = null;
 let debugCollisionMeshes = [];
 let debugCollisionMat = null;
 
+/** 街モデルのバウンディングボックス情報 */
+let cityBounds = {
+  minX: -200,
+  maxX: 200,
+  minZ: -200,
+  maxZ: 200,
+  centerX: 0,
+  centerZ: 0
+};
+
 function raycastHeightAt(x, z, fromY = 600) {
   if (plateauCollisionMeshes.length === 0) return null;
   _rayOrigin.set(x, fromY, z);
@@ -107,6 +117,18 @@ export function addDebugBoundingBox(scene, box) {
   const size = new THREE.Vector3();
   box.getSize(size);
   const center = box.getCenter(new THREE.Vector3());
+  
+  // バウンディングボックス情報を保存
+  cityBounds = {
+    minX: box.min.x,
+    maxX: box.max.x,
+    minZ: box.min.z,
+    maxZ: box.max.z,
+    centerX: center.x,
+    centerZ: center.z
+  };
+  console.log('[City] Bounding box updated:', cityBounds);
+  
   const geo = new THREE.BoxGeometry(size.x, size.y, size.z);
   const edges = new THREE.EdgesGeometry(geo);
   const mat = new THREE.LineBasicMaterial({ color: 0xff0000, depthTest: false });
@@ -120,6 +142,14 @@ export function addDebugBoundingBox(scene, box) {
 
 export function getDebugBoundingBoxMesh() {
   return debugBoundingBoxMesh;
+}
+
+/**
+ * 街のバウンディングボックス情報を取得
+ * @returns {{ minX: number, maxX: number, minZ: number, maxZ: number, centerX: number, centerZ: number }}
+ */
+export function getCityBounds() {
+  return cityBounds;
 }
 
 export function tryLoadPLATEAU(scene, cityRoot, callbacks) {

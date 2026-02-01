@@ -8,7 +8,8 @@ import {
   addDebugCollisionBoxes,
   removeDebugCollisionBoxes,
   addDebugBoundingBox,
-  getDebugBoundingBoxMesh
+  getDebugBoundingBoxMesh,
+  getCityBounds
 } from './city.js';
 import {
   getFoods,
@@ -56,7 +57,8 @@ import {
   maxHeight,
   hoverGraceTimeSec,
   recoveryCooldownSec,
-  autoDescendSpeed
+  autoDescendSpeed,
+  checkBoundaryAndAdjustYaw
 } from './player.js';
 import {
   updateLoadProgress,
@@ -67,6 +69,8 @@ import {
   updateAltitudeMeter,
   updatePosMeter,
   updateStatusPanel,
+  updateSurvivalDisplay,
+  updateBoundaryWarning,
   updateMaskList,
   updateBuffQueue,
   updateEnemyGuide,
@@ -74,7 +78,9 @@ import {
   showItemPopup,
   showEquipmentPopup,
   updateEquipmentUI,
-  addCombatLog
+  addCombatLog,
+  showGrowthDialog,
+  hideGrowthDialog
 } from './ui.js';
 import {
   ENEMY_CONFIG,
@@ -242,7 +248,13 @@ const gameState = {
   bossHpMax: 100,
   bossMaskCount: 0,
   /** ホバー猶予時間（秒）。成長で延長可能。未設定時は player.js の hoverGraceTimeSec を使用 */
-  hoverGraceTimeSec: undefined
+  hoverGraceTimeSec: undefined,
+  /** 成長選択フラグ（trueの時、次のアイテム取得でダイアログ表示） */
+  growthPending: false,
+  /** 最後に成長選択が発生した5分単位の回数 */
+  lastGrowthMilestone: 0,
+  /** ゲームがポーズ中か */
+  paused: false
 };
 
 const debugFpsEl = document.getElementById('debugFps');
@@ -462,6 +474,12 @@ function animate() {
     renderer.render(scene, camera);
     return;
   }
+  
+  // ポーズ中は描画のみ
+  if (gameState.paused) {
+    renderer.render(scene, camera);
+    return;
+  }
 
   tickBuffQueue(gameState, dt);
   const effectiveRecoveryCooldownSec = recoveryCooldownSec * getRecoveryCooldownScaleFromBuff(gameState.activeBuff);
@@ -506,6 +524,18 @@ function animate() {
   const move = forward.multiplyScalar(baseSpeed * speedMultiplier * dt);
   camera.position.add(move);
 
+  // 境界チェック: 街モデルのバウンディングボックス外に出たら自動で街の中心を向く
+  const cityBounds = getCityBounds();
+  const boundaryResult = checkBoundaryAndAdjustYaw(
+    camera.position.x,
+    camera.position.z,
+    yaw,
+    dt,
+    cityBounds
+  );
+  yaw = boundaryResult.yaw;
+  updateBoundaryWarning(boundaryResult.outsideBoundary);
+
   if (keys.w && energy > 0) camera.position.y += verticalSpeed * dt;
   if (keys.s) camera.position.y -= verticalSpeed * dt;
   if (keys.q) camera.position.y += verticalSpeed * dt;
@@ -523,11 +553,38 @@ function animate() {
 
   resolveCollisions(camera);
 
+  // 装備効果を取得
+  const equipEffects = getEffectMultipliers(gameState.equipmentInventory);
+  
+  // 実効取得範囲 = 基本範囲 × 装備効果 × (1 + gameState.pickupRange * 0.1)
+  const effectiveCollectRadius = collectRadius * equipEffects.pickupRange * (1 + gameState.pickupRange * 0.1);
+  
+  // 吸引範囲（取得範囲の3倍まで吸引）
+  const magnetRange = effectiveCollectRadius * 3 * equipEffects.magnetism;
+  const magnetStrength = 15 * equipEffects.magnetism; // 吸引速度
+
   foods.forEach((f) => {
     if (f.collected) return;
     const dx = camera.position.x - f.x;
     const dz = camera.position.z - f.z;
-    if (dx * dx + dz * dz < collectRadius * collectRadius) {
+    const distSq = dx * dx + dz * dz;
+    
+    // 吸引効果（磁石装備がある場合）
+    if (equipEffects.magnetism > 1 && distSq < magnetRange * magnetRange && distSq > effectiveCollectRadius * effectiveCollectRadius) {
+      const dist = Math.sqrt(distSq);
+      const pullX = (dx / dist) * magnetStrength * dt;
+      const pullZ = (dz / dist) * magnetStrength * dt;
+      f.x += pullX;
+      f.z += pullZ;
+      f.mesh.position.x = f.x;
+      f.mesh.position.z = f.z;
+      if (f.beam) {
+        f.beam.position.x = f.x;
+        f.beam.position.z = f.z;
+      }
+    }
+    
+    if (distSq < effectiveCollectRadius * effectiveCollectRadius) {
       f.collected = true;
       f.mesh.visible = false;
       if (f.beam) f.beam.visible = false;
@@ -541,6 +598,39 @@ function animate() {
       }
       // お店の名前と料理ジャンルを表示
       showItemPopup(f.name, f.nameJa, f.cuisine, f.typeId);
+      
+      // 成長選択フラグが立っていたらダイアログを表示
+      if (gameState.growthPending && !gameState.paused) {
+        gameState.growthPending = false;
+        gameState.paused = true;
+        
+        // 選択肢数は運（回避力）に応じて3〜5
+        const baseOptions = 3;
+        const bonusChance = Math.min(0.5, gameState.evasion * 0.05); // 回避10で50%
+        let optionCount = baseOptions;
+        if (Math.random() < bonusChance) optionCount++;
+        if (Math.random() < bonusChance * 0.5) optionCount++;
+        
+        const PARAM_NAMES_JA = {
+          attack: '攻撃力',
+          defense: '防御力',
+          evasion: '回避力',
+          pickupRange: '取得範囲',
+          grip: 'グリップ',
+          absorb: '吸収力',
+          search: '索敵'
+        };
+        
+        showGrowthDialog(optionCount, (paramId, value) => {
+          // パラメータを成長させる
+          if (gameState[paramId] !== undefined) {
+            gameState[paramId] += value;
+            const nameJa = PARAM_NAMES_JA[paramId] || paramId;
+            addCombatLog(`${nameJa} が +${value} 上昇！`, 'attack');
+          }
+          gameState.paused = false;
+        });
+      }
     }
   });
 
@@ -548,12 +638,33 @@ function animate() {
   updateEquipmentAnimation(dt);
 
   // 装備の取得判定
+  // 装備の実効取得範囲も同様に計算
+  const effectiveEquipmentRadius = equipmentCollectRadius * equipEffects.pickupRange * (1 + gameState.pickupRange * 0.1);
+  const equipMagnetRange = effectiveEquipmentRadius * 3 * equipEffects.magnetism;
+  
   const equipments = getEquipments();
   equipments.forEach((e) => {
     if (e.collected) return;
     const dx = camera.position.x - e.x;
     const dz = camera.position.z - e.z;
-    if (dx * dx + dz * dz < equipmentCollectRadius * equipmentCollectRadius) {
+    const distSq = dx * dx + dz * dz;
+    
+    // 装備の吸引効果
+    if (equipEffects.magnetism > 1 && distSq < equipMagnetRange * equipMagnetRange && distSq > effectiveEquipmentRadius * effectiveEquipmentRadius) {
+      const dist = Math.sqrt(distSq);
+      const pullX = (dx / dist) * magnetStrength * dt;
+      const pullZ = (dz / dist) * magnetStrength * dt;
+      e.x += pullX;
+      e.z += pullZ;
+      e.mesh.position.x = e.x;
+      e.mesh.position.z = e.z;
+      if (e.beam) {
+        e.beam.position.x = e.x;
+        e.beam.position.z = e.z;
+      }
+    }
+    
+    if (distSq < effectiveEquipmentRadius * effectiveEquipmentRadius) {
       // インベントリに空きがあるか確認
       if (canAddItem(gameState.equipmentInventory)) {
         // 装備を回収
@@ -582,6 +693,15 @@ function animate() {
   });
 
   gameState.survivalSec += dt;
+
+  // === 成長選択トリガー（5分ごと） ===
+  const GROWTH_INTERVAL_SEC = 5 * 60; // 5分
+  const currentMilestone = Math.floor(gameState.survivalSec / GROWTH_INTERVAL_SEC);
+  if (currentMilestone > gameState.lastGrowthMilestone) {
+    gameState.lastGrowthMilestone = currentMilestone;
+    gameState.growthPending = true;
+    addCombatLog('成長の時が来た！アイテムを取得しよう', 'mask');
+  }
 
   // === 敵システム ===
   
@@ -641,12 +761,35 @@ function animate() {
   updateDroppedMasks(dt);
   
   // マスクの回収
+  // マスクの実効取得範囲
+  const effectiveMaskRadius = MASK_COLLECT_RADIUS * equipEffects.pickupRange * (1 + gameState.pickupRange * 0.1);
+  const maskMagnetRange = effectiveMaskRadius * 3 * equipEffects.magnetism;
+  
   const droppedMasks = getDroppedMasks();
   for (const mask of droppedMasks) {
     if (mask.collected) continue;
     const dx = camera.position.x - mask.x;
     const dz = camera.position.z - mask.z;
-    if (dx * dx + dz * dz < MASK_COLLECT_RADIUS * MASK_COLLECT_RADIUS) {
+    const distSq = dx * dx + dz * dz;
+    
+    // マスクの吸引効果
+    if (equipEffects.magnetism > 1 && distSq < maskMagnetRange * maskMagnetRange && distSq > effectiveMaskRadius * effectiveMaskRadius) {
+      const dist = Math.sqrt(distSq);
+      const pullX = (dx / dist) * magnetStrength * dt;
+      const pullZ = (dz / dist) * magnetStrength * dt;
+      mask.x += pullX;
+      mask.z += pullZ;
+      if (mask.mesh) {
+        mask.mesh.position.x = mask.x;
+        mask.mesh.position.z = mask.z;
+      }
+      if (mask.beam) {
+        mask.beam.position.x = mask.x;
+        mask.beam.position.z = mask.z;
+      }
+    }
+    
+    if (distSq < effectiveMaskRadius * effectiveMaskRadius) {
       collectMask(scene, mask);
       const result = addMaskToInventory(gameState.maskInventory, mask, gameState.absorb);
       // ログ表示
@@ -687,6 +830,7 @@ function animate() {
     absorb: gameState.absorb,
     search: gameState.search
   });
+  updateSurvivalDisplay(gameState.survivalSec);
   // 装備UIの更新
   updateEquipmentUI(
     getInventorySummary(gameState.equipmentInventory),
