@@ -291,10 +291,72 @@ export function getAliveEnemies() {
   return enemies.filter(e => e.isAlive);
 }
 
+/** マスク拾得範囲 */
+const MASK_PICKUP_RANGE = 5;
+
+/**
+ * 敵がマスクを拾った時の処理
+ */
+function enemyPickupMask(enemy, mask, scene, collectMaskFn) {
+  // マスクを回収
+  collectMaskFn(scene, mask);
+  
+  // 敵のマスクリストに追加
+  enemy.masks.push({
+    typeId: mask.typeId,
+    color: mask.color,
+    effect: mask.effect,
+    value: mask.value,
+    nameJa: mask.nameJa,
+  });
+  
+  // 敵の能力を強化（マスク効果を適用）
+  switch (mask.effect) {
+    case 'attack':
+      enemy.attack = Math.floor(enemy.attack * (1 + mask.value));
+      break;
+    case 'defense':
+      // 敵にはdefenseがないので、HPを少し増加
+      enemy.maxHp = Math.floor(enemy.maxHp * (1 + mask.value));
+      enemy.hp = Math.min(enemy.hp + 10, enemy.maxHp);
+      break;
+    case 'speed':
+      enemy.speed *= (1 + mask.value);
+      break;
+    default:
+      // その他の効果は攻撃力に少し反映
+      enemy.attack = Math.floor(enemy.attack * (1 + mask.value * 0.5));
+      break;
+  }
+  
+  // メッシュに追加マスクを表示
+  if (enemy.mesh) {
+    const maskIndex = enemy.masks.length - 1;
+    const extraGeo = new THREE.CircleGeometry(0.15, 6);
+    const extraMat = new THREE.MeshStandardMaterial({
+      color: mask.color,
+      side: THREE.DoubleSide,
+      emissive: mask.color,
+      emissiveIntensity: 0.5,
+    });
+    const extra = new THREE.Mesh(extraGeo, extraMat);
+    extra.position.set((maskIndex - 1) * 0.3 - 0.15, 2.8, 0);
+    extra.rotation.x = -Math.PI / 4;
+    enemy.mesh.add(extra);
+  }
+  
+  console.log(`[Enemy] ${enemy.id} がマスクを拾った: ${mask.nameJa} (マスク数: ${enemy.masks.length})`);
+  
+  return mask;
+}
+
 /**
  * 敵を更新（毎フレーム）
  */
-export function updateEnemies(dt, playerPos, getHeightAt) {
+export function updateEnemies(dt, playerPos, getHeightAt, droppedMasks = [], scene = null, collectMaskFn = null) {
+  // 敵がマスクを拾ったリスト
+  const pickedUpMasks = [];
+  
   for (const enemy of enemies) {
     if (!enemy.isAlive) {
       // 死亡アニメーション
@@ -316,11 +378,53 @@ export function updateEnemies(dt, playerPos, getHeightAt) {
     const dz = playerPos.z - enemy.z;
     const dist = Math.sqrt(dx * dx + dz * dz);
     
+    // 近くにドロップマスクがあるかチェック
+    let nearestMask = null;
+    let nearestMaskDist = Infinity;
+    
+    for (const mask of droppedMasks) {
+      if (mask.collected) continue;
+      
+      const mdx = mask.x - enemy.x;
+      const mdz = mask.z - enemy.z;
+      const maskDist = Math.sqrt(mdx * mdx + mdz * mdz);
+      
+      // マスクが拾得範囲内なら拾う
+      if (maskDist < MASK_PICKUP_RANGE && scene && collectMaskFn) {
+        const picked = enemyPickupMask(enemy, mask, scene, collectMaskFn);
+        pickedUpMasks.push({ enemy, mask: picked });
+        continue;
+      }
+      
+      // プレイヤーより近いマスクがあれば優先ターゲットに
+      if (maskDist < nearestMaskDist && maskDist < dist * 0.5) {
+        nearestMaskDist = maskDist;
+        nearestMask = mask;
+      }
+    }
+    
+    // 追跡ターゲットを決定（近くにマスクがあればそちらを優先）
+    let targetX, targetZ, targetDist;
+    
+    if (nearestMask && nearestMaskDist < ENEMY_CONFIG.chaseRange) {
+      // マスクを追いかける
+      targetX = nearestMask.x;
+      targetZ = nearestMask.z;
+      targetDist = nearestMaskDist;
+    } else {
+      // プレイヤーを追いかける
+      targetX = playerPos.x;
+      targetZ = playerPos.z;
+      targetDist = dist;
+    }
+    
     // 追跡
-    if (dist < ENEMY_CONFIG.chaseRange && dist > ENEMY_CONFIG.attackRange) {
+    if (targetDist < ENEMY_CONFIG.chaseRange && targetDist > ENEMY_CONFIG.attackRange) {
       const speed = enemy.speed * dt;
-      const dirX = dx / dist;
-      const dirZ = dz / dist;
+      const tdx = targetX - enemy.x;
+      const tdz = targetZ - enemy.z;
+      const dirX = tdx / targetDist;
+      const dirZ = tdz / targetDist;
       
       enemy.x += dirX * speed;
       enemy.z += dirZ * speed;
@@ -362,6 +466,8 @@ export function updateEnemies(dt, playerPos, getHeightAt) {
       // カメラに向ける（ビルボード効果は後で追加）
     }
   }
+  
+  return pickedUpMasks;
 }
 
 /**

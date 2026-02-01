@@ -960,8 +960,15 @@ function animate() {
     spawnEnemy(scene, spawnX, spawnZ, strength);
   }
   
-  // 敵の更新
-  updateEnemies(dt, camera.position, getHeightAt);
+  // 敵の更新（ドロップマスクを渡して敵が拾えるように）
+  const droppedMasksForEnemy = getDroppedMasks().filter(m => !m.collected);
+  const enemyPickedMasks = updateEnemies(dt, camera.position, getHeightAt, droppedMasksForEnemy, scene, collectMask);
+  
+  // 敵がマスクを拾ったらログ表示
+  for (const { enemy, mask } of enemyPickedMasks) {
+    const enemyName = enemy.masks[0]?.nameJa || '敵';
+    addCombatLog(`${enemyName} が ${mask.nameJa} を奪った！`, 'mask');
+  }
   
   // プレイヤーの自動攻撃（装備効果 + マスク効果）
   const maskEffects = getMaskEffects(gameState.maskInventory);
