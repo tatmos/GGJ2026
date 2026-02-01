@@ -336,7 +336,7 @@ const gameState = {
   survivalSec: 0,
   reincarnation: 0,
   /** 時間倍速（デバッグ用） */
-  timeScale: 60,
+  timeScale: 30,
   attack: 10,
   defense: 5,
   evasion: 5,
@@ -1078,11 +1078,13 @@ function animate() {
     const spawnZ = camera.position.z + Math.sin(angle) * distance;
     
     // ライバルの強さはプレイヤーのベース能力を基準に
-    const rivalStrength = 3; // 通常の敵より強い
+    const rivalStrength = 5; // 通常の敵よりかなり強い
     const rival = spawnEnemy(scene, spawnX, spawnZ, rivalStrength);
     rival.isRival = true;
-    rival.hp = 100; // ライバルはHPが高い
-    rival.maxHp = 100;
+    rival.hp = 200; // ライバルはHPがかなり高い
+    rival.maxHp = 200;
+    rival.attack = 15; // 攻撃力も高め
+    rival.speed = 14; // 速度も速い
     gameState.rival = rival;
     
     // ボスUIに反映
@@ -1121,8 +1123,8 @@ function animate() {
     const spawnX = camera.position.x + Math.cos(spawnAngle) * spawnDist;
     const spawnZ = camera.position.z + Math.sin(spawnAngle) * spawnDist;
     
-    // 強さはプレイヤーより少し弱め（0.5〜0.9）
-    const strength = 0.5 + Math.random() * 0.4;
+    // 強さ係数（0.7〜1.3）
+    const strength = 0.7 + Math.random() * 0.6;
     const newEnemy = spawnEnemy(scene, spawnX, spawnZ, strength);
     if (newEnemy) {
       const enemyName = newEnemy.masks[0]?.nameJa || '敵';

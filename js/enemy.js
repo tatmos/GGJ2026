@@ -23,13 +23,13 @@ export const ENEMY_CONFIG = {
   /** 攻撃範囲 */
   attackRange: 5,
   /** 基本移動速度 */
-  baseSpeed: 8,
+  baseSpeed: 10,
   /** 基本体力 */
-  baseHp: 50,
+  baseHp: 80,
   /** 基本攻撃力 */
-  baseAttack: 5,
+  baseAttack: 8,
   /** 攻撃クールダウン（秒） */
-  attackCooldown: 1.5,
+  attackCooldown: 1.2,
   /** 敵の最低高度 */
   minHeight: 26,
 };
